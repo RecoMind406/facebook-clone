@@ -1,0 +1,22 @@
+:root {
+	/* Color
+	Height, width of header, sidebar
+	border-radius
+	color-hover */
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	/* font-size
+	line-heihgt */
+	font-size: 1.6rem;
+}
