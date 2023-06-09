@@ -26,7 +26,8 @@ const routes = [
 	{
 		path:'/fanpage', 
 		component: Fanpage
-	},
+
+	}
 ];
 
 export default routes;
