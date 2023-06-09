@@ -1,0 +1,42 @@
+.box {
+	padding: 6px;
+}
+.search-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	text-decoration: none;
+	border-radius: 8px;
+	padding: 6px;
+
+	&:hover {
+		background-color: #e3e4e5;
+	}
+}
+
+.avatar {
+	width: 36px;
+	height: 36px;
+	img {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+	}
+}
+
+.information {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	.name {
+		font-size: 15px;
+		font-weight: bold;
+		color: var(--primary-text);
+	}
+
+	.type {
+		font-size: 13px;
+		color: var(--secondary-text);
+	}
+}
