@@ -1,0 +1,64 @@
+.tab-item-box {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	max-width: 112px;
+	width: 20%;
+	border-bottom: 3px solid transparent;
+}
+
+.tab-item-box.active {
+	border-color: #1b74e4;
+
+	.tab-item {
+		color: #1b74e4;
+
+		&:hover {
+			background-color: transparent;
+		}
+	}
+}
+
+.tab-item-box.bookmarks {
+	display: none;
+}
+
+.tab-item {
+	display: inline-block;
+	font-size: 2.4rem;
+	width: 100%;
+	text-align: center;
+	color: #65676b;
+	padding: 8px;
+	border-radius: 10px;
+
+	&:hover {
+		background-color: var(--primary-bg-color-hover);
+	}
+}
+
+@media screen and (max-width: 1099px) {
+	.tab-item-box.gaming {
+		display: none;
+	}
+
+	.tab-item-box.bookmarks {
+		display: flex;
+	}
+}
+
+@media screen and (max-width: 991px) {
+	.tab-item-box {
+		width: 16%;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.tab-item-box {
+		display: none;
+		max-width: 50px;
+		width: 100%;
+	}
+}
