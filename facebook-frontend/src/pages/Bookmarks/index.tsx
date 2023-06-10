@@ -13,7 +13,7 @@ const Bookmarks = () => {
 	return (
 		<>
 			<Header />
-			<div>
+			<div className={cx("wrapper")}>
 				<div className={cx("item")}>
 					<SidebarItem
 						image="https://i.pinimg.com/originals/aa/2f/f8/aa2ff8dd08f43b410184e048fb7217b7.jpg"
