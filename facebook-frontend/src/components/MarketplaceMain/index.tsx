@@ -1,8 +1,17 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Box, Container, Grid, Typography, Paper } from "@mui/material";
+import React from "react";
+import {
+    Box,
+    Container,
+    Grid,
+    Typography,
+    Paper,
+    Button,
+    styled,
+    CssBaseline,
+} from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import data from "./ProductList.json";
+import PersonIcon from "@mui/icons-material/Person";
 
 interface Product {
     id: number;
@@ -12,7 +21,7 @@ interface Product {
     photo: string;
 }
 
-export const convertToPrintFormat = (aNumber: number) => {
+const convertToPrintFormat = (aNumber: number) => {
     aNumber = aNumber * 1000;
     let result = "";
     while (aNumber > 1000) {
@@ -25,9 +34,79 @@ export const convertToPrintFormat = (aNumber: number) => {
     return result;
 };
 
+const CustomButton = styled(Button)({
+    boxShadow: "none",
+    textTransform: "none",
+    border: 0,
+    color: "#000000",
+    paddingTop: -2,
+    paddingBottom: -2,
+    marginRight: 3,
+    backgroundColor: "#e4e6eb",
+    "&:hover": {
+        border: "0px",
+        boxShadow: "none",
+        backgroundColor: "#dadbde",
+    },
+});
+
 export const MarketPlaceMain = () => {
     return (
-        <Container>
+        <Container
+            sx={{
+                mt: 2,
+            }}
+        >
+            <CssBaseline />
+            <Box
+                sx={{
+                    display: {
+                        md: "none",
+                    },
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}
+                >
+                    <CustomButton variant="outlined">
+                        <Typography
+                            sx={{
+                                fontWeight: "bold",
+                            }}
+                        >
+                            <PersonIcon
+                                sx={{
+                                    fontSize: "1.5rem",
+                                }}
+                            ></PersonIcon>
+                        </Typography>
+                    </CustomButton>
+                    <CustomButton variant="outlined">
+                        <Typography
+                            sx={{
+                                fontWeight: "bold",
+                                fontSize: "1rem",
+                            }}
+                        >
+                            Bán
+                        </Typography>
+                    </CustomButton>
+                    <CustomButton variant="outlined">
+                        <Typography
+                            sx={{
+                                fontWeight: "bold",
+                                fontSize: "1rem",
+                            }}
+                        >
+                            Tất cả hạng mục
+                        </Typography>
+                    </CustomButton>
+                </Box>
+            </Box>
             <Box
                 sx={{
                     display: "flex",
