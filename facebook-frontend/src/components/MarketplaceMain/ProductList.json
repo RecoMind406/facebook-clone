@@ -1,0 +1,114 @@
+[
+    {
+        "id": 10000000,
+        "name": "Dép lông con sóc cute",
+        "price": 85,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/sg-11134201-22100-uqpp5h6xreiv8a"
+    },
+    {
+        "id": 10000001,
+        "name": "Loa bluetooth mini không dây",
+        "price": 60,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/e66cc386528d8c5119b59cd20ccacc22"
+    },
+    {
+        "id": 10000002,
+        "name": "Áo Thun Nam Nữ Form Rộng EDDIE BAUER",
+        "price": 65,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/4bccb914e3fc3a63c1c17527aa7810f9"
+    },
+    {
+        "id": 10000003,
+        "name": "Mũ lưỡi trai nam nữ form mềm",
+        "price": 35,
+        "location": "Bắc Ninh",
+        "photo": "https://down-vn.img.susercontent.com/file/4d4eb3680990d1c42a694cac2cdddd53"
+    },
+    {
+        "id": 10000004,
+        "name": "Galaxy S21 Ultra 6.1inch 12GB + 512GB",
+        "price": 16000,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/sg-11134201-7qvda-lfkl2lbg4ce39b"
+    },
+    {
+        "id": 10000005,
+        "name": "Bánh tráng phơi sương muối tép hành",
+        "price": 39,
+        "location": "TP. Hồ Chí Minh",
+        "photo": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-levbufnpv23bf0"
+    },
+    {
+        "id": 10000006,
+        "name": "Tai Nghe Bluetooth M10 Pro",
+        "price": 125,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/sg-11134201-22100-e3jofkj6csivb9"
+    },
+    {
+        "id": 10000007,
+        "name": "BỘ ARSENAL",
+        "price": 88,
+        "location": "TP. Hồ Chí Minh",
+        "photo": "https://www.soccerpro.com/wp-content/uploads/fj9322_adidas_arsenal_3rd_jsy_2019_20_01.jpg"
+    },
+    {
+        "id": 10000008,
+        "name": "Quạt đeo cổ 3 chế độ gió",
+        "price": 56.8,
+        "location": "Lạng Sơn",
+        "photo": "https://down-vn.img.susercontent.com/file/3d5d137a4a9bc5f3e7398120ec279e45"
+    },
+    {
+        "id": 10000009,
+        "name": "Kìm Bóp Tập Cơ Tay",
+        "price": 35,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/sg-11134201-22110-2tu79j6d10jvce"
+    },
+    {
+        "id": 10000010,
+        "name": "Sennheiser Momentum Wireless 4",
+        "price": 8490,
+        "location": "TP. Hồ Chí Minh",
+        "photo": "https://down-vn.img.susercontent.com/file/005e6dd67b38850d1b104bc70e9418de"
+    },
+    {
+        "id": 10000011,
+        "name": "Ốp lưng Smile More",
+        "price": 149,
+        "location": "TP. Hồ Chí Minh",
+        "photo": "https://down-vn.img.susercontent.com/file/sg-11134201-23020-4eyphwguqanv28"
+    },
+    {
+        "id": 10000012,
+        "name": "Giày Sandal Nam Nữ Unisex The BiLy",
+        "price": 280,
+        "location": "TP. Hồ Chí Minh",
+        "photo": "https://down-vn.img.susercontent.com/file/29f807233e0a1967339cbf647ae993e2"
+    },
+    {
+        "id": 10000013,
+        "name": "ILFORD Delta 3200",
+        "price": 230,
+        "location": "TP. Hồ Chí Minh",
+        "photo": "https://down-vn.img.susercontent.com/file/99ed1603e783bc1cda3ebb9f5791c006"
+    },
+    {
+        "id": 10000014,
+        "name": "Gọng kính cận nam nữ - GLORISS Moscow",
+        "price": 280,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lh0eum0qnk8icf"
+    },
+    {
+        "id": 10000015,
+        "name": "BÌNH GIỮ NHIỆT 500ML TẶNG KÈM CỐC",
+        "price": 35,
+        "location": "Hà Nội",
+        "photo": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lgxooses9dkja1"
+    }
+]
