@@ -1,5 +1,5 @@
 export default class Reaction {
     name = "";
     image = "";
-    count = "";
+    count = 0;
 }
