@@ -1,7 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
-import Header from "../../components/Header";
-// import SidebarItem from "../../components/SidebarItem";
+import Header from "~/components/Header";
 import SidebarItem from "~/components/SidebarItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,7 +9,6 @@ import {
 	faChevronDown,
 	faChevronUp,
 	faClapperboard,
-	faEarthAmerica,
 	faEllipsis,
 	faMagnifyingGlass,
 	faPlus,
