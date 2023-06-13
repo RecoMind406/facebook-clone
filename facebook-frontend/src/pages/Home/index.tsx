@@ -793,38 +793,71 @@ const Home = () => {
 							<div className={cx("add-to-posting")}>
 								<div>Thêm vào bài viết của bạn</div>
 								<div className={cx("icon")}>
-									<img
-										src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/a6OjkIIE-R0.png"
-										alt=""
-									/>
-									<img
-										src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/MqTJr_DM3Jg.png"
-										alt=""
-									/>
-									<img
-										src="https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/yMDS19UDsWe.png"
-										alt=""
-									/>
-									<img
-										src="https://static.xx.fbcdn.net/rsrc.php/v3/yy/r/uywzfiZad5N.png"
-										alt=""
-									/>
-									<img
-										src="https://static.xx.fbcdn.net/rsrc.php/v3/yY/r/CenxFlWjtJO.png"
-										alt=""
-									/>
-									<i
-										className="x1b0d499 xl1xv1r"
-										style={{
-											height: "24px",
-											width: "24px",
-											backgroundImage:
-												'url("https://static.xx.fbcdn.net/rsrc.php/v3/yf/r/S2RzBqcwbI-.png")',
-											backgroundPosition: "0px -38px",
-											backgroundSize: "38px 162px",
-											backgroundRepeat: "no-repeat",
-											display: "inline-block",
-										}}></i>
+									<Tippy content="Ảnh/video" placement="top" arrow="false">
+										<div className={cx("img-icon")}>
+											<img
+												src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/a6OjkIIE-R0.png"
+												alt=""
+											/>
+										</div>
+									</Tippy>
+									<Tippy
+										content="Gắn thẻ người khác"
+										placement="top"
+										arrow="false">
+										<div className={cx("img-icon")}>
+											<img
+												src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/MqTJr_DM3Jg.png"
+												alt=""
+											/>
+										</div>
+									</Tippy>
+									<Tippy
+										content="Cảm xúc/hoạt động"
+										placement="top"
+										arrow="false">
+										<div className={cx("img-icon")}>
+											<img
+												src="https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/yMDS19UDsWe.png"
+												alt=""
+											/>
+										</div>
+									</Tippy>
+									<Tippy content="Check-in" placement="top" arrow="false">
+										<div className={cx("img-icon")}>
+											<img
+												src="https://static.xx.fbcdn.net/rsrc.php/v3/yy/r/uywzfiZad5N.png"
+												alt=""
+											/>
+										</div>
+									</Tippy>
+									<Tippy
+										content="Sự kiện trong đời"
+										placement="top"
+										arrow="false">
+										<div className={cx("img-icon")}>
+											<img
+												src="https://static.xx.fbcdn.net/rsrc.php/v3/yY/r/CenxFlWjtJO.png"
+												alt=""
+											/>
+										</div>
+									</Tippy>
+									<Tippy content="Xem thêm" placement="top" arrow="false">
+										<div className={cx("img-icon")}>
+											<i
+												className="x1b0d499 xl1xv1r"
+												style={{
+													height: "24px",
+													width: "24px",
+													backgroundImage:
+														'url("https://static.xx.fbcdn.net/rsrc.php/v3/yf/r/S2RzBqcwbI-.png")',
+													backgroundPosition: "0px -38px",
+													backgroundSize: "38px 162px",
+													backgroundRepeat: "no-repeat",
+													display: "inline-block",
+												}}></i>
+										</div>
+									</Tippy>
 								</div>
 							</div>
 							<button className={cx({ active: canPost })}>Đăng</button>
