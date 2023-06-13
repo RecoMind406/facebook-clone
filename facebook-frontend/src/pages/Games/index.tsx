@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGear, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useRef, useState } from "react";
 import MultiItemSlider from "../../components/MultiItemSlider";
+import Header from "../../components/Header";
 const cx = classNames.bind(styles);
 
 function Games() {
@@ -186,6 +187,7 @@ function Games() {
 
   return (
     <>
+    <Header></Header>
     <div className={cx('game-container')}>
         <div className={cx('side-bar', { 'hide-scrollbar': !isHovered })} 
                 onMouseEnter={handleMouseEnter}
