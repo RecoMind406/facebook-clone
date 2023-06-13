@@ -12,26 +12,7 @@
 	justify-content: space-between;
 }
 
-.sidebar,
-.contact {
-	max-width: var(--sidebar-width);
-	width: 25%;
-	position: -webkit-sticky;
-	position: sticky;
-	height: calc(100vh - var(--header-height));
-	top: var(--header-height);
-	overflow-y: hidden;
-
-	&:hover {
-		overflow-y: auto;
-	}
-}
-
-// .sidebar.hidden-scroll,
-// .contact.hidden-scroll {
-// 	overflow: hidden;
-// }
-
+// Scrollbar
 /* width */
 ::-webkit-scrollbar {
 	width: 8px;
@@ -52,6 +33,40 @@
 ::-webkit-scrollbar-track:hover {
 	background: #e6e7eb;
 }
+
+.sidebar,
+.contact {
+	max-width: var(--sidebar-width);
+	width: 25%;
+	position: -webkit-sticky;
+	position: sticky;
+	height: calc(100vh - var(--header-height));
+	top: var(--header-height);
+	overflow-y: hidden;
+
+	&:hover {
+		overflow-y: auto;
+	}
+}
+
+.contact {
+	overflow-y: auto;
+	/* Track */
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		background: transparent;
+		border-radius: 8px;
+	}
+}
+
+// .sidebar.hidden-scroll,
+// .contact.hidden-scroll {
+// 	overflow: hidden;
+// }
 
 // ----------- main (middle) -----------
 .main {
@@ -348,7 +363,6 @@
 // -----------Contact (right) -----------
 .page-management {
 	padding: 8px;
-
 	border-bottom: 1px solid #ced0d4;
 	margin-bottom: 8px;
 	.heading {
