@@ -62,6 +62,10 @@
 	background-color: #bcc0c4;
 }
 
+.hover-scrollbar::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
 .sidebar {
 	width: 360px;
 	background-color: var(--background-white);

@@ -13,25 +13,26 @@
 }
 
 // Scrollbar
-/* width */
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 6px;
+	background-color: transparent;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-	background: #f1f1f1;
-}
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #bcc0c4;
+	background-color: transparent;
 	border-radius: 8px;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-track:hover {
-	background: #e6e7eb;
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.hover-scrollbar::-webkit-scrollbar-thumb {
+	background-color: #bcc0c4;
+}
+
+.hover-scrollbar::-webkit-scrollbar-track {
+	background: #f1f1f1;
 }
 
 .sidebar,
@@ -42,31 +43,8 @@
 	position: sticky;
 	height: calc(100vh - var(--header-height));
 	top: var(--header-height);
-	overflow-y: hidden;
-
-	&:hover {
-		overflow-y: auto;
-	}
+	overflow-y: scroll;
 }
-
-.contact {
-	overflow-y: auto;
-	/* Track */
-	::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	/* Handle */
-	::-webkit-scrollbar-thumb {
-		background: transparent;
-		border-radius: 8px;
-	}
-}
-
-// .sidebar.hidden-scroll,
-// .contact.hidden-scroll {
-// 	overflow: hidden;
-// }
 
 // ----------- main (middle) -----------
 .main {
@@ -533,7 +511,7 @@
 	background-color: rgba(0, 0, 0, 0.2);
 	z-index: 1;
 }
-  
+
 .modal {
 	position: fixed;
 	top: 50%;
@@ -546,7 +524,7 @@
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 	z-index: 2;
 }
-  
+
 .modal .header {
 	display: flex;
 	align-items: center;
@@ -572,19 +550,16 @@
 		align-items: center;
 		border-radius: 50%;
 		cursor: pointer;
-		
 	}
 	.close-btn:hover {
 		background-color: #e4e6eb;
 	}
-
-	
 }
 .modal .header::after {
 	position: absolute;
-	content: '';
+	content: "";
 	height: 1px;
-	width: calc(100% + 40px) ;
+	width: calc(100% + 40px);
 	background-color: rgba(0, 0, 0, 0.15);
 	bottom: 8px;
 	left: -20px;
@@ -603,7 +578,7 @@
 			}
 		}
 		.name {
-			padding:0 0 8px 8px;
+			padding: 0 0 8px 8px;
 			p {
 				font-weight: 600;
 			}
@@ -618,7 +593,6 @@
 				img {
 					margin: 0 4px;
 				}
-
 			}
 		}
 	}
@@ -654,7 +628,7 @@
 	font-size: 24px;
 	font-weight: 400px;
 }
-  
+
 .modal .body button.active {
 	background-color: #007bff;
 	color: white;
@@ -664,7 +638,7 @@
 	margin-top: 16px;
 	height: 36px;
 	width: 100%;
-	cursor:pointer;
+	cursor: pointer;
 	font-size: 15px;
 	font-weight: 600;
 }
@@ -677,15 +651,13 @@
 	margin-top: 16px;
 	height: 36px;
 	width: 100%;
-	cursor:not-allowed;
+	cursor: not-allowed;
 	font-size: 15px;
 	font-weight: 600;
-}  
+}
 .modal .body button.active:hover {
 	background-color: #0056b3;
 }
-  
-
 
 // Responsive
 @media screen and (max-width: 1099px) {
