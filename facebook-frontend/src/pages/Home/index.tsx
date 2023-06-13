@@ -49,7 +49,24 @@ const Home = () => {
 
 	// count = 0 --> disabled prev button
 	// count = totalStory -  slidesPerView --> disabled next button
-
+	const [showPostModal, setShowPostModal] = useState(false);
+	const [postContent, setPostContent] = useState('');
+	const [canPost, setCanPost] = useState(false);
+	const handleInputPost =(e:any)=>{
+		const value = e.target.value;
+		setPostContent(value)
+		if(value==''){
+			setCanPost(false)
+			console.log(canPost)
+		}
+		else setCanPost(true)
+	}
+	const showModal =()=>{
+		setShowPostModal(true)
+	}
+	const hideModal =()=>{
+		setShowPostModal(false)
+	}
 	return (
 		<>
 			<Header />
@@ -436,7 +453,7 @@ const Home = () => {
 									alt=""
 								/>
 							</div>
-							<div className={cx("content")}>Ân ơi, bạn đang nghĩ gì thế ?</div>
+							<div className={cx("content")}onClick={showModal} >Ân ơi, bạn đang nghĩ gì thế ?</div>
 						</div>
 
 						<div className={cx("buttons")}>
@@ -674,6 +691,82 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
+			{
+				showPostModal&& <>
+			<div className={cx('modal-container')} onClick={hideModal}>
+			</div>
+				<div className={cx('modal')}>
+					<div className={cx('header')}>
+						<span>Tạo bài viết</span>
+						<div className={cx('close-btn')} onClick={hideModal}>
+						<i data-visualcompletion="css-img" style={{
+							backgroundImage: 'url("https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/2jXYoyBr7QM.png")',
+							backgroundPosition: '-154px -88px',
+							backgroundSize: '190px 172px',
+							width: '20px',
+							height: '20px',
+							backgroundRepeat: 'no-repeat',
+							display: 'inline-block',
+							}}></i>							
+							</div>						
+					</div>
+					<div className={cx('body')}>
+						<div className={cx('user')}>
+							<div className={cx('avatar')}>
+								<img src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg" alt="" />
+							</div>
+							<div className={cx('name')}>
+							<p>Lộc Ân</p>
+								<div className={cx('publish')}>
+								<img src="https://static.xx.fbcdn.net/rsrc.php/v3/ys/r/L39Daxsxmmw.png" alt="" width={'12px'} height={'12px'} />Công khai <i
+										className="x1b0d499 xep6ejk"
+										style={{
+											backgroundImage: 'url("https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/2jXYoyBr7QM.png")',
+											backgroundPosition: '-124px -154px',
+											backgroundSize: '190px 172px',
+											width: '12px',
+											height: '12px',
+											backgroundRepeat: 'no-repeat',
+											display: 'inline-block',
+										}}
+										data-visualcompletion="css-img"
+										></i>
+								</div>
+							</div>
+						</div>
+						<textarea name="" id="" cols={30} rows={5} value={postContent} onChange={handleInputPost} placeholder="Ân ơi, bạn đang nghĩ gì thế?"></textarea>
+						<div className={cx('emoj')}>
+							<img height="38" alt="" src="https://www.facebook.com/images/composer/SATP_Aa_square-2x.png"/>
+							<i       style={{
+								backgroundImage: 'url("https://static.xx.fbcdn.net/rsrc.php/v3/yO/r/dEGgNUyewy3.png")',
+								backgroundPosition: '0px -60px',
+								backgroundSize: '34px 638px',
+								backgroundRepeat: 'no-repeat',
+								display: 'inline-block',
+								height: '24px',
+								width: '24px',
+							}}
+							aria-label="Chèn một biểu tượng cảm xúc"
+							role="img"
+							data-visualcompletion="css-img"
+							></i>
+						</div>
+						<div className={cx('add-to-posting')}>
+							<div>Thêm vào bài viết của bạn</div>
+							<div className={cx('icon')}>
+								<img src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/a6OjkIIE-R0.png" alt="" />
+								<img src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/MqTJr_DM3Jg.png" alt="" />
+								<img src="https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/yMDS19UDsWe.png" alt="" />
+								<img src="https://static.xx.fbcdn.net/rsrc.php/v3/yy/r/uywzfiZad5N.png" alt="" />
+								<img src="https://static.xx.fbcdn.net/rsrc.php/v3/yY/r/CenxFlWjtJO.png" alt="" />
+								<i className="x1b0d499 xl1xv1r" style={{ height: '24px', width: '24px', backgroundImage: 'url("https://static.xx.fbcdn.net/rsrc.php/v3/yf/r/S2RzBqcwbI-.png")', backgroundPosition: '0px -38px', backgroundSize: '38px 162px', backgroundRepeat: 'no-repeat', display: 'inline-block' }}></i>
+							</div>
+						</div>
+						<button className={cx({active:canPost})}>Đăng</button>
+					</div>
+				</div>
+				</>
+			}
 		</>
 	);
 };
