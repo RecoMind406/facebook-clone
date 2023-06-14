@@ -2,6 +2,7 @@
 import Fanpage from "../pages/Fanpage";
 import ForgotPassword from "../pages/ForgotPassword";
 import Games from "../pages/Games";
+import Bookmarks from "../pages/Bookmarks";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 
@@ -18,6 +19,8 @@ const routes = [
 	{
 		path:'/forgot-password', 
 		component: ForgotPassword
+		path: "/bookmarks",
+		component: Bookmarks,
 	},
 	{
 		path:'/games', 
