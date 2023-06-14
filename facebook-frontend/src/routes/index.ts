@@ -7,6 +7,8 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Watch from "../pages/Watch";
 import Groups from "~/pages/Groups";
+import { Marketplace } from "~/pages/Marketplace";
+import { Profile } from "~/pages/Profile";
 
 // routes
 const routes = [
@@ -17,6 +19,10 @@ const routes = [
 	{
 		path: "/watch",
 		component: Watch,
+	},
+	{
+		path: "/marketplace",
+		component: Marketplace,
 	},
 	{
 		path: "/groups",
@@ -41,6 +47,10 @@ const routes = [
 	{
 		path: "/forgot-password",
 		component: ForgotPassword,
+	},
+	{
+		path: "/profile",
+		component: Profile,
 	},
 ];
 
