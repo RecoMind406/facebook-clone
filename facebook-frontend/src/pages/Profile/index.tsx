@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { TopSection } from "../../components/Profile/TopSection";
 import {
     Box,
     Button,
     Container,
-    Grid,
     IconButton,
     Typography,
     styled,
@@ -12,14 +10,15 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-import User from "../../interfaces/user";
-import { PostsLeft } from "../../components/Profile/Posts/LeftSection";
-import { PostsMain } from "../../components/Profile/Posts/MainSection";
-import { ProfileAboutTab } from "../../components/Profile/About";
-import { ProfilePhotosTab } from "../../components/Profile/Photos";
-import { ProfileVideosTab } from "../../components/Profile/Videos";
-import { ProfileReelsTab } from "../../components/Profile/Reels";
-import { ProfileFriendsTab } from "../../components/Profile/Friends";
+import User from "~/interfaces/user";
+import { TopSection } from "~/components/Profile/TopSection";
+import { PostsLeft } from "~/components/Profile/Posts/LeftSection";
+import { PostsMain } from "~/components/Profile/Posts/MainSection";
+import { ProfileAboutTab } from "~/components/Profile/About";
+import { ProfilePhotosTab } from "~/components/Profile/Photos";
+import { ProfileVideosTab } from "~/components/Profile/Videos";
+import { ProfileReelsTab } from "~/components/Profile/Reels";
+import { ProfileFriendsTab } from "~/components/Profile/Friends";
 
 const NavButton = styled(Button)({
     boxShadow: "none",
@@ -39,13 +38,6 @@ const NavTypography = styled(Typography)({
     fontWeight: "bold",
     color: "#65676b",
 });
-
-const GridItem = styled(Box)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-}));
 
 export const Profile: React.FC = () => {
     // dummy data
@@ -299,6 +291,7 @@ export const Profile: React.FC = () => {
                         <ProfileFriendsTab {...user} />
                         <ProfilePhotosTab {...user} />
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
@@ -307,6 +300,7 @@ export const Profile: React.FC = () => {
                         <ProfileFriendsTab {...user} />
                         <ProfilePhotosTab {...user} />
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
@@ -314,16 +308,22 @@ export const Profile: React.FC = () => {
                     <>
                         <ProfilePhotosTab {...user} />
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
                 {selectedNav === "Video" && (
                     <>
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
-                <ProfileReelsTab {...user} />
+                {selectedNav === "Reels" && (
+                    <>
+                        <ProfileReelsTab {...user} />
+                    </>
+                )}
             </Container>
         </Box>
     );
