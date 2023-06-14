@@ -5,6 +5,7 @@ import {
     Button,
     Container,
     IconButton,
+    Paper,
     Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -117,8 +118,8 @@ export const WatchMain: React.FC = () => {
             }}
         >
             {videoList.map((video) => (
-                <div key={video.id}>
-                    <Box
+                <Paper key={video.id}>
+                    <Container
                         sx={{
                             display: "flex",
                             flexDirection: "row",
@@ -141,7 +142,7 @@ export const WatchMain: React.FC = () => {
                             />
                             <Typography
                                 fontWeight="bold"
-                                fontSize="1rem"
+                                fontSize="14px"
                                 sx={{
                                     ":hover": {
                                         cursor: "pointer",
@@ -159,10 +160,18 @@ export const WatchMain: React.FC = () => {
                         >
                             <MoreHoriz sx={{ fontSize: "1.8rem" }} />
                         </IconButton>
-                    </Box>
-                    <Typography variant="h6">
-                        {toTitleCase(video.name)}
-                    </Typography>
+                    </Container>
+                    <Container>
+                        <Typography
+                            sx={{
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                                color: "#050505",
+                            }}
+                        >
+                            {toTitleCase(video.name)}
+                        </Typography>
+                    </Container>
                     <video
                         controls
                         style={{
@@ -175,115 +184,118 @@ export const WatchMain: React.FC = () => {
                         <source src={video.url} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            color: "#65676b",
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <CustomButton
-                                variant="outlined"
-                                startIcon={<ThumbUpOutlined />}
-                            >
-                                <Typography
-                                    sx={{
-                                        display: {
-                                            xs: "none",
-                                            sm: "block",
-                                        },
-                                        fontSize: ".9rem",
-                                        fontWeight: "bold",
-                                    }}
-                                >
-                                    Thích
-                                </Typography>
-                            </CustomButton>
-                            <CustomButton
-                                variant="outlined"
-                                startIcon={<ChatBubbleOutline />}
-                            >
-                                <Typography
-                                    sx={{
-                                        display: {
-                                            xs: "none",
-                                            sm: "block",
-                                        },
-                                        fontSize: ".9rem",
-                                        fontWeight: "bold",
-                                    }}
-                                >
-                                    Bình luận
-                                </Typography>
-                            </CustomButton>
-                            <CustomButton
-                                variant="outlined"
-                                startIcon={<IosShareOutlined />}
-                            >
-                                <Typography
-                                    sx={{
-                                        display: {
-                                            xs: "none",
-                                            sm: "block",
-                                        },
-                                        fontSize: ".9rem",
-                                        fontWeight: "bold",
-                                    }}
-                                >
-                                    Chia sẻ
-                                </Typography>
-                            </CustomButton>
-                        </Box>
+                    <Container>
                         <Box
                             sx={{
                                 display: "flex",
                                 flexDirection: "row",
                                 justifyContent: "space-between",
-                                alignItems: "center",
+                                color: "#65676b",
                             }}
                         >
-                            <AvatarGroup>
-                                <Avatar
-                                    src={loveIcon}
-                                    sx={{
-                                        maxWidth: "12px",
-                                        maxHeight: "12px",
-                                    }}
-                                />
-                                <Avatar
-                                    src={hahaIcon}
-                                    sx={{
-                                        maxWidth: "12px",
-                                        maxHeight: "12px",
-                                    }}
-                                />
-                            </AvatarGroup>
-                            <Typography variant="caption" sx={{ mr: 1 }}>
-                                {video.likes}
-                            </Typography>
-                            <Typography variant="caption" sx={{ mr: 1 }}>
-                                {video.comments} bình luận
-                            </Typography>
-                            <Typography
-                                variant="caption"
+                            <Box
                                 sx={{
-                                    display: {
-                                        xs: "none",
-                                        sm: "block",
-                                    },
+                                    justifyContent: "space-between",
+                                    marginBottom: "10px",
                                 }}
                             >
-                                {video.views} lượt xem
-                            </Typography>
+                                <CustomButton
+                                    variant="outlined"
+                                    startIcon={<ThumbUpOutlined />}
+                                >
+                                    <Typography
+                                        sx={{
+                                            display: {
+                                                xs: "none",
+                                                sm: "block",
+                                            },
+                                            fontSize: ".9rem",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        Thích
+                                    </Typography>
+                                </CustomButton>
+                                <CustomButton
+                                    variant="outlined"
+                                    startIcon={<ChatBubbleOutline />}
+                                >
+                                    <Typography
+                                        sx={{
+                                            display: {
+                                                xs: "none",
+                                                sm: "block",
+                                            },
+                                            fontSize: ".9rem",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        Bình luận
+                                    </Typography>
+                                </CustomButton>
+                                <CustomButton
+                                    variant="outlined"
+                                    startIcon={<IosShareOutlined />}
+                                >
+                                    <Typography
+                                        sx={{
+                                            display: {
+                                                xs: "none",
+                                                sm: "block",
+                                            },
+                                            fontSize: ".9rem",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        Chia sẻ
+                                    </Typography>
+                                </CustomButton>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <AvatarGroup>
+                                    <Avatar
+                                        src={loveIcon}
+                                        sx={{
+                                            maxWidth: "12px",
+                                            maxHeight: "12px",
+                                        }}
+                                    />
+                                    <Avatar
+                                        src={hahaIcon}
+                                        sx={{
+                                            maxWidth: "12px",
+                                            maxHeight: "12px",
+                                        }}
+                                    />
+                                </AvatarGroup>
+                                <Typography variant="caption" sx={{ mr: 1 }}>
+                                    {video.likes}
+                                </Typography>
+                                <Typography variant="caption" sx={{ mr: 1 }}>
+                                    {video.comments} bình luận
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: {
+                                            xs: "none",
+                                            sm: "block",
+                                        },
+                                    }}
+                                >
+                                    {video.views} lượt xem
+                                </Typography>
+                            </Box>
                         </Box>
-                    </Box>
-                </div>
+                    </Container>
+                </Paper>
             ))}
         </Container>
     );
