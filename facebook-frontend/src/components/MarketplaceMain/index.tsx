@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Box,
     Container,
@@ -8,6 +7,7 @@ import {
     Button,
     styled,
     CssBaseline,
+    Avatar,
 } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import data from "./ProductList.json";
@@ -38,15 +38,16 @@ const CustomButton = styled(Button)({
     boxShadow: "none",
     textTransform: "none",
     border: 0,
+    borderRadius: "18px",
     color: "#000000",
     paddingTop: -2,
     paddingBottom: -2,
     marginRight: 3,
     backgroundColor: "#e4e6eb",
     "&:hover": {
-        border: "0px",
         boxShadow: "none",
         backgroundColor: "#dadbde",
+        border: 0,
     },
 });
 
@@ -55,6 +56,8 @@ export const MarketPlaceMain = () => {
         <Container
             sx={{
                 mt: 2,
+                position: "relative",
+                top: "56px",
             }}
         >
             <CssBaseline />
@@ -72,24 +75,30 @@ export const MarketPlaceMain = () => {
                         alignItems: "center",
                     }}
                 >
-                    <CustomButton variant="outlined">
+                    <Avatar
+                        sx={{
+                            color: "#050505",
+                            backgroundColor: "#e4e6eb",
+                            ":hover:": {
+                                backgroundColor: "#dadbde",
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
                         <Typography
                             sx={{
                                 fontWeight: "bold",
                             }}
                         >
-                            <PersonIcon
-                                sx={{
-                                    fontSize: "1.5rem",
-                                }}
-                            ></PersonIcon>
+                            <PersonIcon />
                         </Typography>
-                    </CustomButton>
+                    </Avatar>
                     <CustomButton variant="outlined">
                         <Typography
                             sx={{
                                 fontWeight: "bold",
-                                fontSize: "1rem",
+                                fontSize: "14px",
+                                color: "#050505",
                             }}
                         >
                             Bán
@@ -99,7 +108,8 @@ export const MarketPlaceMain = () => {
                         <Typography
                             sx={{
                                 fontWeight: "bold",
-                                fontSize: "1rem",
+                                fontSize: "14px",
+                                color: "#050505",
                             }}
                         >
                             Tất cả hạng mục
@@ -113,9 +123,15 @@ export const MarketPlaceMain = () => {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
+                    marginBottom: 2,
                 }}
             >
-                <Typography variant="h6" fontWeight={"bold"}>
+                <Typography
+                    sx={{
+                        fontWeight: "bold",
+                        fontSize: "20px",
+                    }}
+                >
                     Lựa chọn hôm nay
                 </Typography>
 
@@ -124,10 +140,10 @@ export const MarketPlaceMain = () => {
                     sx={{
                         display: "flex",
                         alignItems: "center",
+                        fontSize: "14px",
                     }}
-                    variant={"subtitle1"}
                 >
-                    <PlaceIcon></PlaceIcon>
+                    <PlaceIcon />
                     Hồ Chí Minh · 65km
                 </Typography>
             </Box>
@@ -160,23 +176,28 @@ export const MarketPlaceMain = () => {
                                 alt={"Image of" + product.name}
                                 src={product.photo}
                             />
-                            <Typography fontWeight={"bold"}>
+                            <Typography
+                                sx={{
+                                    fontWeight: "bold",
+                                    fontSize: "16px",
+                                }}
+                            >
                                 {convertToPrintFormat(product.price)} ₫
                             </Typography>
                             <Typography
-                                variant="body1"
                                 sx={{
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
                                     color: "#050505",
+                                    fontSize: "14px",
                                 }}
                             >
                                 {product.name}
                             </Typography>
                             <Typography
-                                variant="subtitle2"
                                 sx={{
+                                    fontSize: "12px",
                                     color: "#65676B",
                                 }}
                             >
