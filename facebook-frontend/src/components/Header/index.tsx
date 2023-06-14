@@ -60,8 +60,6 @@ const Header = () => {
 	const [showSearch, setShowSearch] = useState(false);
 	const [searchResult, setSearchResult] = useState([]);
 
-	console.log(typeof searchResult);
-
 	const handleActiveTabPageItem = () => {
 		switch (path) {
 			case "": {
@@ -453,7 +451,7 @@ const Header = () => {
 								<Link to={"/me"} className={cx("account")}>
 									<div className={cx("avatar")}>
 										<img
-											src="https://i.pinimg.com/originals/aa/2f/f8/aa2ff8dd08f43b410184e048fb7217b7.jpg"
+											src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
 											alt=""
 										/>
 									</div>

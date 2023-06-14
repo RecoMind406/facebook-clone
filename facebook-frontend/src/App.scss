@@ -8,8 +8,9 @@
 	--secondary-bg-color-hover: #e4e6e9;
 	--primary-text: #050505;
 	--secondary-text: #65676b;
-	--border-radius-commnet: 18px;
+	--border-radius-comment: 18px;
 	--height-button-post: 44px;
+	--base-blue: #1877f2;
 }
 
 * {
@@ -18,12 +19,8 @@
 	box-sizing: border-box;
 }
 
-html {
-	font-size: 62.5%;
-}
-
 body {
 	line-height: 1.34;
-	font-size: 1.6rem;
 	font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+	overflow-x: hidden;
 }
