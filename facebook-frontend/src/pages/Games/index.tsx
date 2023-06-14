@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
 import styles from "./Games.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faGear, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useRef, useState } from "react";
+import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
+import {  useState } from "react";
 import MultiItemSlider from "../../components/MultiItemSlider";
 import Header from "../../components/Header";
 const cx = classNames.bind(styles);
@@ -20,169 +20,169 @@ function Games() {
     };
     const recentGames = [
         {
-          url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/275003790_1151487275679262_8958964674936888700_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=d1jcVzjZxOsAX8QzCJ1&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBiovDzL8UQP_6XpPabq7pS9LreaM5W4LabhwXeDQ1X0g&oe=6485AD93",
+          url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
           title: "Classic Slot"
         },
         {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/328299820_9309543715730221_6398721114028789847_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=6B6qklXs6K4AX8kKKbB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfDR9LoskPibeXxbRSidZAGd9DJhqO3j8gsNF4EiGSjILQ&oe=64866AE5",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Bắn trứng khủng long Dynomite"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/27962929_1399915616781569_2945285509838012416_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=CIK2ePJxFqUAX8aPcQO&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBB6zr5PdUnTnAomBGD9UVve3vci1mK3HfD3NUvlYthNw&oe=6485FA7A",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Cờ úp"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/312881579_1508268686608431_2580671977073894599_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=jrj4A2xK9ggAX-SXNKB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAlcaGERQGs7Zru2Q7qUnXUPiiOhelf6g4LcylKbtTr4A&oe=6485E379",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Bubble Shooter Pro"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/137691574_796998534551861_6022128774987773952_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=c4zSd5aWG78AX9bnfDZ&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCqbVdMwVQlSuLIsZKi85wYaPtg4UcvbfdsJrdfgvx80A&oe=6484AA5E",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Differencies"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/274052559_1116368605597441_8084617641304009932_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=9ItM0oQaDiYAX_9LSji&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBRZnOnIx935UnM7P_HXs5-0x3dF25A41GavNKpnzh0cQ&oe=6484AF7B",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Connect Animal Puzzle"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/27962929_1399915616781569_2945285509838012416_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=CIK2ePJxFqUAX8aPcQO&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBB6zr5PdUnTnAomBGD9UVve3vci1mK3HfD3NUvlYthNw&oe=6485FA7A",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Cờ úp"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/312881579_1508268686608431_2580671977073894599_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=jrj4A2xK9ggAX-SXNKB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAlcaGERQGs7Zru2Q7qUnXUPiiOhelf6g4LcylKbtTr4A&oe=6485E379",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Bubble Shooter Pro"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/137691574_796998534551861_6022128774987773952_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=c4zSd5aWG78AX9bnfDZ&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCqbVdMwVQlSuLIsZKi85wYaPtg4UcvbfdsJrdfgvx80A&oe=6484AA5E",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Differencies"
           },
           {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/274052559_1116368605597441_8084617641304009932_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=9ItM0oQaDiYAX_9LSji&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBRZnOnIx935UnM7P_HXs5-0x3dF25A41GavNKpnzh0cQ&oe=6484AF7B",
+            url: "https://www.cloudgamingcatalogue.com/wp-content/uploads/2022/01/High-Stakes-on-the-Vegas-Strip_-Poker-Edition-600x600.jpg",
             title: "Connect Animal Puzzle"
           },
       ];
     const likableGames=[
         {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/278012261_1177813756378097_1227963520793710025_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=zq0uUlUj-DkAX8243Qp&_nc_ht=scontent.fdad3-4.fna&oh=00_AfB5SnWSr5u7zVgj3SBpfZ-S7x_SK0IvzeuOLDisYCgzKQ&oe=6485AD9D",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Krytoi Texas HoldEm Poker",
             type: "Card",
         },
         {
-            url: "https://scontent.fdad3-5.fna.fbcdn.net/v/t39.2081-6/76647379_459554111335216_4035955204405854208_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=102&ccb=1-7&_nc_sid=b29aad&_nc_ohc=KdEkQ2x1j54AX_8Dawp&_nc_ht=scontent.fdad3-5.fna&oh=00_AfD8GVKeo_WGB5IZJi6J-BVxrAZUz0_SAbQx9L04TUMsjg&oe=64860117",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Ocean Riches Casino",
             type: "Casino",
         },
         {
-            url: "https://scontent.fdad3-1.fna.fbcdn.net/v/t39.2081-6/343303955_1358908451355081_6633060882847152693_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=103&ccb=1-7&_nc_sid=b29aad&_nc_ohc=V9Uzruyys8EAX8EaeMj&_nc_ht=scontent.fdad3-1.fna&oh=00_AfB2hneVPXDkqvGzha6Z0_a1Z0vGY1hYHjadWGR5-HM2zg&oe=6485F83A",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Double Vegas",
             type: "Casino",
         },
         {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/345209375_1365864167413993_1256579364178708462_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=5ckrTOG5kd0AX__t5m2&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAGimhltIv70jktAUif157ncmhrs5VKNnyQwDlWP-y9vA&oe=6484B1E7",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Golden City Casino -Free Slots",
             type: "Casino",
         },
          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/83161504_577715252778537_7594964542677843968_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=wY2VvFtI144AX-12127&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCPtQxpx9pw9npQcqf7YUac7_-Lh1NKipgT-jAb8LjTiA&oe=648625C6",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Holy Moly Casino - Free Slots",
             type: "Casino",
         },
         {
-            url: "https://scontent.fdad3-1.fna.fbcdn.net/v/t39.2081-6/343303955_1358908451355081_6633060882847152693_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=103&ccb=1-7&_nc_sid=b29aad&_nc_ohc=V9Uzruyys8EAX8EaeMj&_nc_ht=scontent.fdad3-1.fna&oh=00_AfB2hneVPXDkqvGzha6Z0_a1Z0vGY1hYHjadWGR5-HM2zg&oe=6485F83A",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Double Vegas",
             type: "Casino",
         },
         {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/345209375_1365864167413993_1256579364178708462_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=5ckrTOG5kd0AX__t5m2&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAGimhltIv70jktAUif157ncmhrs5VKNnyQwDlWP-y9vA&oe=6484B1E7",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Golden City Casino -Free Slots",
             type: "Casino",
         },
          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/83161504_577715252778537_7594964542677843968_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=wY2VvFtI144AX-12127&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCPtQxpx9pw9npQcqf7YUac7_-Lh1NKipgT-jAb8LjTiA&oe=648625C6",
+            url: "https://img.freepik.com/premium-vector/poker-game-logo-design-vector_633300-514.jpg?w=2000",
             title: "Holy Moly Casino - Free Slots",
             type: "Casino",
         },
     ] 
     const allGames = [
         {
-          url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/275003790_1151487275679262_8958964674936888700_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=d1jcVzjZxOsAX8QzCJ1&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBiovDzL8UQP_6XpPabq7pS9LreaM5W4LabhwXeDQ1X0g&oe=6485AD93",
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6H4asUJFO8ySayPJ-hYbUBN1tO7hA6p7rCQ&usqp=CAU",
           title: "Classic Slot"
         },
         {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/328299820_9309543715730221_6398721114028789847_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=6B6qklXs6K4AX8kKKbB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfDR9LoskPibeXxbRSidZAGd9DJhqO3j8gsNF4EiGSjILQ&oe=64866AE5",
+            url: "https://wellgames.com/storage/uploads/icons/jpg/circus-words_1638457785.jpg",
             title: "Bắn trứng khủng long Dynomite"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/27962929_1399915616781569_2945285509838012416_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=CIK2ePJxFqUAX8aPcQO&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBB6zr5PdUnTnAomBGD9UVve3vci1mK3HfD3NUvlYthNw&oe=6485FA7A",
+        },
+        {
+            url: "https://imageio.forbes.com/specials-images/imageserve/68bf9a80d5b89bef8cdfa57dbf4f6410/960x960.jpg?height=400&width=400&fit=bounds",
             title: "Cờ úp"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/312881579_1508268686608431_2580671977073894599_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=jrj4A2xK9ggAX-SXNKB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAlcaGERQGs7Zru2Q7qUnXUPiiOhelf6g4LcylKbtTr4A&oe=6485E379",
+        },
+        {
+            url: "https://gd1.alicdn.com/imgextra/i4/3233313538/TB2GCDsXr9GJuJjSZFNXXaIkXXa_!!3233313538.jpg_400x400.jpg_.webp",
             title: "Bubble Shooter Pro"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/137691574_796998534551861_6022128774987773952_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=c4zSd5aWG78AX9bnfDZ&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCqbVdMwVQlSuLIsZKi85wYaPtg4UcvbfdsJrdfgvx80A&oe=6484AA5E",
+        },
+        {
+            url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKw4bsj31yaWbJoCwKILq_Jy3bh5KWPzcvbQ&usqp=CAU",
             title: "Differencies"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/274052559_1116368605597441_8084617641304009932_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=9ItM0oQaDiYAX_9LSji&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBRZnOnIx935UnM7P_HXs5-0x3dF25A41GavNKpnzh0cQ&oe=6484AF7B",
-            title: "Connect Animal Puzzle"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/27962929_1399915616781569_2945285509838012416_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=CIK2ePJxFqUAX8aPcQO&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBB6zr5PdUnTnAomBGD9UVve3vci1mK3HfD3NUvlYthNw&oe=6485FA7A",
+        },
+        {
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6H4asUJFO8ySayPJ-hYbUBN1tO7hA6p7rCQ&usqp=CAU",
+          title: "Classic Slot"
+        },
+        {
+            url: "https://wellgames.com/storage/uploads/icons/jpg/circus-words_1638457785.jpg",
+            title: "Bắn trứng khủng long Dynomite"
+        },
+        {
+            url: "https://imageio.forbes.com/specials-images/imageserve/68bf9a80d5b89bef8cdfa57dbf4f6410/960x960.jpg?height=400&width=400&fit=bounds",
             title: "Cờ úp"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/312881579_1508268686608431_2580671977073894599_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=jrj4A2xK9ggAX-SXNKB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAlcaGERQGs7Zru2Q7qUnXUPiiOhelf6g4LcylKbtTr4A&oe=6485E379",
+        },
+        {
+            url: "https://gd1.alicdn.com/imgextra/i4/3233313538/TB2GCDsXr9GJuJjSZFNXXaIkXXa_!!3233313538.jpg_400x400.jpg_.webp",
             title: "Bubble Shooter Pro"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/137691574_796998534551861_6022128774987773952_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=c4zSd5aWG78AX9bnfDZ&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCqbVdMwVQlSuLIsZKi85wYaPtg4UcvbfdsJrdfgvx80A&oe=6484AA5E",
+        },
+        {
+            url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKw4bsj31yaWbJoCwKILq_Jy3bh5KWPzcvbQ&usqp=CAU",
             title: "Differencies"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/274052559_1116368605597441_8084617641304009932_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=9ItM0oQaDiYAX_9LSji&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBRZnOnIx935UnM7P_HXs5-0x3dF25A41GavNKpnzh0cQ&oe=6484AF7B",
-            title: "Connect Animal Puzzle"
-          },
-          {
-            url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/275003790_1151487275679262_8958964674936888700_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=d1jcVzjZxOsAX8QzCJ1&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBiovDzL8UQP_6XpPabq7pS9LreaM5W4LabhwXeDQ1X0g&oe=6485AD93",
-            title: "Classic Slot"
-          },
-          {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/328299820_9309543715730221_6398721114028789847_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=6B6qklXs6K4AX8kKKbB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfDR9LoskPibeXxbRSidZAGd9DJhqO3j8gsNF4EiGSjILQ&oe=64866AE5",
-              title: "Bắn trứng khủng long Dynomite"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/27962929_1399915616781569_2945285509838012416_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=CIK2ePJxFqUAX8aPcQO&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBB6zr5PdUnTnAomBGD9UVve3vci1mK3HfD3NUvlYthNw&oe=6485FA7A",
-              title: "Cờ úp"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/312881579_1508268686608431_2580671977073894599_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=jrj4A2xK9ggAX-SXNKB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAlcaGERQGs7Zru2Q7qUnXUPiiOhelf6g4LcylKbtTr4A&oe=6485E379",
-              title: "Bubble Shooter Pro"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/137691574_796998534551861_6022128774987773952_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=c4zSd5aWG78AX9bnfDZ&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCqbVdMwVQlSuLIsZKi85wYaPtg4UcvbfdsJrdfgvx80A&oe=6484AA5E",
-              title: "Differencies"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/274052559_1116368605597441_8084617641304009932_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=9ItM0oQaDiYAX_9LSji&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBRZnOnIx935UnM7P_HXs5-0x3dF25A41GavNKpnzh0cQ&oe=6484AF7B",
-              title: "Connect Animal Puzzle"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/27962929_1399915616781569_2945285509838012416_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=CIK2ePJxFqUAX8aPcQO&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBB6zr5PdUnTnAomBGD9UVve3vci1mK3HfD3NUvlYthNw&oe=6485FA7A",
-              title: "Cờ úp"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/312881579_1508268686608431_2580671977073894599_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=jrj4A2xK9ggAX-SXNKB&_nc_ht=scontent.fdad3-4.fna&oh=00_AfAlcaGERQGs7Zru2Q7qUnXUPiiOhelf6g4LcylKbtTr4A&oe=6485E379",
-              title: "Bubble Shooter Pro"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/137691574_796998534551861_6022128774987773952_n.png?stp=c0.0.193.193a_dst-png_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=c4zSd5aWG78AX9bnfDZ&_nc_ht=scontent.fdad3-4.fna&oh=00_AfCqbVdMwVQlSuLIsZKi85wYaPtg4UcvbfdsJrdfgvx80A&oe=6484AA5E",
-              title: "Differencies"
-            },
-            {
-              url: "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.2081-6/274052559_1116368605597441_8084617641304009932_n.jpg?stp=c0.0.193.193a_dst-jpg_p192x192&_nc_cat=1&ccb=1-7&_nc_sid=b29aad&_nc_ohc=9ItM0oQaDiYAX_9LSji&_nc_ht=scontent.fdad3-4.fna&oh=00_AfBRZnOnIx935UnM7P_HXs5-0x3dF25A41GavNKpnzh0cQ&oe=6484AF7B",
-              title: "Connect Animal Puzzle"
-            },
+        },
+        {
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6H4asUJFO8ySayPJ-hYbUBN1tO7hA6p7rCQ&usqp=CAU",
+          title: "Classic Slot"
+        },
+        {
+            url: "https://wellgames.com/storage/uploads/icons/jpg/circus-words_1638457785.jpg",
+            title: "Bắn trứng khủng long Dynomite"
+        },
+        {
+            url: "https://imageio.forbes.com/specials-images/imageserve/68bf9a80d5b89bef8cdfa57dbf4f6410/960x960.jpg?height=400&width=400&fit=bounds",
+            title: "Cờ úp"
+        },
+        {
+            url: "https://gd1.alicdn.com/imgextra/i4/3233313538/TB2GCDsXr9GJuJjSZFNXXaIkXXa_!!3233313538.jpg_400x400.jpg_.webp",
+            title: "Bubble Shooter Pro"
+        },
+        {
+            url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKw4bsj31yaWbJoCwKILq_Jy3bh5KWPzcvbQ&usqp=CAU",
+            title: "Differencies"
+        },
+        {
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6H4asUJFO8ySayPJ-hYbUBN1tO7hA6p7rCQ&usqp=CAU",
+          title: "Classic Slot"
+        },
+        {
+            url: "https://wellgames.com/storage/uploads/icons/jpg/circus-words_1638457785.jpg",
+            title: "Bắn trứng khủng long Dynomite"
+        },
+        {
+            url: "https://imageio.forbes.com/specials-images/imageserve/68bf9a80d5b89bef8cdfa57dbf4f6410/960x960.jpg?height=400&width=400&fit=bounds",
+            title: "Cờ úp"
+        },
+        {
+            url: "https://gd1.alicdn.com/imgextra/i4/3233313538/TB2GCDsXr9GJuJjSZFNXXaIkXXa_!!3233313538.jpg_400x400.jpg_.webp",
+            title: "Bubble Shooter Pro"
+        },
+        {
+            url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKw4bsj31yaWbJoCwKILq_Jy3bh5KWPzcvbQ&usqp=CAU",
+            title: "Differencies"
+        },  
       ];
 
   return (
@@ -343,7 +343,7 @@ function Games() {
             <span className={cx('title')}>Game đáng chú ý</span>
             <div>
                 <div className={cx("top-game")}>
-                <img src='https://scontent.fdad3-1.fna.fbcdn.net/v/t39.2081-6/166665214_1412944285713983_6926699140382795353_n.jpg?stp=dst-jpg_p600x313&_nc_cat=110&ccb=1-7&_nc_sid=e26652&_nc_ohc=xCqGKrwakbcAX-3ui8r&_nc_ht=scontent.fdad3-1.fna&oh=00_AfAqUZcvYKdFFYdSlSGvjY_nJSCiOqhj3Sk6MZtrsFy7Jg&oe=648673C0'  />
+                <img src='https://play-lh.googleusercontent.com/_MMbM5j6_c4XrEqd58FAiNqlEDywcz83WzubKn9tFwfn7mMVwmjM9lCkRwK5ou2NBthe'  />
                     <div>
                     <span>Circus Words</span>
                     <p>Word</p>
