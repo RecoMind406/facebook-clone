@@ -1,0 +1,25 @@
+// Message receive (no class 'send')
+.wrapper {
+	display: flex;
+	margin-bottom: 2px;
+}
+
+.message {
+	background-color: #e4e6eb;
+	padding: 8px 12px;
+	border-radius: 4px;
+	word-wrap: break-word;
+	word-break: break-word;
+	border-radius: 18px;
+	display: inline-block;
+	max-width: 190px;
+}
+
+// Message send
+.wrapper.send {
+	justify-content: flex-end;
+	.message {
+		background-color: #0084ff;
+		color: #ffffff;
+	}
+}

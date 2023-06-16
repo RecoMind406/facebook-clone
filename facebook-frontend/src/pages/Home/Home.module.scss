@@ -13,17 +13,17 @@
 }
 
 // Scrollbar
-::-webkit-scrollbar {
-	width: 6px;
+.scrollbar::-webkit-scrollbar {
+	width: 8px;
 	background-color: transparent;
 }
 
-::-webkit-scrollbar-thumb {
+.scrollbar::-webkit-scrollbar-thumb {
 	background-color: transparent;
 	border-radius: 8px;
 }
 
-::-webkit-scrollbar-track {
+.scrollbar::-webkit-scrollbar-track {
 	background: transparent;
 }
 
@@ -203,6 +203,7 @@
 		img {
 			width: 100%;
 			height: 100%;
+			object-fit: cover;
 			border-radius: 50%;
 		}
 	}
@@ -502,6 +503,7 @@
 	}
 }
 
+// Modal create post
 .modal-container {
 	position: fixed;
 	top: 0;
@@ -676,6 +678,16 @@
 }
 .modal .body button.active:hover {
 	background-color: #0056b3;
+}
+
+// ----------------Box chat-------------
+.box-chat-list {
+	position: fixed;
+	bottom: 0;
+	right: 80px;
+	z-index: 5;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 // Responsive
