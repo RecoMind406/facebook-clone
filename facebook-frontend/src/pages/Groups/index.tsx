@@ -50,6 +50,7 @@ const Groups = () => {
 					<div
 						className={cx(
 							"main-sidebar",
+							"scrollbar",
 							showScrollbarSidebar && "hover-scrollbar"
 						)}
 						onMouseOver={() => {
@@ -261,6 +262,7 @@ const Groups = () => {
 						<div
 							className={cx(
 								"chat-wrapper",
+								"scrollbar",
 								showScrollbarGroupChat && "hover-scrollbar"
 							)}
 							onMouseOver={() => {
