@@ -69,14 +69,14 @@ const Home = () => {
 		setShowPostModal(false);
 	};
 
-	const handleShowBoxChat = (id: string) => () => {
+	const handleShowBoxChat = (id: string) => {
 		const newBoxChat = {
 			id: id,
 		};
 		setBoxChats([...boxChats, newBoxChat]);
 	};
 
-	const hanleCloseBoxChat = (id: string) => () => {
+	const hanleCloseBoxChat = (id: string) => {
 		const newBoxChat = [...boxChats].filter((boxchat) => boxchat.id !== id);
 		setBoxChats(newBoxChat);
 	};
@@ -591,7 +591,7 @@ const Home = () => {
 					<div className={cx("contact-list")}>
 						<div
 							className={cx("contact-item")}
-							onClick={handleShowBoxChat("c1")}>
+							onClick={() => handleShowBoxChat("c1")}>
 							<div className={cx("avatar")}>
 								<img
 									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
@@ -604,7 +604,7 @@ const Home = () => {
 					<div className={cx("contact-list")}>
 						<div
 							className={cx("contact-item")}
-							onClick={handleShowBoxChat("c2")}>
+							onClick={() => handleShowBoxChat("c2")}>
 							<div className={cx("avatar")}>
 								<img
 									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
@@ -617,7 +617,7 @@ const Home = () => {
 					<div className={cx("contact-list")}>
 						<div
 							className={cx("contact-item")}
-							onClick={handleShowBoxChat("c3")}>
+							onClick={() => handleShowBoxChat("c3")}>
 							<div className={cx("avatar")}>
 								<img
 									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
@@ -795,7 +795,7 @@ const Home = () => {
 
 			<div className={cx("box-chat-list")}>
 				{boxChats.map((boxChat: any) => (
-					<BoxChatItem handleClose={hanleCloseBoxChat(boxChat.id)} />
+					<BoxChatItem handleClose={() => hanleCloseBoxChat(boxChat.id)} />
 				))}
 			</div>
 		</>

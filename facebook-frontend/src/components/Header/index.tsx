@@ -180,7 +180,7 @@ const Header = () => {
 
 	return (
 		<>
-			<div className={cx("wrapper", "bg-red" && false)}>
+			<div className={cx("wrapper")}>
 				{showSearch && <div className={cx("left-replace")}></div>}
 				<div className={cx("left", showSearch && "fixed")}>
 					<div className={cx("left-box")}>
@@ -192,11 +192,12 @@ const Header = () => {
 							onClick={hideSearchInput}>
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</div>
-						<div className={cx("search", showSearch && "show")}>
+						<div
+							className={cx("search", showSearch && "show")}
+							onClick={showSearchInput}>
 							<FontAwesomeIcon
 								className={cx("search-icon")}
 								icon={faMagnifyingGlass}
-								onClick={showSearchInput}
 							/>
 							<input
 								className={cx("search-input")}
