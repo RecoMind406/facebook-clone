@@ -455,6 +455,10 @@
 
 	.search {
 		width: var(--size-logo);
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	.search-icon {

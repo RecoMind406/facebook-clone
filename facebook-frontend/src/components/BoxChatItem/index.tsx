@@ -6,7 +6,6 @@ import {
 	faMinus,
 	faPaperPlane,
 	faPhone,
-	faPlus,
 	faVideo,
 	faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,17 +16,22 @@ import "tippy.js/dist/tippy.css";
 
 const cx = classNames.bind(styles);
 
+// Props of BoxChatItem includes: handleClose, listMessage and id of user
+// From id of user --> find image, name of user
 const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 	const [isHoverInformation, setIsHoverInformation] = useState(false);
-
 	const [isFocusBoxChat, setIsFocusBoxChat] = useState(false);
 
-	const handleFocusBoxChat = () => {
-		setIsFocusBoxChat(true);
+	const [newMessage, setNewMessage] = useState("");
+
+	const handleSubmitMessage = () => {
+		// Add new message to listMessage
+		setNewMessage("");
 	};
 
-	const handleUnfocusBoxChat = () => {
-		setIsFocusBoxChat(false);
+	const handleEnterClick = (e: any) => {
+		if (e.keyCode !== 13) return;
+		handleSubmitMessage();
 	};
 
 	return (
@@ -73,6 +77,7 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 			</div>
 
 			<div className={cx("dialog", "scrollbar")}>
+				{/* listMessage.map((message) =>) */}
 				<Message text="alo 1234" send={false} time="12:35" />
 				<Message
 					text="alo 123445465456as4d564as56d4"
@@ -131,8 +136,10 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 					<input
 						type="text"
 						placeholder=""
-						onFocus={handleFocusBoxChat}
-						onBlur={handleUnfocusBoxChat}
+						onFocus={() => setIsFocusBoxChat(true)}
+						onBlur={() => setIsFocusBoxChat(false)}
+						onChange={(e) => setNewMessage(e.target.value)}
+						onKeyDown={(e) => handleEnterClick(e)}
 					/>
 				</div>
 				<Tippy
@@ -140,7 +147,7 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 					placement="top"
 					arrow={false}
 					delay={[500, 0]}>
-					<div className={cx("send-btn")}>
+					<div className={cx("send-btn")} onClick={handleSubmitMessage}>
 						<FontAwesomeIcon icon={faPaperPlane} />
 					</div>
 				</Tippy>
