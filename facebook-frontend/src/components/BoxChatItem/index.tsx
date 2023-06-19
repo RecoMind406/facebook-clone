@@ -78,44 +78,72 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 
 			<div className={cx("dialog", "scrollbar")}>
 				{/* listMessage.map((message) =>) */}
-				<Message text="alo 1234" send={false} time="12:35" />
 				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
+					text="alo 1234"
+					send={false}
+					time="12:35"
+				/>
+				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
 					text="alo 123445465456as4d564as56d4"
 					send={true}
 					time="12:35"
 				/>
 				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
 					text="alo 123445465456as4d564as56d4"
 					send={true}
 					time="12:35"
 				/>
 				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
 					text="alo 123445465456as4d564as56d4"
 					send={false}
 					time="12:35"
 				/>
 				<Message
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message text="alo 1234" send={false} time="12:35" />
-				<Message
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
 					text="alo 123445465456as4d564as56d4"
 					send={true}
 					time="12:35"
 				/>
 				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
+					text="alo 1234"
+					send={false}
+					time="12:35"
+				/>
+				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
+					text="alo 123445465456as4d564as56d4"
+					send={true}
+					time="12:35"
+				/>
+				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
+					text="alo 123445465456as4d564as56d4"
+					send={true}
+					time="12:35"
+				/>
+				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
 					text="alo 123445465456as4d564as56d4"
 					send={false}
 					time="12:35"
 				/>
 				<Message
+					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+					nameUser="Nguyễn Thành Danh"
 					text="alo 123445465456as4d564as56d4"
 					send={true}
 					time="12:35"
