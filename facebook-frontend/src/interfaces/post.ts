@@ -1,14 +1,11 @@
-import Reaction from "./reaction";
-import User from "./user";
-
 export default class Post {
     id = "";
     userID = "";
     content = "";
-    images: string[] = [];
+    images = "";
     timestamp: Date = new Date();
-    reactions: Reaction[] = [];
+    reactions = Math.floor(Math.random() * 100);
     comments: Comment[] = [];
-    share: User[] = [];
+    share: string[] = [];
     originalID?: string;
 }
