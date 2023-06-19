@@ -19,6 +19,7 @@ import { ProfilePhotosTab } from "~/components/Profile/Photos";
 import { ProfileVideosTab } from "~/components/Profile/Videos";
 import { ProfileReelsTab } from "~/components/Profile/Reels";
 import { ProfileFriendsTab } from "~/components/Profile/Friends";
+import Header from "~/components/Header";
 
 const NavButton = styled(Button)({
     boxShadow: "none",
@@ -88,6 +89,7 @@ export const Profile: React.FC = () => {
 
     return (
         <Box>
+            <Header />
             <TopSection {...user} />
 
             <Container>
