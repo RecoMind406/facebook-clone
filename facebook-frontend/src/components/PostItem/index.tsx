@@ -7,10 +7,19 @@ import {
 	faEllipsis,
 	faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const cx = classNames.bind(styles);
 
 const PostItem = () => {
+	const [isLikePost, setIsLikePost] = useState(false);
+
+	const handleLikePostBtn = () => {
+		setIsLikePost(!isLikePost);
+
+		// increase the number of reactions by 1
+	};
+
 	return (
 		<div className={cx("post-item")}>
 			<div className={cx("heading")}>
@@ -80,9 +89,15 @@ const PostItem = () => {
 			</div>
 
 			<div className={cx("button-interact")}>
-				<div className={cx("item")}>
+				<div
+					className={cx("item", isLikePost && "liked")}
+					onClick={handleLikePostBtn}>
 					<div className={cx("icon")}>
-						<i className={cx("like-icon")}></i>
+						{isLikePost === false ? (
+							<i className={cx("like-icon")}></i>
+						) : (
+							<i className={cx("liked-icon")}></i>
+						)}
 					</div>
 					<span className={cx("title")}>Thích</span>
 				</div>

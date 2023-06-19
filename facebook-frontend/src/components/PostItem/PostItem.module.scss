@@ -205,6 +205,14 @@
 					background-position: 0px -297px;
 				}
 
+				.liked-icon {
+					background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yo/r/CdCop0Me8cL.png);
+					background-position: 0px -370px;
+					-webkit-filter: invert(39%) sepia(57%) saturate(200%) saturate(200%)
+						saturate(200%) saturate(200%) saturate(200%) saturate(147.75%)
+						hue-rotate(202deg) brightness(97%) contrast(96%);
+				}
+
 				.comment-icon {
 					background-position: 0px -259px;
 				}
@@ -213,6 +221,9 @@
 					background-position: 0px -316px;
 				}
 			}
+		}
+		.item.liked {
+			color: #2d80f5;
 		}
 	}
 
