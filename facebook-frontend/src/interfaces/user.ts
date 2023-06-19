@@ -12,7 +12,7 @@ export default class User {
     location = "";
     profilePicture = "";
     cover = "";
-    friends: User[] = [];
+    friends: string[] = [];
     posts: Post[] = [];
     dialogues: Dialogue[] = [];
     friendRequestSent: User[] = [];
