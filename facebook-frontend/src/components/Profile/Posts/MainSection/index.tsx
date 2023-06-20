@@ -23,7 +23,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import { ChatBubbleOutline, ThumbUpOffAlt } from "@mui/icons-material";
 import SendIcon from "@mui/icons-material/Send";
 
-import User from "~/interfaces/user";
+import User from "~/models/user";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -321,7 +321,7 @@ export const PostsMain: React.FC<User> = (aUser) => {
                                     objectFit: "cover",
                                 }}
                                 alt={"Image of post " + post.id}
-                                src={post.images[0]}
+                                // src={post.images[0]}
                             />
 
                             <Box
@@ -407,7 +407,7 @@ export const PostsMain: React.FC<User> = (aUser) => {
                                 objectFit: "cover",
                             }}
                             alt={"Image of post " + post.id}
-                            src={post.images[0]}
+                            // src={post.images[0]}
                         />
                     )}
 
@@ -454,7 +454,7 @@ export const PostsMain: React.FC<User> = (aUser) => {
                                     fontSize: "15px",
                                 }}
                             >
-                                {post.reactions.length}
+                                {/* {post.reactions.length} */}
                                 {/* not length but the sum of count */}
                             </Typography>
                         </Box>

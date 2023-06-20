@@ -10,7 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import React from "react";
-import User from "../../../interfaces/user";
+import User from "../../../models/user";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
@@ -189,9 +189,9 @@ export const TopSection: React.FC<User> = (aUser) => {
                             >
                                 {aUser.friends.slice(0, 8).map((friend) => (
                                     <Avatar
-                                        key={friend.id}
-                                        alt={"Photo of" + friend.name}
-                                        src={friend.profilePicture}
+                                        // key={friend.id}
+                                        // alt={"Photo of" + friend.name}
+                                        // src={friend.profilePicture}
                                         sx={{
                                             width: "32px",
                                             height: "32px",
