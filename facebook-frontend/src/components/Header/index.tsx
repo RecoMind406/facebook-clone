@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,8 +36,14 @@ import SettingItem from "../SettingItem";
 import TabPageItem from "../TabPageItem";
 import SearchItem from "../SearchItem";
 
+import { useAuth } from "~/contexts/AuthContext";
+import { auth } from "~/firebase-config";
 const cx = classNames.bind(styles);
 const Header = () => {
+	// Get logged in user
+	const {currentUser}=useAuth()
+	console.log(currentUser)
+
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
 	const [showMessenger, setShowMessenger] = useState(false);
@@ -174,8 +180,11 @@ const Header = () => {
 		setShowNotification(false);
 	};
 
-	const handleLogOut = () => {
-		// Handle Log out when click button
+	const {logout}=useAuth()
+	const navigate=useNavigate()
+	const handleLogOut = async () => {
+		await logout()
+		navigate('/login')
 	};
 
 	return (
@@ -311,7 +320,7 @@ const Header = () => {
 								<img
 									width={40}
 									height={40}
-									src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+									src={currentUser.profilePicture}
 									alt="account"
 								/>
 							</button>

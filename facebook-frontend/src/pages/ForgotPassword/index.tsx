@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./ForgotPassword.module.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "~/firebase-config";
 
 
 
@@ -49,7 +50,8 @@ function ForgotPassword() {
         }
 
     }
-
+    const user=auth.currentUser;
+    console.log(user)
   return (
     <>
     <div className={cx('fg-header')}>
@@ -64,6 +66,7 @@ function ForgotPassword() {
             </div>
             <div className={cx('form-body')}>
             <p>Vui lòng nhập email hoặc số di động để khôi phục tài khoản của bạn.</p>
+            {auth.currentUser?.email&& <input value={auth.currentUser.email}/>}
             <input className={cx({"error":isError})}
             type="text" 
             placeholder="Vui lòng nhập email, số điện thoại"
