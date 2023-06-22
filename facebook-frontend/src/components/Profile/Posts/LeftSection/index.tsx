@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Paper, Typography, styled } from "@mui/material";
-import User from "../../../../interfaces/user";
+import User from "../../../../models/user";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -127,7 +127,11 @@ export const PostsLeft: React.FC<User> = (aUser) => {
                 </Box>
                 <Grid container spacing={1}>
                     {aUser.friends.map((friend) => (
-                        <Grid item xs={4} key={friend.id}>
+                        <Grid
+                            item
+                            xs={4}
+                            // key={friend.id}
+                        >
                             <Box
                                 component="img"
                                 sx={{
@@ -136,8 +140,8 @@ export const PostsLeft: React.FC<User> = (aUser) => {
                                     objectFit: "cover",
                                     borderRadius: "10px",
                                 }}
-                                alt={"Profile picture of " + friend.name}
-                                src={friend.profilePicture}
+                                // alt={"Profile picture of " + friend.name}
+                                // src={friend.profilePicture}
                             />
                         </Grid>
                     ))}

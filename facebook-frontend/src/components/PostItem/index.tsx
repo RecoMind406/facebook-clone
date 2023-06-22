@@ -7,10 +7,19 @@ import {
 	faEllipsis,
 	faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const cx = classNames.bind(styles);
 
 const PostItem = () => {
+	const [isLikePost, setIsLikePost] = useState(false);
+
+	const handleLikePostBtn = () => {
+		setIsLikePost(!isLikePost);
+
+		// increase the number of reactions by 1
+	};
+
 	return (
 		<div className={cx("post-item")}>
 			<div className={cx("heading")}>
@@ -52,7 +61,7 @@ const PostItem = () => {
 				</div>
 				<div className={cx("image")}>
 					<img
-						src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/352382571_611093260987224_63494924873696095_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=_kPt-_Ilu_MAX-0eC3b&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfDLRDiC0y-ZE-r9g7Iq5ojNMq-wxYh2rTr8cyFDuv2Zwg&oe=64899EC3"
+						src="https://ecdn.game4v.com/g4v-content/uploads/2022/12/11094316/The-Way-of-the-Househusband-2-1-game4v-1670726595-82.jpg"
 						alt=""
 					/>
 				</div>
@@ -80,9 +89,15 @@ const PostItem = () => {
 			</div>
 
 			<div className={cx("button-interact")}>
-				<div className={cx("item")}>
+				<div
+					className={cx("item", isLikePost && "liked")}
+					onClick={handleLikePostBtn}>
 					<div className={cx("icon")}>
-						<i className={cx("like-icon")}></i>
+						{isLikePost === false ? (
+							<i className={cx("like-icon")}></i>
+						) : (
+							<i className={cx("liked-icon")}></i>
+						)}
 					</div>
 					<span className={cx("title")}>Thích</span>
 				</div>

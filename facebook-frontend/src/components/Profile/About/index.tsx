@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import User from "../../../interfaces/user";
+import User from "../../../models/user";
 import {
     Container,
     Paper,
@@ -43,11 +43,6 @@ const TongQuan = [
     "Thêm tỉnh/thành phố hiện tại",
     "Thêm quê quán",
     "Thêm tình trạng mối quan hệ",
-];
-const NoiTungSong = [
-    "Thêm tỉnh/thành phố hiện tại",
-    "Thêm quê quán",
-    "Thêm thành phố",
 ];
 
 export const ProfileAboutTab: React.FC<User> = (aUser) => {

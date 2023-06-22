@@ -35,6 +35,7 @@ import ButtonNextSlide from "../../components/ButtonSlideSwiper/ButtonNext";
 import ButtonPrevSlide from "../../components/ButtonSlideSwiper/ButtonPrev";
 import { Link } from "react-router-dom";
 import PostItem from "~/components/PostItem";
+import BoxChatItem from "~/components/BoxChatItem";
 
 const cx = classNames.bind(styles);
 
@@ -43,6 +44,7 @@ const Home = () => {
 	const [showScrollSidebar, setShowScrollSidebar] = useState(false);
 	const [showScrollContact, setShowScrollContact] = useState(false);
 	const [countClickSlide, setCountClickSlide] = useState(0);
+	const [boxChats, setBoxChats] = useState<any>([]);
 
 	const totalStory = 8;
 	const slidesPerView = 4.5;
@@ -66,12 +68,28 @@ const Home = () => {
 	const hideModal = () => {
 		setShowPostModal(false);
 	};
+
+	const handleShowBoxChat = (id: string) => {
+		const newBoxChat = {
+			id: id,
+		};
+		setBoxChats([...boxChats, newBoxChat]);
+	};
+
+	const hanleCloseBoxChat = (id: string) => {
+		const newBoxChat = [...boxChats].filter((boxchat) => boxchat.id !== id);
+		setBoxChats(newBoxChat);
+	};
 	return (
 		<>
 			<Header />
 			<div className={cx("wrapper")}>
 				<div
-					className={cx("sidebar", showScrollSidebar && "hover-scrollbar")}
+					className={cx(
+						"sidebar",
+						"scrollbar",
+						showScrollSidebar && "hover-scrollbar"
+					)}
 					onMouseOver={() => {
 						setShowScrollSidebar(true);
 					}}
@@ -312,14 +330,14 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-1/292141833_1077755989828697_2574532424763211467_n.jpg?stp=dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=7206a8&_nc_ohc=JbP3g7C2c1MAX9J3nCt&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfCWGWWi6Pj_CTsC2eYuHwAZURA1cNa807jNtbFKOCd6Ng&oe=6489B610"
+												src="https://play-lh.googleusercontent.com/HHJb4ew7S16SHjqNjp1nEkVKn8L2j1rXPjVmF4fqf-mGjZYYIjhHYKjUJSLbB7SRx1HS"
 												alt=""
 											/>
 										</div>
 										<span className={cx("name")}>Lâm Lê</span>
 										<div className={cx("content")}>
 											<img
-												src="https://i.ytimg.com/vi/jvGnekdMOhI/maxresdefault.jpg"
+												src="https://i.pinimg.com/736x/4d/47/59/4d4759f61e13927c5f5b39a4cc66af70.jpg"
 												alt=""
 											/>
 										</div>
@@ -329,7 +347,7 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/327743759_1246913756232877_2613977120660156570_n.jpg?stp=cp1_dst-jpg_p100x100&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=aJfzeDFYlj4AX9jXl98&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAghEmRsoCo5d9osymyKyI_6JN7vwtuAN7Wz1K0ko8Nbw&oe=648A2A8D"
+												src="https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg"
 												alt=""
 											/>
 										</div>
@@ -346,7 +364,7 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=E4_KihLyFNEAX9FWRZm&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfDzMOKpENd-VuWn9FWP1DofK0vli138YkCmz1kewoPpOg&oe=6489A929"
+												src="https://upload-os-bbs.mihoyo.com/upload/2020/10/13/7888068/bc650f8debc58f02f6e975880cec76e3_5604291575937496709.jpg?x-oss-process\u003dimage/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
 												alt=""
 											/>
 										</div>
@@ -363,7 +381,7 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-1/329022926_1137315933620296_9186508021062131052_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=vB6ovADVK3UAX9v7F9H&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfDdCSqTUx9uA0JwDmZ_0xfNp0f9pe08SQBMGaM8qSvKjw&oe=64896A2A"
+												src="https://gamek.mediacdn.vn/thumb_w/600/133514250583805952/2020/10/5/genshin-16018835508211684282385.png"
 												alt=""
 											/>
 										</div>
@@ -380,7 +398,7 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=cp0_dst-png_p40x40&_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=RgkFrl094HIAX-S3nN7&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfD3CSiOYlMSobsq1gE0Y-gSuWpFJ4jWuWAmMbENAXrHRQ&oe=64ABE3B8"
+												src="https://e1.pxfuel.com/desktop-wallpaper/467/133/desktop-wallpaper-pin-on-anime-y-mas-anime-avatar-girl.jpg"
 												alt=""
 											/>
 										</div>
@@ -397,7 +415,7 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t1.6435-1/120124135_372291200611481_7553845694309595455_n.jpg?stp=cp0_dst-jpg_s40x40&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=dw8HcirG2cUAX9qQhZp&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfCrLlL55PoOv9uZ5nZC8ACB6yiGaMRNvXInyhVLF5TiLg&oe=64ABF20E"
+												src="https://i.pinimg.com/564x/8c/96/35/8c9635e7f91a6b79e16b6fa1ba1810bd.jpg"
 												alt=""
 											/>
 										</div>
@@ -414,11 +432,11 @@ const Home = () => {
 									<div className={cx("story-item")}>
 										<div className={cx("avatar")}>
 											<img
-												src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-1/292141833_1077755989828697_2574532424763211467_n.jpg?stp=dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=7206a8&_nc_ohc=JbP3g7C2c1MAX9J3nCt&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfCWGWWi6Pj_CTsC2eYuHwAZURA1cNa807jNtbFKOCd6Ng&oe=6489B610"
+												src="https://gamelandvn.com/wp-content/uploads/anh/2021/08/yoimiya-thumbnail.jpg"
 												alt=""
 											/>
 										</div>
-										<span className={cx("name")}>Lâm Lê</span>
+										<span className={cx("name")}>Lâm Hàn</span>
 										<div className={cx("content")}>
 											<img
 												src="https://i.ytimg.com/vi/jvGnekdMOhI/maxresdefault.jpg"
@@ -503,7 +521,11 @@ const Home = () => {
 					</div>
 				</div>
 				<div
-					className={cx("contact", showScrollContact && "hover-scrollbar")}
+					className={cx(
+						"contact",
+						"scrollbar",
+						showScrollContact && "hover-scrollbar"
+					)}
 					onMouseOver={() => {
 						setShowScrollContact(true);
 					}}
@@ -567,145 +589,48 @@ const Home = () => {
 					</div>
 
 					<div className={cx("contact-list")}>
-						<div className={cx("contact-item")}>
+						<div
+							className={cx("contact-item")}
+							onClick={() => handleShowBoxChat("c1")}>
 							<div className={cx("avatar")}>
 								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-						<div className={cx("contact-item")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/352566109_1375022509720173_1698615708064729117_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yWUKtBlGQK8AX-Q5D3I&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfAT0G-33QD8xujK6idZrbYG5bHj8n6twJK6qftvu66eJQ&oe=6487AEE9"
+									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
 									alt=""
 								/>
 							</div>
 							<div className={cx("name")}>Nguyễn Thành Danh</div>
 						</div>
 					</div>
+					<div className={cx("contact-list")}>
+						<div
+							className={cx("contact-item")}
+							onClick={() => handleShowBoxChat("c2")}>
+							<div className={cx("avatar")}>
+								<img
+									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
+									alt=""
+								/>
+							</div>
+							<div className={cx("name")}>Nguyễn Thành Tài</div>
+						</div>
+					</div>
+					<div className={cx("contact-list")}>
+						<div
+							className={cx("contact-item")}
+							onClick={() => handleShowBoxChat("c3")}>
+							<div className={cx("avatar")}>
+								<img
+									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
+									alt=""
+								/>
+							</div>
+							<div className={cx("name")}>Nguyễn Thành Coong</div>
+						</div>
+					</div>
 				</div>
 			</div>
+
+			{/* create post modal */}
 			{showPostModal && (
 				<>
 					<div className={cx("modal-container")} onClick={hideModal}></div>
@@ -865,6 +790,14 @@ const Home = () => {
 					</div>
 				</>
 			)}
+
+			{/* Box chat list */}
+
+			<div className={cx("box-chat-list")}>
+				{boxChats.map((boxChat: any) => (
+					<BoxChatItem handleClose={() => hanleCloseBoxChat(boxChat.id)} />
+				))}
+			</div>
 		</>
 	);
 };

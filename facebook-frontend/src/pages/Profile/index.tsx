@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { TopSection } from "../../components/Profile/TopSection";
 import {
     Box,
     Button,
     Container,
-    Grid,
     IconButton,
     Typography,
     styled,
@@ -12,14 +10,17 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-import User from "../../interfaces/user";
-import { PostsLeft } from "../../components/Profile/Posts/LeftSection";
-import { PostsMain } from "../../components/Profile/Posts/MainSection";
-import { ProfileAboutTab } from "../../components/Profile/About";
-import { ProfilePhotosTab } from "../../components/Profile/Photos";
-import { ProfileVideosTab } from "../../components/Profile/Videos";
-import { ProfileReelsTab } from "../../components/Profile/Reels";
-import { ProfileFriendsTab } from "../../components/Profile/Friends";
+import User from "~/models/user";
+import { TopSection } from "~/components/Profile/TopSection";
+import { PostsLeft } from "~/components/Profile/Posts/LeftSection";
+import { PostsMain } from "~/components/Profile/Posts/MainSection";
+import { ProfileAboutTab } from "~/components/Profile/About";
+import { ProfilePhotosTab } from "~/components/Profile/Photos";
+import { ProfileVideosTab } from "~/components/Profile/Videos";
+import { ProfileReelsTab } from "~/components/Profile/Reels";
+import { ProfileFriendsTab } from "~/components/Profile/Friends";
+import Header from "~/components/Header";
+import Post from "~/models/post";
 
 const NavButton = styled(Button)({
     boxShadow: "none",
@@ -40,13 +41,6 @@ const NavTypography = styled(Typography)({
     color: "#65676b",
 });
 
-const GridItem = styled(Box)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-}));
-
 export const Profile: React.FC = () => {
     // dummy data
     const user: User = new User();
@@ -60,29 +54,14 @@ export const Profile: React.FC = () => {
     const friend1: User = new User();
     friend1.profilePicture =
         "https://images.unsplash.com/photo-1685949079965-b0897dde2b31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80";
-    const friend2 = friend1;
-    const friend3 = friend2;
-    const friend4 = new User();
-    friend4.profilePicture =
+    const post0 = new Post();
+    post0.id = "0";
+    post0.userID = user.id;
+    post0.content =
+        "lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum";
+    post0.image =
         "https://images.unsplash.com/photo-1685495975736-d2a34edbe638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80";
-    user.friends = [friend4, friend2, friend3];
-    user.friends.push(friend1);
-    const post0 = {
-        id: "0",
-        userID: user.id,
-        content:
-            "lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum",
-        images: [
-            "https://images.unsplash.com/photo-1685495975736-d2a34edbe638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-            "https://images.unsplash.com/photo-1685495975736-d2a34edbe638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-            "https://images.unsplash.com/photo-1685495975736-d2a34edbe638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-        ],
-        timestamp: new Date(),
-        reactions: [],
-        comments: [],
-        share: [],
-        // originalID: "1",
-    };
+
     const post1 = post0;
     const post2 = post0;
 
@@ -96,6 +75,7 @@ export const Profile: React.FC = () => {
 
     return (
         <Box>
+            <Header />
             <TopSection {...user} />
 
             <Container>
@@ -299,6 +279,7 @@ export const Profile: React.FC = () => {
                         <ProfileFriendsTab {...user} />
                         <ProfilePhotosTab {...user} />
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
@@ -307,6 +288,7 @@ export const Profile: React.FC = () => {
                         <ProfileFriendsTab {...user} />
                         <ProfilePhotosTab {...user} />
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
@@ -314,16 +296,22 @@ export const Profile: React.FC = () => {
                     <>
                         <ProfilePhotosTab {...user} />
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
                 {selectedNav === "Video" && (
                     <>
                         <ProfileVideosTab {...user} />
+                        <ProfileReelsTab {...user} />
                     </>
                 )}
 
-                <ProfileReelsTab {...user} />
+                {selectedNav === "Reels" && (
+                    <>
+                        <ProfileReelsTab {...user} />
+                    </>
+                )}
             </Container>
         </Box>
     );

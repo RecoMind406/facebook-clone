@@ -1,8 +1,6 @@
 import React from "react";
 import {
-    AppBar,
     Box,
-    CssBaseline,
     Divider,
     Drawer,
     IconButton,
@@ -10,7 +8,6 @@ import {
     ListItem,
     ListItemButton,
     ListItemIcon,
-    ListItemText,
     Typography,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -66,6 +63,7 @@ const Categories = [
     { name: "Đồ điện tử", icon: <PhoneAndroidIcon /> },
     { name: "Nhóm mua và bán", icon: <Groups2Icon /> },
 ];
+import Header from "../Header";
 
 export const MarketplaceSidebar = () => {
     const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -85,7 +83,6 @@ export const MarketplaceSidebar = () => {
     };
     return (
         <Box sx={{ display: "flex" }}>
-            <CssBaseline />
             <Drawer
                 sx={{
                     width: drawerWidth,
@@ -100,6 +97,7 @@ export const MarketplaceSidebar = () => {
                 variant="permanent"
                 anchor="left"
             >
+                <Header />
                 <Box
                     sx={{
                         alignItems: "center",
@@ -108,14 +106,19 @@ export const MarketplaceSidebar = () => {
                         p: 2,
                     }}
                 >
-                    <Typography variant="h4" fontWeight="fontWeightBold">
+                    <Typography
+                        sx={{
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                        }}
+                    >
                         Marketplace
                     </Typography>
                     <IconButton
                         sx={{ color: "#050505", backgroundColor: "#e4e6e9" }}
                     >
                         <SettingsIcon
-                            sx={{ fontSize: "1.8rem", bgColor: "grey" }}
+                            sx={{ fontSize: "25px", bgColor: "grey" }}
                         />
                     </IconButton>
                 </Box>
@@ -139,26 +142,49 @@ export const MarketplaceSidebar = () => {
                                         {item.icon}
                                     </IconButton>
                                 </ListItemIcon>
-                                <ListItemText primary={item.name} />
-                                {index === 3 || index === 4 ? (
-                                    <ArrowForwardIosIcon
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        width: "100%",
+                                    }}
+                                >
+                                    <Typography
                                         sx={{
-                                            fontSize: "1.1rem",
-                                            color: "#385898",
+                                            fontSize: "14px",
                                         }}
-                                    />
-                                ) : null}
+                                    >
+                                        {item.name}
+                                    </Typography>
+                                    {index === 3 || index === 4 ? (
+                                        <ArrowForwardIosIcon
+                                            sx={{
+                                                width: "16px",
+                                                height: "16px",
+                                                color: "#385898",
+                                            }}
+                                        />
+                                    ) : null}
+                                </Box>
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
                 <Divider />
                 <Box sx={{ p: 2 }}>
-                    <Typography fontWeight={"bold"}> Bộ lọc</Typography>
                     <Typography
-                        fontWeight={"bold"}
-                        variant="body2"
                         sx={{
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        Bộ lọc
+                    </Typography>
+                    <Typography
+                        sx={{
+                            fontSize: "14px",
+                            fontWeight: "bold",
                             color: "#1877F2",
                         }}
                     >
@@ -180,12 +206,21 @@ export const MarketplaceSidebar = () => {
                                         sx={{
                                             color: "#050505",
                                             backgroundColor: "#e4e6e9",
+                                            width: "15px",
+                                            height: "15px",
                                         }}
                                     >
                                         {item.icon}
                                     </IconButton>
                                 </ListItemIcon>
-                                <ListItemText primary={item.name} />
+                                <Typography
+                                    sx={{
+                                        fontSize: "14px",
+                                        color: "#050505",
+                                    }}
+                                >
+                                    {item.name}
+                                </Typography>
                             </ListItemButton>
                         </ListItem>
                     ))}

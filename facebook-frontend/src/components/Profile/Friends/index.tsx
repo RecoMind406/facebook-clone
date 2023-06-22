@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import User from "../../../interfaces/user";
+import User from "../../../models/user";
 import {
     Container,
     Box,
