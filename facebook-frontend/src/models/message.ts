@@ -1,7 +1,8 @@
 export default class Message {
     constructor(
-        public text = "",
+        public id: string = "",
+        public text: string = "",
         public timestamp: Date = new Date(),
-        public isSent = false
+        public isSent: boolean = false
     ) {}
 }
