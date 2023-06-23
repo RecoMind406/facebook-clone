@@ -9,30 +9,205 @@ import {
 	faVideo,
 	faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import Message from "./Message";
+import { useRef, useState, useEffect } from "react";
+import MessageItem from "./MessageItem";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import {
+	addDoc,
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	setDoc,
+	Timestamp,
+} from "firebase/firestore";
+import { db } from "../../../config/firebase";
+import Message from "~/models/message";
+import User from "~/models/user";
+import Dialogue from "~/models/dialogue";
 
 const cx = classNames.bind(styles);
 
 // Props of BoxChatItem includes: handleClose, listMessage and id of user
 // From id of user --> find image, name of user
-const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
+const BoxChatItem = ({
+	userId,
+	toUserId,
+	handleClose,
+}: {
+	userId: string;
+	toUserId: string;
+	handleClose: any;
+}) => {
 	const [isHoverInformation, setIsHoverInformation] = useState(false);
 	const [isFocusBoxChat, setIsFocusBoxChat] = useState(false);
+	const dialogRef = useRef<HTMLDivElement>(null);
 
-	const [newMessage, setNewMessage] = useState("");
+	const [newMessageText, setNewMessageText] = useState<string>("");
+	const [messagesList, setMessagesList] = useState<any[]>([]);
 
-	const handleSubmitMessage = () => {
-		// Add new message to listMessage
-		setNewMessage("");
+	const [toUserData, setToUserData] = useState<User>(new User());
+	const [dialogueId, SetDialogueId] = useState("");
+
+	const handleSubmitMessage = async () => {
+		if (newMessageText === "") return;
+		// Handle submit message
+		const newMessage = new Message();
+		// Lưu new message vào database
+		await setDoc(
+			doc(collection(db, "users", userId, "dialogues", dialogueId, "messages")),
+			{
+				text: newMessageText,
+				timestamp: Timestamp.fromDate(newMessage.timestamp),
+				isSent: true,
+			}
+		);
+		// await addDoc(
+		// 	collection(db, "users", userId, "dialogues", dialogueId, "messages"),
+		// 	{
+		// 		text: newMessageText,
+		// 		timestamp: Timestamp.fromDate(newMessage.timestamp),
+		// 		isSent: true,
+		// 	}
+		// );
+		// Lưu vào new message bên người nhận
+		const dialoguesDoc = await getDocs(
+			collection(db, "users", toUserId, "dialogues")
+		);
+		const dialoguesData = dialoguesDoc.docs.map((doc) => ({
+			...doc.data(),
+			id: doc.id,
+		}));
+		// Tìm ra dialogue ứng với userId
+		let dialogueWithUser = dialoguesData.find(
+			(dialogue) => dialogue.toUser === userId
+		);
+		if (!dialogueWithUser) {
+			await addDoc(collection(db, "users", toUserId, "dialogues"), {
+				toUser: userId,
+			});
+			dialogueWithUser = dialoguesData.find(
+				(dialogue) => dialogue.toUser === userId
+			);
+		}
+		const dialougeWithUserId = dialogueWithUser?.id;
+
+		if (dialougeWithUserId) {
+			const pathMessages = doc(
+				collection(
+					db,
+					"users",
+					toUserId,
+					"dialogues",
+					dialougeWithUserId,
+					"messages"
+				)
+			);
+			await setDoc(pathMessages, {
+				text: newMessageText,
+				timestamp: Timestamp.fromDate(newMessage.timestamp),
+				isSent: false,
+			});
+			// await addDoc(
+			// 	collection(
+			// 		db,
+			// 		"users",
+			// 		toUserId,
+			// 		"dialogues",
+			// 		dialougeWithUserId,
+			// 		"messages"
+			// 	),
+			// 	{
+			// 		text: newMessageText,
+			// 		timestamp: Timestamp.fromDate(newMessage.timestamp),
+			// 		isSent: false,
+			// 	}
+			// );
+		}
+		setMessagesList([
+			...messagesList,
+			{
+				text: newMessageText,
+				timestamp: Timestamp.fromDate(newMessage.timestamp),
+				isSent: true,
+			},
+		]);
+		setNewMessageText("");
 	};
 
-	const handleEnterClick = (e: any) => {
-		if (e.keyCode !== 13) return;
+	const handleSubmitInput = (e: any) => {
+		e.preventDefault();
 		handleSubmitMessage();
 	};
+
+	useEffect(() => {
+		// Lấy data người gửi tin nhắn
+		const fetchToUserData = async () => {
+			const toUserRef = doc(db, "users", toUserId);
+			const toUserDoc = await getDoc(toUserRef);
+			const toUser = {
+				...toUserDoc.data(),
+				id: toUserDoc.id,
+			};
+			setToUserData(toUser);
+		};
+
+		// Lấy data đoạn dialogue
+		const fetchDialogueData = async () => {
+			// Lấy tất cả data dialogues
+			const dialoguesDoc = await getDocs(
+				collection(db, "users", userId, "dialogues")
+			);
+			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+			console.log(dialoguesData);
+			// Tìm ra dialogue ứng với toUserId
+			let dialogueWithToUser = dialoguesData.find(
+				(dialogue) => dialogue.toUser === toUserId
+			);
+			console.log(dialogueWithToUser);
+			if (!dialogueWithToUser) {
+				await setDoc(doc(collection(db, "users", userId, "dialogues")), {
+					toUser: toUserId,
+				});
+				dialogueWithToUser = dialoguesData.find(
+					(dialogue) => dialogue.toUser === toUserId
+				);
+			}
+
+			const dialogueWithToUserId = dialogueWithToUser?.id;
+			if (dialogueWithToUserId) {
+				SetDialogueId(dialogueWithToUserId);
+				// Lấy tất cả message trong Dialogue này
+				const messagesDoc = await getDocs(
+					collection(
+						db,
+						"users",
+						userId,
+						"dialogues",
+						dialogueWithToUserId,
+						"messages"
+					)
+				);
+				const messagesData = messagesDoc.docs.map((doc) => doc.data());
+				messagesData.sort(
+					(a: any, b: any) =>
+						new Date(a.timestamp.toDate()) - new Date(b.timestamp.toDate())
+				);
+
+				setMessagesList(messagesData);
+			}
+		};
+
+		fetchToUserData();
+		fetchDialogueData();
+		if (dialogRef.current != null) {
+			dialogRef.current.scrollTop = dialogRef.current.scrollHeight;
+		}
+	}, []);
 
 	return (
 		<div className={cx("box-chat-item", isFocusBoxChat && "focus")}>
@@ -40,10 +215,7 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 				<div className={cx("information", isHoverInformation && "hover")}>
 					<div className={cx("image-box")}>
 						<div className={cx("image")}>
-							<img
-								src="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-								alt=""
-							/>
+							<img src={toUserData.profilePicture} alt="" />
 
 							<span className={cx("online-status")}></span>
 						</div>
@@ -56,7 +228,7 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 						onMouseOut={() => {
 							setIsHoverInformation(false);
 						}}>
-						<span className={cx("name")}>Nguyễn Thành Danh</span>
+						<span className={cx("name")}>{toUserData.name}</span>
 						<span className={cx("status")}>Đang hoạt động</span>
 					</div>
 				</div>
@@ -76,78 +248,17 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 				</div>
 			</div>
 
-			<div className={cx("dialog", "scrollbar")}>
-				{/* listMessage.map((message) =>) */}
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 1234"
-					send={false}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={false}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 1234"
-					send={false}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={false}
-					time="12:35"
-				/>
-				<Message
-					imgUser="https://upload-os-bbs.hoyolab.com/upload/2023/01/26/46002819/593e3d1442d0e4ce5e9af86956cee87d_6529371014013143752.jpg?x-oss-process=image/resize,s_1000/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-					nameUser="Nguyễn Thành Danh"
-					text="alo 123445465456as4d564as56d4"
-					send={true}
-					time="12:35"
-				/>
+			<div ref={dialogRef} className={cx("dialog", "scrollbar")}>
+				{messagesList.map((message, index) => (
+					<MessageItem
+						key={index}
+						imgUser={toUserData.profilePicture}
+						nameUser={toUserData.name}
+						text={message.text}
+						send={message.isSent}
+						time={message.timestamp}
+					/>
+				))}
 			</div>
 
 			<div className={cx("input-send-message")}>
@@ -161,14 +272,16 @@ const BoxChatItem = ({ handleClose }: { handleClose: any }) => {
 					</div>
 				</Tippy>
 				<div className={cx("input")}>
-					<input
-						type="text"
-						placeholder=""
-						onFocus={() => setIsFocusBoxChat(true)}
-						onBlur={() => setIsFocusBoxChat(false)}
-						onChange={(e) => setNewMessage(e.target.value)}
-						onKeyDown={(e) => handleEnterClick(e)}
-					/>
+					<form onSubmit={(e) => handleSubmitInput(e)}>
+						<input
+							type="text"
+							placeholder="Nhập tin nhắn"
+							onFocus={() => setIsFocusBoxChat(true)}
+							onBlur={() => setIsFocusBoxChat(false)}
+							value={newMessageText}
+							onChange={(e) => setNewMessageText(e.target.value)}
+						/>
+					</form>
 				</div>
 				<Tippy
 					content="Nhấn Enter để gửi"

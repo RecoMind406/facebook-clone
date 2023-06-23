@@ -35,9 +35,12 @@ import AddRequestItem from "../AddRequestItem";
 import SettingItem from "../SettingItem";
 import TabPageItem from "../TabPageItem";
 import SearchItem from "../SearchItem";
+import User from "~/models/user";
+import { db } from "../../../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const cx = classNames.bind(styles);
-const Header = () => {
+const Header = ({ userId }: { userId: string }) => {
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
 	const [showMessenger, setShowMessenger] = useState(false);
@@ -126,10 +129,22 @@ const Header = () => {
 				break;
 		}
 	};
-
+	const myUserId = userId;
+	const [userData, setUserData] = useState<User>(new User());
 	useEffect(() => {
 		handleActiveTabPageItem();
-	});
+		const fetchUserData = async () => {
+			const userRef = doc(db, "users", myUserId);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				id: userDoc.id,
+			};
+			setUserData(user);
+		};
+
+		fetchUserData();
+	}, []);
 
 	const doNothing = () => {
 		// Empty function
@@ -275,6 +290,11 @@ const Header = () => {
 								onClick={handleToggleAddRequest}>
 								<FontAwesomeIcon icon={faPlus} />
 							</button>
+							<div className={cx("number-notification")}>
+								{userData.friendRequestReceived.length !== 0 && (
+									<span>{userData.friendRequestReceived.length}</span>
+								)}
+							</div>
 						</div>
 					</Tippy>
 					<Tippy content="Messenger" placement="bottom" arrow="false">
@@ -323,24 +343,9 @@ const Header = () => {
 					<div className={cx("modal-box", showAddRequest && "show")}>
 						<h2 className={cx("heading")}>Lời mời kết bạn</h2>
 						<div className={cx("friend-request-list")}>
-							<AddRequestItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								numberMutualFriends={3}
-								time="3 ngày"
-							/>
-							<AddRequestItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								numberMutualFriends={3}
-								time="3 ngày"
-							/>
-							<AddRequestItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								numberMutualFriends={3}
-								time="3 ngày"
-							/>
+							{userData.friendRequestReceived.map((friendId, index) => (
+								<AddRequestItem key={index} id={friendId} />
+							))}
 						</div>
 					</div>
 
