@@ -43,7 +43,7 @@ const BoxChatItem = ({
 	const [isHoverInformation, setIsHoverInformation] = useState(false);
 	const [isFocusBoxChat, setIsFocusBoxChat] = useState(false);
 	const dialogRef = useRef<HTMLDivElement>(null);
-
+	const inputRef = useRef<HTMLInputElement>(null);
 	const [newMessageText, setNewMessageText] = useState<string>("");
 	const [messagesList, setMessagesList] = useState<any[]>([]);
 
@@ -75,6 +75,7 @@ const BoxChatItem = ({
 		const dialoguesDoc = await getDocs(
 			collection(db, "users", toUserId, "dialogues")
 		);
+
 		const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 			...doc.data(),
 			id: doc.id,
@@ -83,10 +84,12 @@ const BoxChatItem = ({
 		let dialogueWithUser = dialoguesData.find(
 			(dialogue) => dialogue.toUser === userId
 		);
+
 		if (!dialogueWithUser) {
-			await addDoc(collection(db, "users", toUserId, "dialogues"), {
+			await setDoc(doc(collection(db, "users", toUserId, "dialogues")), {
 				toUser: userId,
 			});
+
 			dialogueWithUser = dialoguesData.find(
 				(dialogue) => dialogue.toUser === userId
 			);
@@ -159,16 +162,17 @@ const BoxChatItem = ({
 			const dialoguesDoc = await getDocs(
 				collection(db, "users", userId, "dialogues")
 			);
+
 			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 				...doc.data(),
 				id: doc.id,
 			}));
-			console.log(dialoguesData);
+
 			// Tìm ra dialogue ứng với toUserId
 			let dialogueWithToUser = dialoguesData.find(
 				(dialogue) => dialogue.toUser === toUserId
 			);
-			console.log(dialogueWithToUser);
+
 			if (!dialogueWithToUser) {
 				await setDoc(doc(collection(db, "users", userId, "dialogues")), {
 					toUser: toUserId,
@@ -179,6 +183,7 @@ const BoxChatItem = ({
 			}
 
 			const dialogueWithToUserId = dialogueWithToUser?.id;
+
 			if (dialogueWithToUserId) {
 				SetDialogueId(dialogueWithToUserId);
 				// Lấy tất cả message trong Dialogue này
@@ -207,6 +212,7 @@ const BoxChatItem = ({
 		if (dialogRef.current != null) {
 			dialogRef.current.scrollTop = dialogRef.current.scrollHeight;
 		}
+		inputRef.current?.focus();
 	}, []);
 
 	return (
@@ -274,6 +280,7 @@ const BoxChatItem = ({
 				<div className={cx("input")}>
 					<form onSubmit={(e) => handleSubmitInput(e)}>
 						<input
+							ref={inputRef}
 							type="text"
 							placeholder="Nhập tin nhắn"
 							onFocus={() => setIsFocusBoxChat(true)}

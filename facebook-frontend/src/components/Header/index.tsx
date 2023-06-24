@@ -37,7 +37,7 @@ import TabPageItem from "../TabPageItem";
 import SearchItem from "../SearchItem";
 import User from "~/models/user";
 import { db } from "../../../config/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 const cx = classNames.bind(styles);
 const Header = ({ userId }: { userId: string }) => {
@@ -130,10 +130,15 @@ const Header = ({ userId }: { userId: string }) => {
 		}
 	};
 	const myUserId = userId;
+	const [userId2, setUserId] = useState("");
+
 	const [userData, setUserData] = useState<User>(new User());
+	const [messengerList, setMessengerList] = useState<any[]>([]);
 	useEffect(() => {
 		handleActiveTabPageItem();
 		const fetchUserData = async () => {
+			const userIdStorage = localStorage.getItem("currentUser");
+			// Gắn userIdStorage vào userRef
 			const userRef = doc(db, "users", myUserId);
 			const userDoc = await getDoc(userRef);
 			const user = {
@@ -143,7 +148,25 @@ const Header = ({ userId }: { userId: string }) => {
 			setUserData(user);
 		};
 
+		const fetchMessageListData = async () => {
+			// Lấy tất cả data dialogues
+			const dialoguesDoc = await getDocs(
+				collection(db, "users", userId, "dialogues")
+			);
+
+			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+
+			const listToUserId = dialoguesData.map((dialogue) => dialogue.toUser);
+
+			// setMessengerList(listToUserId);
+			setMessengerList(dialoguesData);
+		};
+
 		fetchUserData();
+		fetchMessageListData();
 	}, []);
 
 	const doNothing = () => {
@@ -402,7 +425,18 @@ const Header = ({ userId }: { userId: string }) => {
 						</div>
 
 						<div className={cx("messenger-list")}>
-							<MessengerItem
+							{messengerList.map((dialogue: any, index: number) => (
+								<MessengerItem
+									key={index}
+									userId={myUserId}
+									toUserId={dialogue.toUser}
+									dialogueId={dialogue.id}
+								/>
+							))}
+							{/* {messengerList.map((id: string, index: number) => (
+								<MessengerItem key={index} userId={myUserId} toUserId={id} />
+							))} */}
+							{/* <MessengerItem
 								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
 								name="Lê Thành Lâm"
 								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
@@ -422,7 +456,7 @@ const Header = ({ userId }: { userId: string }) => {
 								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
 								status
 								time="16 phút"
-							/>
+							/> */}
 						</div>
 					</div>
 

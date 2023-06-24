@@ -593,6 +593,7 @@ const Home = () => {
 							<Tippy
 								content="Cuộc gọi mới"
 								placement="bottom-end"
+								delay={[300, 0]}
 								arrow={false}>
 								<button className={cx("button-contact")}>
 									<FontAwesomeIcon icon={faVideo} />
@@ -601,12 +602,17 @@ const Home = () => {
 							<Tippy
 								content="Tìm kiếm theo tên hoặc nhóm"
 								placement="bottom-end"
+								delay={[300, 0]}
 								arrow={false}>
 								<button className={cx("button-contact")}>
 									<FontAwesomeIcon icon={faMagnifyingGlass} />
 								</button>
 							</Tippy>
-							<Tippy content="Tùy chọn" placement="bottom-end" arrow={false}>
+							<Tippy
+								content="Tùy chọn"
+								placement="bottom-end"
+								delay={[300, 0]}
+								arrow={false}>
 								<button className={cx("button-contact")}>
 									<FontAwesomeIcon icon={faEllipsis} />
 								</button>
