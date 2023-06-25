@@ -37,12 +37,16 @@ import { Link } from "react-router-dom";
 import PostItem from "~/components/PostItem";
 import BoxChatItem from "~/components/BoxChatItem";
 
+
+import { useAuth } from "~/contexts/AuthContext";
+
 // firestore database
 import { db } from "~/../config/firebase";
 import { doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import User from "~/models/user";
 import ContactItem from "~/components/ContactItem/indes";
 import Dialogue from "~/models/dialogue";
+
 
 const cx = classNames.bind(styles);
 
@@ -88,6 +92,9 @@ const Home = () => {
 		setBoxChats(newBoxChat);
 	};
 
+	//const {currentUser} =useAuth()
+
+
 	// firestore database
 	const myUserId = "iaaHqVx5CpkiJUvuCCh8";
 	const [userData, setUserData] = useState<User>(new User());
@@ -124,10 +131,10 @@ const Home = () => {
 					}}>
 					<div className={cx("item")}>
 						<SidebarItem
-							image="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+							image={currentUser.profilePicture}
 							to="/"
 							position=""
-							title="Phạm Lộc Ân"
+							title={currentUser.name}
 						/>
 					</div>
 					<div className={cx("item")}>
@@ -499,12 +506,12 @@ const Home = () => {
 						<div className={cx("heading")}>
 							<div className={cx("avatar")}>
 								<img
-									src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+									src={currentUser.profilePicture}
 									alt=""
 								/>
 							</div>
 							<div className={cx("content")} onClick={showModal}>
-								Ân ơi, bạn đang nghĩ gì thế ?
+								{currentUser.name} ơi, bạn đang nghĩ gì thế ?
 							</div>
 						</div>
 
@@ -568,11 +575,11 @@ const Home = () => {
 						<div className={cx("page")}>
 							<div className={cx("avatar")}>
 								<img
-									src="https://www.phutungtt.com/wp-content/uploads/2022/09/logo-shopee-trong-tin-part.png"
+									src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
 									alt=""
 								/>
 							</div>
-							<span className={cx("title")}>Shopee - Mua sắm bất tận</span>
+							<span className={cx("title")}>EC Food- Eat Clean Food</span>
 						</div>
 						<div className={cx("feature")}>
 							<div className={cx("icon")}>

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,8 +39,15 @@ import User from "~/models/user";
 import { db } from "../../../config/firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
+import { useAuth } from "~/contexts/AuthContext";
 const cx = classNames.bind(styles);
+
+//const Header = () => {
+	// Get logged in user
+	//const {currentUser}=useAuth()
+
 const Header = ({ userId }: { userId: string }) => {
+
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
 	const [showMessenger, setShowMessenger] = useState(false);
@@ -212,8 +219,11 @@ const Header = ({ userId }: { userId: string }) => {
 		setShowNotification(false);
 	};
 
-	const handleLogOut = () => {
-		// Handle Log out when click button
+	const {logout}=useAuth()
+	const navigate=useNavigate()
+	const handleLogOut = async () => {
+		await logout()
+		navigate('/login')
 	};
 
 	return (
@@ -355,7 +365,7 @@ const Header = ({ userId }: { userId: string }) => {
 								<img
 									width={40}
 									height={40}
-									src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+									src={currentUser.profilePicture}
 									alt="account"
 								/>
 							</button>
@@ -491,15 +501,15 @@ const Header = ({ userId }: { userId: string }) => {
 								<Link to={"/me"} className={cx("account")}>
 									<div className={cx("avatar")}>
 										<img
-											src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+											src={currentUser.profilePicture}
 											alt=""
 										/>
 									</div>
-									<span className={cx("name")}>Phạm Lộc Ân</span>
+									<span className={cx("name")}>{currentUser.name}</span>
 								</Link>
 								<Link to="/page" className={cx("logo-page")}>
 									<img
-										src="https://www.phutungtt.com/wp-content/uploads/2022/09/logo-shopee-trong-tin-part.png"
+										src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
 										alt=""
 									/>
 								</Link>

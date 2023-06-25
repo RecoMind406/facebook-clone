@@ -1,12 +1,14 @@
 import classNames from "classnames/bind";
 import styles from "./Login.module.scss";
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "~/contexts/AuthContext";
 
 const cx = classNames.bind(styles);
 
 
 function Register({Close}:any) {
-    const [count, setCount]=useState(0)
+    // Validation
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState(false);
     const [emailOrPhone, setEmailOrPhone] = useState('');
@@ -18,7 +20,39 @@ function Register({Close}:any) {
     const [birthday, setBirthday] = useState(new Date());
     const [gender, setGender] = useState('');
     const [genderError, setGenderError] = useState(false);
+    const [regMsg, setRegMsg] = useState('');
+    const [reg, setReg] = useState(false);
+
+
+    // Function Register
+    const navigate=useNavigate()
+    const {signup}=useAuth()
+    const register=async ()=>{
+        handleName(name)
+        handleEmail(emailOrPhone)
+        handlePassword(password)
+        handleGender(gender)
+        if(!nameError&&!emailError&&!passwordError&&!genderError) {
+            try {
+                await signup(emailOrPhone, password, name, gender, birthday);
+              } catch (error:any) {
+                if(error.message=='Firebase: Error (auth/invalid-email).') {
+                    setRegMsg('Địa chỉ email không tồn tại!')
+                    setReg(true)
+                    return;
+                }
+                if(error.message=='Firebase: Error (auth/email-already-in-use).') {
+                    setRegMsg('Địa chỉ email đã được đăng ký!')
+                    setReg(true)
+                    return;
+                }
+              }
+              navigate('/');
+        }
+    }
+
     const handleName = (value:any) => {
+        // const value=e.target.value
         setName(value);
         if (value === '') {
           setNameError(true);
@@ -26,7 +60,9 @@ function Register({Close}:any) {
           setNameError(false);
         }
       };
-    const handleEmail= (value:any)=>{
+    const handleEmail= (value:any) => {
+        // const value=e.target.value;
+        setEmailOrPhone(value)
         const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         const phoneRegex = /^[0-9]{10}$/;
         if (value==='') {
@@ -42,7 +78,9 @@ function Register({Close}:any) {
         }
         // Kiểm tra email có tồn tại?
     }
-    const handlePassword=(value:any)=>{
+    const handlePassword=(value:any) => {
+        // const value=e.target.value
+        setPassword(value)
         if (value==='') {
             setPasswordError(true);
             setPassMsg('Vui lòng điền mật khẩu!')
@@ -54,23 +92,13 @@ function Register({Close}:any) {
             setPassMsg('')
         }
     }
-    const handleGender=(value:any)=>{
-        if (gender=='') {
+    const handleGender=(value:any) => {
+        // const value=e.target.value
+        setGender(value)
+        if (value=='') {
             setGenderError(true)
         } else setGenderError(false)
     }
-    const handleRegister=()=>{  
-        handleName(name)
-        handleEmail(emailOrPhone)
-        handlePassword(password)
-        handleGender(gender)
-        
-        setCount(count+1)
-        if(!nameError&&!emailError&&!passwordError&&!genderError&&count>0) {
-                // Xử lý POST đăng ký
-                console.log('Successfully!')
-        }
-}
     return (
         <div id="successPopup" className={cx("popup")}>
         <div className={cx("popup-content")}>
@@ -135,8 +163,9 @@ function Register({Close}:any) {
                 <p>Bằng cách nhấp vào Đăng ký, bạn đồng ý với Điều khoản, Chính sách quyền riêng tư và Chính sách cookie của chúng tôi. Bạn có thể nhận được thông báo của chúng tôi qua SMS và hủy nhận bất kỳ lúc nào.</p>
                 
             </div>
+            {reg && <div className={cx('red', 'reg-row')}>{regMsg} </div>} 
             <div className={cx("reg-btn-container")}>
-            <button className={cx("reg-btn")} onClick={handleRegister}>Đăng ký</button>
+            <button className={cx("reg-btn")} onClick={register}>Đăng ký</button>
             </div>
         </div>
       </div>
@@ -144,33 +173,73 @@ function Register({Close}:any) {
 }
 
 function Login() {
+    // Validation
     const [emailOrPhone, setEmailOrPhone] = useState('');
     const [password, setPassword] = useState('');
     const [userError, setUsernameError] = useState(false);
+    const [userMsg, setUserMsg] = useState('');
     const [passwordError, setPasswordError] = useState(false);
     const [passMsg, setPassMsg] = useState('');
     const [showReg, setShowReg] = useState(false);
+    const navigate=useNavigate()
+
+    // Function Login
+    const {handleLogin, currentUser}=useAuth();
+    const signin=async (e:any)=>{
+        e.preventDefault()
+        validateEmail(emailOrPhone)
+        validatePass(password)
+        if(userError==false && passwordError==false) {
+            try {
+                await handleLogin(emailOrPhone, password)
+            } catch (error:any) {
+            console.log(error.message)
+            if(error.message=='Firebase: Error (auth/invalid-email).')
+            {
+                setUserMsg('Người dùng không tồn tại')
+                setUsernameError(true)
+                return
+            } else
+            if(error.message=='Firebase: Error (auth/user-disabled).')
+            {
+                setUserMsg('Tài khoản đang bị khóa')
+                setUsernameError(true)
+                return;
+            }
+            }
+            
+        }
+        console.log(currentUser)
+        navigate('/')
+    }
     
     const handleClose=()=>{
         setShowReg(false)
     }
-    const handleSubmit = (e:any) => {
-        e.preventDefault();
-    
+    const validateEmail=(value:any)=>{
         const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         const phoneRegex = /^[0-9]{10}$/;
-    
-        if (emailOrPhone.match(emailRegex) || emailOrPhone.match(phoneRegex)) {
+        // const value= e.target.value;
+        setEmailOrPhone(value);
+        if (value.match(emailRegex) || value.match(phoneRegex)) {
             setUsernameError(false)
         } else {
           setUsernameError(true);
+            setUserMsg('Vui lòng kiểm tra lại email, số điện thoại')
         }
-        if (password=='') {
+    }
+    const validatePass=(value:any)=>{
+        // e.preventDefault()
+        // const value= e.target.value;
+        setPassword(value)
+        if (value=='') {
             setPassMsg('Vui lòng nhập mật khẩu')
             setPasswordError(true)
         }
-      };
-    
+        else {
+            setPasswordError(false)
+        }
+    }
 
   return (
     <>
@@ -184,15 +253,15 @@ function Login() {
             </div>
         </div>
         <div className={cx("login--right")}>
-                <form onSubmit={handleSubmit}>
+                <form >
                     <div className={cx("username")}>
                     <input className={cx({"error":userError})}
                     type="text" 
                     placeholder="Email hoặc số điện thoại" 
                     value={emailOrPhone}
-                    onChange={(e) => setEmailOrPhone(e.target.value)} />
+                    onChange={(e) => validateEmail(e.target.value)} />
                    {userError && <img  src="https://static.xx.fbcdn.net/rsrc.php/v3/yo/r/7uzGoFuHgaC.png" alt="" width="20" height="20"></img>}
-                    {userError && <p className={cx('red')}>Vui lòng kiểm tra lại email, số điện thoại</p>}
+                    {userError && <p className={cx('red')}>{userMsg}</p>}
                     </div>
 
                     <div className={cx("password")}>
@@ -200,14 +269,14 @@ function Login() {
                     type="password" 
                     placeholder="Mật khẩu"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e)=>{validatePass(e.target.value)}}
                     />
                     {passwordError && <img  src="https://static.xx.fbcdn.net/rsrc.php/v3/yo/r/7uzGoFuHgaC.png" alt="" width="20" height="20"></img>}
                     {passwordError && <p className={cx('red')}>{passMsg}</p>}
                     </div>
 
                     <div>
-                    <button type="submit" >Đăng nhập</button>
+                    <button onClick={signin} >Đăng nhập</button>
                     </div>
                     <div className={cx('forgot-password')}>
                     <a href="/forgot-password" >Quên mật khẩu</a>

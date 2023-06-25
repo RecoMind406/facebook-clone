@@ -3,7 +3,7 @@ import styles from "./ForgotPassword.module.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
+import { useAuth } from "~/contexts/AuthContext";
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +27,10 @@ function ForgotPassword() {
     const [emailOrPhone, setEmailOrPhone] = useState('');
     const [error, setError] = useState('');
     const [isError, setIsError] = useState(false);
+    const {resetPassword}=useAuth()
+
     const handleSubmit= (e:any)=>{
+
         e.preventDefault()
         const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         const phoneRegex = /^[0-9]{10}$/;
@@ -41,6 +44,7 @@ function ForgotPassword() {
             setIsError(false)
         // Kiểm tra email có tồn tại trên db chưa sau đó navigate
         // Xử lý
+        resetPassword(emailOrPhone)
         setShowPopup(true)
         } else {
             setIsError(true);
@@ -49,7 +53,6 @@ function ForgotPassword() {
         }
 
     }
-
   return (
     <>
     <div className={cx('fg-header')}>
@@ -64,6 +67,7 @@ function ForgotPassword() {
             </div>
             <div className={cx('form-body')}>
             <p>Vui lòng nhập email hoặc số di động để khôi phục tài khoản của bạn.</p>
+            {/* {auth.currentUser?.email&& <input value={auth.currentUser.email}/>} */}
             <input className={cx({"error":isError})}
             type="text" 
             placeholder="Vui lòng nhập email, số điện thoại"
