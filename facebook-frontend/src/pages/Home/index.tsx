@@ -37,16 +37,18 @@ import { Link } from "react-router-dom";
 import PostItem from "~/components/PostItem";
 import BoxChatItem from "~/components/BoxChatItem";
 
-
 import { useAuth } from "~/contexts/AuthContext";
 
 // firestore database
-import { db } from "~/../config/firebase";
+import { db, storage } from "~/../config/firebase";
+import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 import { doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import User from "~/models/user";
 import ContactItem from "~/components/ContactItem/indes";
 import Dialogue from "~/models/dialogue";
-
+import Post from "~/models/post";
 
 const cx = classNames.bind(styles);
 
@@ -65,6 +67,7 @@ const Home = () => {
 	const [showPostModal, setShowPostModal] = useState(false);
 	const [postContent, setPostContent] = useState("");
 	const [canPost, setCanPost] = useState(false);
+	const [showUpImagePost, setUpImagePost] = useState(false);
 	const handleInputPost = (e: any) => {
 		const value = e.target.value;
 		setPostContent(value);
@@ -90,6 +93,38 @@ const Home = () => {
 	const hanleCloseBoxChat = (id: string) => {
 		const newBoxChat = boxChats.filter((boxChatId) => boxChatId !== id);
 		setBoxChats(newBoxChat);
+	};
+
+  // Upload image in create post
+	const [uploadImage, setUploadImage] = useState<any>(null);
+
+	const handleUploadImage = (event: any) => {
+		const file = event.target.files[0];
+
+		const imageRef = ref(storage, `images/${file.name + v4()}`);
+		uploadBytes(imageRef, file).then((snapshot) => {
+			getDownloadURL(snapshot.ref).then((url) => {
+				console.log(url);
+				setUploadImage(url);
+			});
+		});
+	};
+
+	const [newPost, setNewPost] = useState<Post>(new Post());
+	const handleCreatePost = async () => {
+		const post = new Post();
+
+		const newPostRef = await addDoc(collection(db, "posts"), {
+			userID: "123",
+			content: postContent,
+			image: uploadImage,
+			timestamp: post.timestamp,
+			reactions: post.reactions,
+			comment: [],
+			share: [],
+			originalID: "",
+		});
+		console.log(newPostRef.id);
 	};
 
 	//const {currentUser} =useAuth()
@@ -695,14 +730,51 @@ const Home = () => {
 									</div>
 								</div>
 							</div>
-							<textarea
-								name=""
-								id=""
-								cols={30}
-								rows={5}
-								value={postContent}
-								onChange={handleInputPost}
-								placeholder="Ân ơi, bạn đang nghĩ gì thế?"></textarea>
+							<div className={cx("content")}>
+								<textarea
+									className={cx("input-text-post")}
+									name=""
+									id=""
+									cols={30}
+									rows={2}
+									value={postContent}
+									onChange={handleInputPost}
+									placeholder="Ân ơi, bạn đang nghĩ gì thế?"></textarea>
+
+								{showUpImagePost && (
+									<div className={cx("up-image-box")}>
+										{uploadImage == null && (
+											<>
+												<label
+													htmlFor="up-image-post"
+													className={cx("up-image-btn")}>
+													<div className={cx("icon-box")}>
+														<i></i>
+													</div>
+													<span className={cx("title")}>Thêm ảnh/video</span>
+												</label>
+												<input
+													type="file"
+													name=""
+													id="up-image-post"
+													className={cx("up-image-post")}
+													onChange={(event) => handleUploadImage(event)}
+												/>
+											</>
+										)}
+										{uploadImage && (
+											<div className={cx("image-upload")}>
+												<img src={uploadImage} alt="" />
+											</div>
+										)}
+										<div
+											className={cx("close-btn-box")}
+											onClick={() => setUpImagePost(false)}>
+											<i></i>
+										</div>
+									</div>
+								)}
+							</div>
 							<div className={cx("emoj")}>
 								<img
 									height="38"
@@ -728,7 +800,9 @@ const Home = () => {
 								<div>Thêm vào bài viết của bạn</div>
 								<div className={cx("icon")}>
 									<Tippy content="Ảnh/video" placement="top" arrow="false">
-										<div className={cx("img-icon")}>
+										<div
+											className={cx("img-icon", showUpImagePost && "active")}
+											onClick={() => setUpImagePost(true)}>
 											<img
 												src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/a6OjkIIE-R0.png"
 												alt=""
@@ -794,7 +868,11 @@ const Home = () => {
 									</Tippy>
 								</div>
 							</div>
-							<button className={cx({ active: canPost })}>Đăng</button>
+							<button
+								className={cx({ active: canPost })}
+								onClick={handleCreatePost}>
+								Đăng
+							</button>
 						</div>
 					</div>
 				</>
