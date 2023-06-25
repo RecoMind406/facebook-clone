@@ -7,37 +7,150 @@ import {
 	faEllipsis,
 	faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+	Timestamp,
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	setDoc,
+	updateDoc,
+} from "firebase/firestore";
+import { db } from "../../../config/firebase";
+import Post from "~/models/post";
+import User from "~/models/user";
+import CommentItem from "../CommentItem";
+// Import tippy
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const cx = classNames.bind(styles);
 
-const PostItem = () => {
-	const [isLikePost, setIsLikePost] = useState(false);
+const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
+	const [postData, setPostData] = useState<Post>(new Post());
+	const [ownerPostData, setOwnerPostData] = useState<User>(new User());
+	const [userData, setUserData] = useState<User>(new User());
+	const [timePost, setTimePost] = useState<string>("");
+	const [listComment, setListComment] = useState<string[]>([]);
 
-	const handleLikePostBtn = () => {
+	const [isLikePost, setIsLikePost] = useState(false);
+	const handleLikePostBtn = async () => {
 		setIsLikePost(!isLikePost);
 
-		// increase the number of reactions by 1
+		const postRef = doc(db, "posts", postData.idDoc);
+		if (isLikePost === true) {
+			await updateDoc(postRef, {
+				reactions: postData.reactions - 1,
+			});
+		} else {
+			await updateDoc(postRef, {
+				reactions: postData.reactions + 1,
+			});
+		}
 	};
+
+	const [commentText, setCommentText] = useState("");
+
+	const handleSubmitComment = async (e: any) => {
+		e.preventDefault();
+		if (commentText === "") return;
+
+		await setDoc(doc(collection(db, "posts", postId, "comments")), {
+			text: commentText,
+			timestamp: Timestamp.fromDate(new Date()),
+			userID: userId,
+		});
+
+		setCommentText("");
+	};
+
+	useEffect(() => {
+		const fetchDataPost = async () => {
+			const postRef = doc(db, "posts", postId);
+			const postDoc = await getDoc(postRef);
+			const post = {
+				...postDoc.data(),
+				idDoc: postDoc.id,
+			};
+			setPostData(post);
+
+			const ownerPostRef = doc(db, "users", post.userID);
+			const ownerPostDoc = await getDoc(ownerPostRef);
+			const ownerPost = {
+				...ownerPostDoc.data(),
+				idDoc: ownerPostDoc.id,
+			};
+			setOwnerPostData(ownerPost);
+
+			const jsTime = new Date(post.timestamp.toDate());
+			const currentTime = new Date();
+			if (currentTime.getDate() - jsTime.getDate() > 0) {
+				if (currentTime.getHours() - jsTime.getHours() > 0) {
+					setTimePost(currentTime.getDate() - jsTime.getDate() + " ngày");
+				} else {
+					setTimePost(currentTime.getHours() - jsTime.getHours() + 24 + " giờ");
+				}
+			} else {
+				if (currentTime.getHours() - jsTime.getHours() > 0) {
+					if (currentTime.getMinutes() - jsTime.getMinutes() > 0) {
+						setTimePost(currentTime.getHours() - jsTime.getHours() + " giờ");
+					} else {
+						setTimePost(
+							currentTime.getMinutes() - jsTime.getMinutes() + 60 + " phút"
+						);
+					}
+				} else {
+					setTimePost(currentTime.getMinutes() - jsTime.getMinutes() + " phút");
+				}
+			}
+		};
+
+		const fetchUserData = async () => {
+			const userRef = doc(db, "users", userId);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				idDoc: userDoc.id,
+			};
+
+			setUserData(user);
+		};
+
+		const fetchListCommentData = async () => {
+			const allCommentDoc = await getDocs(
+				collection(db, "posts", postId, "comments")
+			);
+			const allCommentData = allCommentDoc.docs.map((doc: any) => ({
+				...doc.data(),
+				idDoc: doc.id,
+			}));
+
+			setListComment(allCommentData);
+		};
+
+		fetchDataPost();
+		fetchUserData();
+		fetchListCommentData();
+	}, [isLikePost]);
 
 	return (
 		<div className={cx("post-item")}>
 			<div className={cx("heading")}>
 				<div className={cx("information")}>
-					<Link to={"/"} className={cx("avatar")}>
-						<img
-							src="https://thicc.mywaifulist.moe/pending/waifus/lU2OloYyXrv1vmlHEOJH0UuC3ndk65yTGmBLMCJ9.png"
-							alt=""
-						/>
-					</Link>
+					<Tippy placement="left" content={ownerPostData.name} arrow="false">
+						<Link to={"/"} className={cx("avatar")}>
+							<img src={ownerPostData.profilePicture} alt="" />
+						</Link>
+					</Tippy>
 
 					<div className={cx("sub-info")}>
 						<Link to={"/"} className={cx("title")}>
-							AOW - Anime/Manga Fanpage
+							{ownerPostData.name}
 						</Link>
 
 						<div className={cx("publish")}>
-							<span className={cx("time")}>2 giờ</span>
+							<span className={cx("time")}>{timePost}</span>
 							<span className={cx("dot")}></span>
 							<span className={cx("range")}>
 								<FontAwesomeIcon icon={faEarthAmerica} />
@@ -57,13 +170,10 @@ const PostItem = () => {
 			</div>
 			<div className={cx("content")}>
 				<div className={cx("text")}>
-					<p>Yakuza cũng ghê đấy nhưng bật vợ thì không dám</p>
+					<p>{postData.content}</p>
 				</div>
 				<div className={cx("image")}>
-					<img
-						src="https://ecdn.game4v.com/g4v-content/uploads/2022/12/11094316/The-Way-of-the-Househusband-2-1-game4v-1670726595-82.jpg"
-						alt=""
-					/>
+					<img src={postData.image} alt="" />
 				</div>
 			</div>
 
@@ -79,11 +189,13 @@ const PostItem = () => {
 							alt=""
 						/>
 					</div>
-					<span className={cx("count")}>3</span>
+					<span className={cx("count")}>{postData.reactions}</span>
 				</div>
 				{/* Nếu count == 0 thì không hiện bình luận */}
 				<div className={cx("commnet-share-count")}>
-					<div className={cx("item")}>9 bình luận</div>
+					{listComment.length !== 0 && (
+						<div className={cx("item")}>{listComment.length} bình luận</div>
+					)}
 					<div className={cx("item")}>3 lượt chia sẻ</div>
 				</div>
 			</div>
@@ -118,39 +230,22 @@ const PostItem = () => {
 			<div className={cx("list-comments")}>
 				<div className={cx("your-comment-input")}>
 					<div className={cx("avatar")}>
-						<img
-							src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
-							alt=""
-						/>
+						<img src={userData.profilePicture} alt="" />
 					</div>
 					<div className={cx("input-comment")}>
-						<input type="text" placeholder="Hãy gửi bình luận của bạn..." />
+						<form onSubmit={(e) => handleSubmitComment(e)}>
+							<input
+								type="text"
+								placeholder="Hãy gửi bình luận của bạn..."
+								value={commentText}
+								onChange={(e) => setCommentText(e.target.value)}
+							/>
+						</form>
 					</div>
 				</div>
-				<div className={cx("comment-item")}>
-					<div className={cx("avatar")}>
-						<img
-							src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
-							alt=""
-						/>
-					</div>
-					<div className={cx("main-content-comment")}>
-						<div>
-							<div className={cx("comment-box")}>
-								<Link to={"/"} className={cx("name-account")}>
-									<span>Nguyen Van Hieu</span>
-								</Link>
-								<p className={cx("text-comment")}>Wibu never die</p>
-							</div>
-						</div>
-						<div className={cx("button-comment-box")}>
-							<div className={cx("item")}>Thích</div>
-							<div className={cx("item")}>Phản hồi</div>
-							<div className={cx("item")}>Chia sẻ</div>
-							<div className={cx("time-comment")}>4 giờ</div>
-						</div>
-					</div>
-				</div>
+				{listComment.map((comment, index) => (
+					<CommentItem key={index} postId={postId} commentId={comment.idDoc} />
+				))}
 			</div>
 		</div>
 	);

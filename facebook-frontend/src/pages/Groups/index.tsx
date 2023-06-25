@@ -195,7 +195,7 @@ const Groups = () => {
 								/>
 								<GroupItem
 									type="participate"
-									avatar="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/337432035_1034976144130599_4611259714036704491_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=aXhR8jK1WvAAX_G3D7g&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfDA7BSlYyO51w7h7R9qT_W8lc6nguKrZigFmOwmtdcSWQ&oe=648C5C11"
+									avatar="https://ecdn.game4v.com/g4v-content/uploads/2022/05/10102036/Untitled-1-1652152835-2.jpg"
 									nameGroup="ESC UEL - CLB THỂ THAO ĐIỆN TỬ TRƯỜNG ĐẠI HỌC KINH TẾ - LUẬT"
 									timeLastActity="3 tuần"
 								/>
