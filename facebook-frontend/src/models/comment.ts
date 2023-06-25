@@ -1,8 +1,8 @@
 export default class Comment {
     constructor(
         public id: string = "",
-        public text = "",
+        public text: string = "",
         public timestamp: Date = new Date(),
-        public userID = ""
+        public userID: string = ""
     ) {}
 }

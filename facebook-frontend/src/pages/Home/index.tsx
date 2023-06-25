@@ -15,7 +15,7 @@ import {
 	faUserGear,
 	faVideo,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // Import tippy
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -37,7 +37,16 @@ import { Link } from "react-router-dom";
 import PostItem from "~/components/PostItem";
 import BoxChatItem from "~/components/BoxChatItem";
 
+
 import { useAuth } from "~/contexts/AuthContext";
+
+// firestore database
+import { db } from "~/../config/firebase";
+import { doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import User from "~/models/user";
+import ContactItem from "~/components/ContactItem/indes";
+import Dialogue from "~/models/dialogue";
+
 
 const cx = classNames.bind(styles);
 
@@ -46,7 +55,7 @@ const Home = () => {
 	const [showScrollSidebar, setShowScrollSidebar] = useState(false);
 	const [showScrollContact, setShowScrollContact] = useState(false);
 	const [countClickSlide, setCountClickSlide] = useState(0);
-	const [boxChats, setBoxChats] = useState<any>([]);
+	const [boxChats, setBoxChats] = useState<string[]>([]);
 
 	const totalStory = 8;
 	const slidesPerView = 4.5;
@@ -72,20 +81,41 @@ const Home = () => {
 	};
 
 	const handleShowBoxChat = (id: string) => {
-		const newBoxChat = {
-			id: id,
-		};
-		setBoxChats([...boxChats, newBoxChat]);
+		const index = boxChats.findIndex((boxChatId) => boxChatId === id);
+		if (index === -1) {
+			setBoxChats([...boxChats, id]);
+		}
 	};
 
 	const hanleCloseBoxChat = (id: string) => {
-		const newBoxChat = [...boxChats].filter((boxchat) => boxchat.id !== id);
+		const newBoxChat = boxChats.filter((boxChatId) => boxChatId !== id);
 		setBoxChats(newBoxChat);
 	};
-	const {currentUser} =useAuth()
+
+	//const {currentUser} =useAuth()
+
+
+	// firestore database
+	const myUserId = "iaaHqVx5CpkiJUvuCCh8";
+	const [userData, setUserData] = useState<User>(new User());
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			const userRef = doc(db, "users", myUserId);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				id: userDoc.id,
+			};
+			setUserData(user);
+		};
+
+		fetchUserData();
+	}, []);
+
 	return (
 		<>
-			<Header />
+			<Header userId="iaaHqVx5CpkiJUvuCCh8" />
 			<div className={cx("wrapper")}>
 				<div
 					className={cx(
@@ -570,6 +600,7 @@ const Home = () => {
 							<Tippy
 								content="Cuộc gọi mới"
 								placement="bottom-end"
+								delay={[300, 0]}
 								arrow={false}>
 								<button className={cx("button-contact")}>
 									<FontAwesomeIcon icon={faVideo} />
@@ -578,12 +609,17 @@ const Home = () => {
 							<Tippy
 								content="Tìm kiếm theo tên hoặc nhóm"
 								placement="bottom-end"
+								delay={[300, 0]}
 								arrow={false}>
 								<button className={cx("button-contact")}>
 									<FontAwesomeIcon icon={faMagnifyingGlass} />
 								</button>
 							</Tippy>
-							<Tippy content="Tùy chọn" placement="bottom-end" arrow={false}>
+							<Tippy
+								content="Tùy chọn"
+								placement="bottom-end"
+								delay={[300, 0]}
+								arrow={false}>
 								<button className={cx("button-contact")}>
 									<FontAwesomeIcon icon={faEllipsis} />
 								</button>
@@ -592,43 +628,13 @@ const Home = () => {
 					</div>
 
 					<div className={cx("contact-list")}>
-						<div
-							className={cx("contact-item")}
-							onClick={() => handleShowBoxChat("c1")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Danh</div>
-						</div>
-					</div>
-					<div className={cx("contact-list")}>
-						<div
-							className={cx("contact-item")}
-							onClick={() => handleShowBoxChat("c2")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Tài</div>
-						</div>
-					</div>
-					<div className={cx("contact-list")}>
-						<div
-							className={cx("contact-item")}
-							onClick={() => handleShowBoxChat("c3")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://videogames.si.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk3NDQ3ODc0MTQzOTIxMTU4/honkai-star-rail-silver-wolf-1.jpg"
-									alt=""
-								/>
-							</div>
-							<div className={cx("name")}>Nguyễn Thành Coong</div>
-						</div>
+						{userData.friends.map((friendId, index) => (
+							<ContactItem
+								key={index}
+								id={friendId}
+								handleOnClick={() => handleShowBoxChat(friendId)}
+							/>
+						))}
 					</div>
 				</div>
 			</div>
@@ -797,8 +803,13 @@ const Home = () => {
 			{/* Box chat list */}
 
 			<div className={cx("box-chat-list")}>
-				{boxChats.map((boxChat: any) => (
-					<BoxChatItem handleClose={() => hanleCloseBoxChat(boxChat.id)} />
+				{boxChats.map((boxChatId, index: number) => (
+					<BoxChatItem
+						key={index}
+						userId={myUserId}
+						toUserId={boxChatId}
+						handleClose={() => hanleCloseBoxChat(boxChatId)}
+					/>
 				))}
 			</div>
 		</>
