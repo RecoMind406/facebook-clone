@@ -43,7 +43,14 @@ import { useAuth } from "~/contexts/AuthContext";
 import { db, storage } from "~/../config/firebase";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
-import { doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+	doc,
+	getDoc,
+	getDocs,
+	query,
+	updateDoc,
+	where,
+} from "firebase/firestore";
 import { addDoc, collection } from "firebase/firestore";
 import User from "~/models/user";
 import ContactItem from "~/components/ContactItem/indes";
@@ -95,7 +102,7 @@ const Home = () => {
 		setBoxChats(newBoxChat);
 	};
 
-  // Upload image in create post
+	// Upload image in create post
 	const [uploadImage, setUploadImage] = useState<any>(null);
 
 	const handleUploadImage = (event: any) => {
@@ -124,15 +131,22 @@ const Home = () => {
 			share: [],
 			originalID: "",
 		});
-		console.log(newPostRef.id);
+
+		// Lấy id của post đưa vào post trong user
+		const userRef = doc(db, "users", myUserId);
+		await updateDoc(userRef, {
+			posts: [...userData.posts, newPostRef.id],
+		});
+
+		// Post xong thì hide modal
+		hideModal();
 	};
 
-	//const {currentUser} =useAuth()
-
+	const { currentUser } = useAuth();
 
 	// firestore database
 	const myUserId = "iaaHqVx5CpkiJUvuCCh8";
-	const [userData, setUserData] = useState<User>(new User());
+	const [userData, setUserData] = useState<any>(new User());
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -540,10 +554,7 @@ const Home = () => {
 					<div className={cx("create-post")}>
 						<div className={cx("heading")}>
 							<div className={cx("avatar")}>
-								<img
-									src={currentUser.profilePicture}
-									alt=""
-								/>
+								<img src={currentUser.profilePicture} alt="" />
 							</div>
 							<div className={cx("content")} onClick={showModal}>
 								{currentUser.name} ơi, bạn đang nghĩ gì thế ?

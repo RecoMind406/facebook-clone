@@ -43,11 +43,10 @@ import { useAuth } from "~/contexts/AuthContext";
 const cx = classNames.bind(styles);
 
 //const Header = () => {
-	// Get logged in user
-	//const {currentUser}=useAuth()
+// Get logged in user
+//const {currentUser}=useAuth()
 
-const Header = ({ userId }: { userId: string }) => {
-
+const Header = () => {
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
 	const [showMessenger, setShowMessenger] = useState(false);
@@ -136,35 +135,47 @@ const Header = ({ userId }: { userId: string }) => {
 				break;
 		}
 	};
-	const myUserId = userId;
-	const [userId2, setUserId] = useState("");
 
-	const [userData, setUserData] = useState<User>(new User());
+	const [userId, setUserId] = useState("");
+
+	const [userData, setUserData] = useState<any>(new User());
 	const [messengerList, setMessengerList] = useState<any[]>([]);
+
 	useEffect(() => {
 		handleActiveTabPageItem();
 		const fetchUserData = async () => {
-			const userIdStorage = localStorage.getItem("currentUser");
+			// localStorage.setItem(
+			// 	"currentUser",
+			// 	JSON.stringify("iaaHqVx5CpkiJUvuCCh8")
+			// );
+			const item = localStorage.getItem("currentUser");
+			if (item == null) return;
+			const userIdStorage = JSON.parse(item);
+			if (userIdStorage == null) return;
 			// Gắn userIdStorage vào userRef
-			const userRef = doc(db, "users", myUserId);
+			const userRef = doc(db, "users", userIdStorage);
 			const userDoc = await getDoc(userRef);
 			const user = {
 				...userDoc.data(),
 				id: userDoc.id,
 			};
+
 			setUserData(user);
+			setUserId(userIdStorage);
 		};
 
 		const fetchMessageListData = async () => {
+			console.log("vào hàm");
 			// Lấy tất cả data dialogues
 			const dialoguesDoc = await getDocs(
 				collection(db, "users", userId, "dialogues")
 			);
-
+			console.log(dialoguesDoc);
 			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 				...doc.data(),
 				id: doc.id,
 			}));
+			console.log(dialoguesData);
 
 			const listToUserId = dialoguesData.map((dialogue) => dialogue.toUser);
 
@@ -219,11 +230,11 @@ const Header = ({ userId }: { userId: string }) => {
 		setShowNotification(false);
 	};
 
-	const {logout}=useAuth()
-	const navigate=useNavigate()
+	const { logout } = useAuth();
+	const navigate = useNavigate();
 	const handleLogOut = async () => {
-		await logout()
-		navigate('/login')
+		await logout();
+		navigate("/login");
 	};
 
 	return (
@@ -365,7 +376,7 @@ const Header = ({ userId }: { userId: string }) => {
 								<img
 									width={40}
 									height={40}
-									src={currentUser.profilePicture}
+									src={userData.profilePicture}
 									alt="account"
 								/>
 							</button>
@@ -376,9 +387,11 @@ const Header = ({ userId }: { userId: string }) => {
 					<div className={cx("modal-box", showAddRequest && "show")}>
 						<h2 className={cx("heading")}>Lời mời kết bạn</h2>
 						<div className={cx("friend-request-list")}>
-							{userData.friendRequestReceived.map((friendId, index) => (
-								<AddRequestItem key={index} id={friendId} />
-							))}
+							{userData.friendRequestReceived.map(
+								(friendId: any, index: number) => (
+									<AddRequestItem key={index} id={friendId} />
+								)
+							)}
 						</div>
 					</div>
 
@@ -438,35 +451,11 @@ const Header = ({ userId }: { userId: string }) => {
 							{messengerList.map((dialogue: any, index: number) => (
 								<MessengerItem
 									key={index}
-									userId={myUserId}
+									userId={userId}
 									toUserId={dialogue.toUser}
 									dialogueId={dialogue.id}
 								/>
 							))}
-							{/* {messengerList.map((id: string, index: number) => (
-								<MessengerItem key={index} userId={myUserId} toUserId={id} />
-							))} */}
-							{/* <MessengerItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
-								status
-								time="16 phút"
-							/>
-							<MessengerItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
-								status
-								time="16 phút"
-							/>
-							<MessengerItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
-								status
-								time="16 phút"
-							/> */}
 						</div>
 					</div>
 
@@ -500,12 +489,9 @@ const Header = ({ userId }: { userId: string }) => {
 							<div className={cx("my-account")}>
 								<Link to={"/me"} className={cx("account")}>
 									<div className={cx("avatar")}>
-										<img
-											src={currentUser.profilePicture}
-											alt=""
-										/>
+										<img src={userData.profilePicture} alt="" />
 									</div>
-									<span className={cx("name")}>{currentUser.name}</span>
+									<span className={cx("name")}>{userData.name}</span>
 								</Link>
 								<Link to="/page" className={cx("logo-page")}>
 									<img
