@@ -1,14 +1,30 @@
-import React, {createContext, useContext, useEffect, useState} from 'react'
-import {auth, db} from '../../config/firebase'
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth, db } from "../../config/firebase";
 
-import {createUserWithEmailAndPassword, updateProfile, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from 'firebase/auth';
+import {
+	createUserWithEmailAndPassword,
+	updateProfile,
+	getAuth,
+	onAuthStateChanged,
+	sendPasswordResetEmail,
+	signInWithEmailAndPassword,
+	signOut,
+} from "firebase/auth";
 
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+	addDoc,
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	query,
+	where,
+} from "firebase/firestore";
 
 const AuthContext = createContext<any>(null);
 
 export function useAuth() {
-  return useContext(AuthContext)
+	return useContext(AuthContext);
 }
 
 function AuthProvider({ children }: any) {
@@ -146,5 +162,4 @@ function AuthProvider({ children }: any) {
   );
 }
 
-
-export default AuthProvider
+export default AuthProvider;
