@@ -212,13 +212,13 @@ const Groups = () => {
 
 						<div className={cx("list-post-group")}>
 							<PostItemOnGroup
-								groupImg="https://scontent.fsgn5-6.fna.fbcdn.net/v/t39.30808-6/240655429_4059163764195718_3652059374269714525_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=8631f5&_nc_ohc=ifLq5af5ZHQAX_7ojcb&_nc_ht=scontent.fsgn5-6.fna&oh=00_AfCw9ZdWj-gv9qOTI3FKLlWRLH1Qex82RxMPwTYong3HmA&oe=648CA10E"
-								avatarImg="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/292141833_1077755989828697_2574532424763211467_n.jpg?stp=dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=7206a8&_nc_ohc=GmiArIZb5h8AX-l5r7J&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfAK-74IVDZrm5h6IuXBvzCTWTx2SXuwWdmg_tk-uqKZKA&oe=648DAA90"
+								groupImg="https://nentang.vn/wp-content/uploads/2018/07/html-css-js-course-intro.jpeg"
+								avatarImg="https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg"
 								nameGroup="Cộng đồng Front-end(HTML/CSS/JS) Việt Nam"
 								nameUser="Lê Thành Lâm"
 								lastTime="3 giờ"
 								text="Làm sao để giỏi Javascript?"
-								contentImg="https://cdn.utaustinbootcamps.com/wp-content/uploads/sites/119/2020/06/best-ways-to-learn-javascript.jpg"
+								contentImg="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190813181110/7-Tips-and-Tricks-to-Learn-Programming-Faster.png"
 								numberReact={20}
 								numberComment={6}
 								numberShare={4}
@@ -227,8 +227,8 @@ const Groups = () => {
 								comment="Học, Học nữa, học mãi nhé"
 							/>
 							<PostItemOnGroup
-								groupImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/324021659_881316676391636_4315698684564028924_n.jpg?stp=c41.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=70495d&_nc_ohc=_zLeA8jPdy0AX9GK2m0&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfCX8I-en0_as9bHpVuVtPe6JZoiYc-Dhl1rzvBqpa1aDA&oe=648DBDBD"
-								avatarImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-1/329022926_1137315933620296_9186508021062131052_n.jpg?stp=dst-jpg_p100x100&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=sMX3u10Bf90AX-cECV_&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfCh6opvDivwkljTU0_7tQi72k1nRaqweLhEc_xBAnI63w&oe=648D5EAA"
+								groupImg="https://tuyensinh.uel.edu.vn/wp-content/uploads/2023/05/Anh-chup-Man-hinh-2023-05-18-luc-15.12.14.png"
+								avatarImg="https://cdn.donmai.us/original/ed/3a/ed3a631d77d27866d7619b35974c1884.jpg"
 								nameGroup="Hội Những Người Ở Ký Túc Xá Khu B - KTX ĐHQG TP.HCM"
 								nameUser="Lê Anh Tài"
 								lastTime="4 giờ"
@@ -237,13 +237,13 @@ const Groups = () => {
 								numberReact={35}
 								numberComment={8}
 								numberShare={0}
-								avatarComment="https://scontent.fsgn5-3.fna.fbcdn.net/v/t1.6435-1/101038986_621503152045457_5423503385049432064_n.jpg?stp=dst-jpg_p100x100&_nc_cat=104&ccb=1-7&_nc_sid=7206a8&_nc_ohc=VXecAYgW4-YAX8R_y0g&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfC7efz16I5Qk4u5MO4-7YmvIQu0qtEwjpQyO-IEr9ZNSg&oe=64B00F63"
+								avatarComment="https://i.pinimg.com/originals/6e/b5/f5/6eb5f502bb8a5e2e7232801e07b61788.jpg"
 								nameComment="Nguyen Van Hieu"
 								comment="Ib mình hướng dẫn nhé"
 							/>
 							<PostItemOnGroup
 								groupImg="https://images.contentstack.io/v3/assets/blt76b5e73bfd1451ea/blt7ce277951f779aa6/5e75289dcd562e2d656cbb84/tft-seo.jpg"
-								avatarImg="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/327743759_1246913756232877_2613977120660156570_n.jpg?stp=cp1_dst-jpg_p100x100&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=8YwKHNtS2YUAX9a1g3R&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfDUItzDn0PwLZoRvAZchDhgSK-4oJPPs14ki_XjqLQuVA&oe=648E1F0D"
+								avatarImg="https://i.pinimg.com/736x/43/e7/39/43e7392dccf77ac9124be1f7833eb78a.jpg"
 								nameGroup="Cộng đồng Đấu trường chân lý VN"
 								nameUser="Đỗ Văn Dương"
 								lastTime="5 giờ"
@@ -278,8 +278,8 @@ const Groups = () => {
 								</div>
 
 								<GroupChatItem
-									groupImg="https://scontent.fsgn5-6.fna.fbcdn.net/v/t39.30808-6/240655429_4059163764195718_3652059374269714525_n.jpg?stp=c55.0.100.100a_dst-jpg_p100x100&_nc_cat=108&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=ifLq5af5ZHQAX8-6cAR&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-6.fna&oh=00_AfBI30xnCIO_gQUwSeZte-aq15cEeOX3Bh4Db-9ZL8ag-g&oe=648CA10E"
-									avatarImg="https://scontent.xx.fbcdn.net/v/t1.15752-9/277076078_499491651728042_9149877119617622101_n.jpg?stp=dst-jpg_p100x100&_nc_cat=1&ccb=1-7&_nc_sid=4de414&_nc_ohc=LrFm1N581-YAX8iA8dC&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSI6QJw99semKMQYr63kQdpHeC3aQ1QhgofPCgN3dw88g&oe=64AF8224"
+									groupImg="https://www.proedgeskills.com/wp-content/uploads/2018/01/ps-questions-answers-800-500.jpg"
+									avatarImg="https://cdn.chanhtuoi.com/uploads/2022/01/hinh-avatar-nam-deo-kinh.jpg"
 									nameGroup="Hỏi đáp"
 									message="Nam: Em có câu hỏi là muốn giỏi lập trình thì làm sao?"
 									lastTime="22 phút"
@@ -292,23 +292,23 @@ const Groups = () => {
 								</div>
 
 								<GroupChatItem
-									groupImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/302213215_101029319416738_1755519501692316224_n.jpg?stp=c81.0.100.100a_dst-jpg_p100x100&_nc_cat=107&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=JBuILDs5aLQAX_cQaN_&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfBT9OoWLWcjkaqS8a05yjYx37jc-9hp-nf_w57Rw8sEMA&oe=648DC01D"
-									avatarImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.15752-9/318382060_1201398084116639_5981846120682883108_n.jpg?stp=dst-jpg_p100x100&_nc_cat=1&ccb=1-7&_nc_sid=58c789&_nc_ohc=24OnL9cD77YAX9OAwwU&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=03_AdSGTinudjHG85j1vTyCBRxJrhJiXE_3hM1uEna-AorxqA&oe=64AF7CC1"
+									groupImg="https://blog-cdn.reedsy.com/directories/admin/featured_image/451/large_4625b203c3512b3bc3d945b7dbc688e9.jpg"
+									avatarImg="https://i.pinimg.com/originals/b3/5d/77/b35d7780b7a811cf31556f341c9091a2.jpg"
 									nameGroup="Đoạn chat chung"
 									message=""
 									lastTime=""
 								/>
 								<GroupChatItem
-									groupImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/302213215_101029319416738_1755519501692316224_n.jpg?stp=c81.0.100.100a_dst-jpg_p100x100&_nc_cat=107&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=JBuILDs5aLQAX_cQaN_&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfBT9OoWLWcjkaqS8a05yjYx37jc-9hp-nf_w57Rw8sEMA&oe=648DC01D"
-									avatarImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.15752-9/311070626_1205014643680530_1668259112361737223_n.png?stp=dst-png_p100x100&_nc_cat=1&ccb=1-7&_nc_sid=58c789&_nc_ohc=KyquXrauGM0AX9SW-hS&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=03_AdQ1uoNYimV8xOLmmn3Y2AqI2jZHcr18urg5SLvJjrDAsA&oe=64AF9AC7"
+									groupImg="https://img.freepik.com/premium-vector/cute-house_57812-54.jpg"
+									avatarImg="https://intomau.com/Content/upload/images/avatar-nam-qua-cute.jpg"
 									nameGroup="KTX Khu B ĐHQG"
 									message=""
 									lastTime=""
 								/>
 
 								<GroupChatItem
-									groupImg="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/313411629_8221746344563668_7243033429812439541_n.jpg?stp=c81.0.100.100a_dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=K6RIrO-2TfoAX9Z0WXT&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfDICMRH38lKH8rjlgfFrAC-xh_oQvCtbJWWXl41zr5UVg&oe=648CC898"
-									avatarImg="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.15752-9/318414793_1415690305629986_166982780996743533_n.jpg?stp=dst-jpg_p100x100&_nc_cat=1&ccb=1-7&_nc_sid=58c789&_nc_ohc=QsP4ADnz42oAX_v62mB&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-10.fna&oh=03_AdTrIiKP4KPj1QWGO8_vYLxwoCE9keDRW8ci_HLyJJIE6A&oe=64AF83A3"
+									groupImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmDQGWo6Z_KOrG7k_pPBCofdXaseBODYBOUg&usqp=CAU"
+									avatarImg="https://en.ephoto360.com/uploads/effect-data/en.ephoto360.com/cb056d89d/Fuwa5e8d31dc1a6a6.jpg"
 									nameGroup="Cộng đồng đấu trường chân lý VN"
 									message=""
 									lastTime=""
