@@ -41,7 +41,7 @@ const cx = classNames.bind(styles);
 const Header = () => {
 	// Get logged in user
 	const {currentUser}=useAuth()
-	console.log(currentUser)
+	
 
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
@@ -460,15 +460,15 @@ const Header = () => {
 								<Link to={"/me"} className={cx("account")}>
 									<div className={cx("avatar")}>
 										<img
-											src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+											src={currentUser.profilePicture}
 											alt=""
 										/>
 									</div>
-									<span className={cx("name")}>Phạm Lộc Ân</span>
+									<span className={cx("name")}>{currentUser.name}</span>
 								</Link>
 								<Link to="/page" className={cx("logo-page")}>
 									<img
-										src="https://www.phutungtt.com/wp-content/uploads/2022/09/logo-shopee-trong-tin-part.png"
+										src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
 										alt=""
 									/>
 								</Link>

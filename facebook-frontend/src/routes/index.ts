@@ -11,6 +11,16 @@ import { Marketplace } from "~/pages/Marketplace";
 import { Profile } from "~/pages/Profile";
 
 // routes
+const publicRoutes=[
+	{
+		path: "/login",
+		component: Login,
+	},
+	{
+		path: "/forgot-password",
+		component: ForgotPassword,
+	},
+]
 const routes = [
 	{
 		path: "/",
@@ -41,17 +51,9 @@ const routes = [
 		component: Fanpage,
 	},
 	{
-		path: "/login",
-		component: Login,
-	},
-	{
-		path: "/forgot-password",
-		component: ForgotPassword,
-	},
-	{
 		path: "/profile",
 		component: Profile,
 	},
 ];
 
-export default routes;
+export default {routes, publicRoutes};

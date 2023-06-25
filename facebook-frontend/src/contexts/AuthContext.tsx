@@ -1,9 +1,9 @@
 import React, {createContext, useContext, useEffect, useState} from 'react'
-import { auth } from '~/firebase-config';
+import {auth, db} from '../../config/firebase'
+
 import {createUserWithEmailAndPassword, updateProfile, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from 'firebase/auth';
-import { db } from '~/firebase-config';
+
 import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
-import User from '~/interfaces/user';
 
 const AuthContext = createContext<any>(null);
 
@@ -12,7 +12,7 @@ export function useAuth() {
 }
 
 function AuthProvider({ children }: any) {
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<any>(localStorage.getItem('currentUser')||null);
 
   // Các logic và state liên quan đến đăng nhập và đăng xuất
   async function signup (email:any, password:any, name:any, gender:any,birthdate:any) {
@@ -38,11 +38,12 @@ function AuthProvider({ children }: any) {
     // await addDoc(collection(db, "users"), user);
     try {
       const newDoc = await addDoc(collection(db, 'users'), user);
+      localStorage.setItem('currentUser', JSON.stringify(user));
 
     } catch(err) {
       console.error("writeToDB failed. reason :", err)
     }
-    return user; 
+    return getUserData(user.id); 
   }
  
   async function getUserData(userId:any) {
@@ -76,7 +77,7 @@ function AuthProvider({ children }: any) {
   async function handleLogin(email:any, password:any) {
     try {
       const userData = await login(email, password);
-      console.log(userData); // Log user information
+      localStorage.setItem('currentUser', JSON.stringify(userData));
       return userData
     } catch (error) {
       console.log("Lỗi đăng nhập:", error);
@@ -84,6 +85,7 @@ function AuthProvider({ children }: any) {
   }
 
   function logout() {
+    localStorage.removeItem('currentUser')
     return auth.signOut()
   }
 
@@ -95,16 +97,20 @@ function AuthProvider({ children }: any) {
     updatePassword(password);
   }
   useEffect(() => {
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      setCurrentUser(userData);
+    }
     const unsubscribe = auth.onAuthStateChanged(async user => {
       if (user) {
         const userData = await getUserData(auth.currentUser?.uid);
         setCurrentUser(userData);
-      } else {
-        setCurrentUser(null);
       }
     });
-  
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const value = {

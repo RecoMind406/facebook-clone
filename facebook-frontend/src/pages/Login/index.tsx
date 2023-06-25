@@ -2,8 +2,8 @@ import classNames from "classnames/bind";
 import styles from "./Login.module.scss";
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from 'firebase/auth';
 import { useAuth } from "~/contexts/AuthContext";
+
 const cx = classNames.bind(styles);
 
 
