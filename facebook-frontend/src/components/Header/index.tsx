@@ -61,10 +61,6 @@ const Header = () => {
 	const [activeTabGaming, setActiveTabGaming] = useState(false);
 	const [activeTabBookmarks, setActiveTabBookmarks] = useState(false);
 
-	// search
-	const [showSearch, setShowSearch] = useState(false);
-	const [searchResult, setSearchResult] = useState([]);
-
 	const handleActiveTabPageItem = () => {
 		switch (path) {
 			case "": {
@@ -136,56 +132,38 @@ const Header = () => {
 
 	const [userData, setUserData] = useState<any>(new User());
 	const [userIdDoc, setUserIdDoc] = useState<string>("");
+	const [allUserData, setAllUserData] = useState([]);
 
 	const [messengerList, setMessengerList] = useState<any[]>([]);
-
-	useEffect(() => {
-		handleActiveTabPageItem();
-		const fetchUserData = async () => {
-			// Lấy data từ current user --> chuyển về dạng Object
-			const currentUserData = JSON.parse(currentUser);
-			setUserData(currentUserData);
-
-			// Lấy id document của user
-			const allUserDoc = await getDocs(collection(db, "users"));
-			const allUserData = allUserDoc.docs.map((doc: any) => ({
-				...doc.data(),
-				idDoc: doc.id,
-			}));
-
-			const user = allUserData.find((user) => user.id === currentUserData.id);
-			setUserIdDoc(user.idDoc);
-		};
-
-		const fetchMessageListData = async () => {
-			// Lấy tất cả data dialogues
-			const dialoguesDoc = await getDocs(
-				collection(db, "users", userIdDoc, "dialogues")
-			);
-
-			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
-				...doc.data(),
-				id: doc.id,
-			}));
-
-			setMessengerList(dialoguesData);
-		};
-
-		fetchUserData();
-		fetchMessageListData();
-	}, []);
 
 	const doNothing = () => {
 		// Empty function
 	};
 
 	// Search
+	const [showSearch, setShowSearch] = useState(false);
 	const showSearchInput = () => {
 		setShowSearch(true);
 	};
 
 	const hideSearchInput = () => {
 		setShowSearch(false);
+		setSearchText("");
+		setSearchResultList([]);
+	};
+	const [searchText, setSearchText] = useState("");
+	const [searchResultList, setSearchResultList] = useState([]);
+
+	const handleSearch = (e: any) => {
+		const text = e.target.value;
+		setSearchText(text);
+
+		const resultSearch = allUserData.filter((user) => {
+			const lowerName = user.name.toLowerCase();
+
+			if (lowerName.includes(text)) return user;
+		});
+		setSearchResultList(resultSearch);
 	};
 
 	// Right button
@@ -225,6 +203,48 @@ const Header = () => {
 		navigate("/login");
 	};
 
+	useEffect(() => {
+		handleActiveTabPageItem();
+		const fetchUserData = async () => {
+			// Lấy data từ current user --> chuyển về dạng Object
+			let currentUserData;
+			if (typeof currentUser === "string") {
+				currentUserData = JSON.parse(currentUser);
+			} else {
+				currentUserData = currentUser;
+			}
+			setUserData(currentUserData);
+
+			// Lấy id document của user
+			const allUserDoc = await getDocs(collection(db, "users"));
+			const allUser = allUserDoc.docs.map((doc: any) => ({
+				...doc.data(),
+				idDoc: doc.id,
+			}));
+			setAllUserData(allUser);
+
+			const user = allUser.find((user) => user.id === currentUserData.id);
+			setUserIdDoc(user.idDoc);
+		};
+
+		const fetchMessageListData = async () => {
+			// Lấy tất cả data dialogues
+			const dialoguesDoc = await getDocs(
+				collection(db, "users", userIdDoc, "dialogues")
+			);
+
+			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+
+			setMessengerList(dialoguesData);
+		};
+
+		fetchUserData();
+		fetchMessageListData();
+	}, []);
+
 	return (
 		<>
 			<div className={cx("wrapper")}>
@@ -250,23 +270,28 @@ const Header = () => {
 								className={cx("search-input")}
 								type="text"
 								placeholder="Tìm kiếm trên Facebook"
+								value={searchText}
+								onChange={(e) => handleSearch(e)}
 								onFocus={showSearchInput}
 								onInput={showSearchInput}
 							/>
 						</div>
 					</div>
 					<div className={cx("search-result", showSearch && "show")}>
-						<h3 className={cx("heading-search-result")}>Kết quả tìm kiếm</h3>
-						<SearchItem
-							image="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/292141833_1077755989828697_2574532424763211467_n.jpg?stp=cp0_dst-jpg_p74x74&_nc_cat=100&ccb=1-7&_nc_sid=41a7af&_nc_ohc=E262NW9Yt6AAX8r6nI8&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfA_yi2ycxAbLUPm-Df_W62s9PQ7mz3TEMA8V4QtuXx0gg&oe=6487BBD0"
-							title="Lâm Lê"
-							type="Bạn bè"
-						/>
-						<SearchItem
-							image="https://scontent.fsgn5-2.fna.fbcdn.net/v/t39.30808-1/246193240_1759875244208913_1566225265399076554_n.jpg?stp=cp0_dst-jpg_p74x74&_nc_cat=105&ccb=1-7&_nc_sid=41a7af&_nc_ohc=snIA0VpEKCcAX-JAlyw&_nc_ht=scontent.fsgn5-2.fna&oh=00_AfAXWUBhv5YlTr6qZaY8upm8K34iSJSX77wD7ZO4V-itsg&oe=6486D102"
-							title="Tèo"
-							type=""
-						/>
+						{searchResultList.length !== 0 && (
+							<h3 className={cx("heading-search-result")}>Kết quả tìm kiếm</h3>
+						)}
+						{searchResultList.length === 0 && (
+							<h3 className={cx("heading-search-result")}>
+								Không có kết quả tìm kiếm
+							</h3>
+						)}
+						{searchResultList.map((searchItem: User) => (
+							<SearchItem
+								image={searchItem.profilePicture}
+								title={searchItem.name}
+							/>
+						))}
 					</div>
 				</div>
 				<div className={cx("middle")}>
