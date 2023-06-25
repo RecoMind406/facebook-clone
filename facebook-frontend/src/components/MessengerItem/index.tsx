@@ -20,6 +20,9 @@ const MessengerItem = ({
 	const [toUserData, setToUserData] = useState<any>(new User());
 	const [lastMessageText, setLastMessageText] = useState("");
 	const [lastMessageTime, setLastMessageTime] = useState("");
+
+	const [timeMessage, setTimeMessage] = useState("");
+
 	useEffect(() => {
 		const fetchToUserData = async () => {
 			const toUserRef = doc(db, "users", toUserId);
@@ -46,13 +49,32 @@ const MessengerItem = ({
 				const lastMessageData = messagesData[messagesData.length - 1];
 				setLastMessageText(lastMessageData.text);
 
-				const jsDate = new Date(lastMessageData.timestamp.toDate());
-				const jsHour = jsDate.getHours();
-				const jsMinute = jsDate.getMinutes();
-				if (jsMinute < 10) {
-					setLastMessageTime(jsHour + ":0" + jsMinute);
+				const jsTime = new Date(lastMessageData.timestamp.toDate());
+				const currentTime = new Date();
+				if (currentTime.getDate() - jsTime.getDate() > 0) {
+					if (currentTime.getHours() - jsTime.getHours() > 0) {
+						setTimeMessage(currentTime.getDate() - jsTime.getDate() + " ngày");
+					} else {
+						setTimeMessage(
+							currentTime.getHours() - jsTime.getHours() + 24 + " giờ"
+						);
+					}
 				} else {
-					setLastMessageTime(jsHour + ":" + jsMinute);
+					if (currentTime.getHours() - jsTime.getHours() > 0) {
+						if (currentTime.getMinutes() - jsTime.getMinutes() > 0) {
+							setTimeMessage(
+								currentTime.getHours() - jsTime.getHours() + " giờ"
+							);
+						} else {
+							setTimeMessage(
+								currentTime.getMinutes() - jsTime.getMinutes() + 60 + " phút"
+							);
+						}
+					} else {
+						setTimeMessage(
+							currentTime.getMinutes() - jsTime.getMinutes() + " phút"
+						);
+					}
 				}
 			}
 		};

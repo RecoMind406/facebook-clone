@@ -121,7 +121,6 @@ const Home = () => {
 		});
 	};
 
-	const [newPost, setNewPost] = useState<Post>(new Post());
 	const handleCreatePost = async () => {
 		const post = new Post();
 
@@ -149,14 +148,18 @@ const Home = () => {
 	const { currentUser } = useAuth();
 
 	// firestore database
-	const [userData, setUserData] = useState<any>(new User());
+	const [userData, setUserData] = useState<User>(new User());
 	const [userIdDoc, setUserIdDoc] = useState<string>("");
 
 	useEffect(() => {
 		const fetchUserData = async () => {
 			// Lấy data từ current user --> chuyển về dạng Object
-			const currentUserData = JSON.parse(currentUser);
-			setUserData(currentUserData);
+			let currentUserData;
+			if (typeof currentUser === "string") {
+				currentUserData = JSON.parse(currentUser);
+			} else {
+				currentUserData = currentUser;
+			}
 
 			// Lấy id document của user
 			const allUserDoc = await getDocs(collection(db, "users"));
@@ -167,6 +170,8 @@ const Home = () => {
 
 			const user = allUserData.find((user) => user.id === currentUserData.id);
 			setUserIdDoc(user.idDoc);
+
+			setUserData(user);
 		};
 		fetchUserData();
 	}, []);
@@ -604,8 +609,9 @@ const Home = () => {
 
 					{/* list post */}
 					<div className={cx("list-post")}>
-						<PostItem />
-						<PostItem />
+						{userData.posts.map((postId, index) => (
+							<PostItem key={index} postId={postId} userId={userIdDoc} />
+						))}
 					</div>
 				</div>
 				<div

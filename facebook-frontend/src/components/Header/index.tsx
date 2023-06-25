@@ -156,7 +156,6 @@ const Header = () => {
 			const user = allUserData.find((user) => user.id === currentUserData.id);
 			setUserIdDoc(user.idDoc);
 		};
-		fetchUserData();
 
 		const fetchMessageListData = async () => {
 			// Lấy tất cả data dialogues
@@ -366,7 +365,7 @@ const Header = () => {
 								<img
 									width={40}
 									height={40}
-									src={userData.profilePicture}
+									src={currentUser.profilePicture}
 									alt="account"
 								/>
 							</button>
@@ -479,7 +478,7 @@ const Header = () => {
 							<div className={cx("my-account")}>
 								<Link to={"/me"} className={cx("account")}>
 									<div className={cx("avatar")}>
-										<img src={userData.profilePicture} alt="" />
+										<img src={currentUser.profilePicture} alt="" />
 									</div>
 									<span className={cx("name")}>{userData.name}</span>
 								</Link>
