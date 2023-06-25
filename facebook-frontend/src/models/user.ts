@@ -17,6 +17,6 @@ export default class User {
 		public posts: Post[] = [],
 		public dialogues: Dialogue[] = [],
 		public friendRequestSent: string[] = [],
-		public firendRequestReceived: string[] = []
+		public friendRequestReceived: string[] = []
 	) {}
 }

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,9 +35,19 @@ import AddRequestItem from "../AddRequestItem";
 import SettingItem from "../SettingItem";
 import TabPageItem from "../TabPageItem";
 import SearchItem from "../SearchItem";
+import User from "~/models/user";
+import { db } from "../../../config/firebase";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
+import { useAuth } from "~/contexts/AuthContext";
 const cx = classNames.bind(styles);
-const Header = () => {
+
+//const Header = () => {
+	// Get logged in user
+	//const {currentUser}=useAuth()
+
+const Header = ({ userId }: { userId: string }) => {
+
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
 	const [showMessenger, setShowMessenger] = useState(false);
@@ -126,10 +136,45 @@ const Header = () => {
 				break;
 		}
 	};
+	const myUserId = userId;
+	const [userId2, setUserId] = useState("");
 
+	const [userData, setUserData] = useState<User>(new User());
+	const [messengerList, setMessengerList] = useState<any[]>([]);
 	useEffect(() => {
 		handleActiveTabPageItem();
-	});
+		const fetchUserData = async () => {
+			const userIdStorage = localStorage.getItem("currentUser");
+			// Gắn userIdStorage vào userRef
+			const userRef = doc(db, "users", myUserId);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				id: userDoc.id,
+			};
+			setUserData(user);
+		};
+
+		const fetchMessageListData = async () => {
+			// Lấy tất cả data dialogues
+			const dialoguesDoc = await getDocs(
+				collection(db, "users", userId, "dialogues")
+			);
+
+			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+
+			const listToUserId = dialoguesData.map((dialogue) => dialogue.toUser);
+
+			// setMessengerList(listToUserId);
+			setMessengerList(dialoguesData);
+		};
+
+		fetchUserData();
+		fetchMessageListData();
+	}, []);
 
 	const doNothing = () => {
 		// Empty function
@@ -174,8 +219,11 @@ const Header = () => {
 		setShowNotification(false);
 	};
 
-	const handleLogOut = () => {
-		// Handle Log out when click button
+	const {logout}=useAuth()
+	const navigate=useNavigate()
+	const handleLogOut = async () => {
+		await logout()
+		navigate('/login')
 	};
 
 	return (
@@ -275,6 +323,11 @@ const Header = () => {
 								onClick={handleToggleAddRequest}>
 								<FontAwesomeIcon icon={faPlus} />
 							</button>
+							<div className={cx("number-notification")}>
+								{userData.friendRequestReceived.length !== 0 && (
+									<span>{userData.friendRequestReceived.length}</span>
+								)}
+							</div>
 						</div>
 					</Tippy>
 					<Tippy content="Messenger" placement="bottom" arrow="false">
@@ -312,7 +365,7 @@ const Header = () => {
 								<img
 									width={40}
 									height={40}
-									src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+									src={currentUser.profilePicture}
 									alt="account"
 								/>
 							</button>
@@ -323,24 +376,9 @@ const Header = () => {
 					<div className={cx("modal-box", showAddRequest && "show")}>
 						<h2 className={cx("heading")}>Lời mời kết bạn</h2>
 						<div className={cx("friend-request-list")}>
-							<AddRequestItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								numberMutualFriends={3}
-								time="3 ngày"
-							/>
-							<AddRequestItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								numberMutualFriends={3}
-								time="3 ngày"
-							/>
-							<AddRequestItem
-								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
-								name="Lê Thành Lâm"
-								numberMutualFriends={3}
-								time="3 ngày"
-							/>
+							{userData.friendRequestReceived.map((friendId, index) => (
+								<AddRequestItem key={index} id={friendId} />
+							))}
 						</div>
 					</div>
 
@@ -397,7 +435,18 @@ const Header = () => {
 						</div>
 
 						<div className={cx("messenger-list")}>
-							<MessengerItem
+							{messengerList.map((dialogue: any, index: number) => (
+								<MessengerItem
+									key={index}
+									userId={myUserId}
+									toUserId={dialogue.toUser}
+									dialogueId={dialogue.id}
+								/>
+							))}
+							{/* {messengerList.map((id: string, index: number) => (
+								<MessengerItem key={index} userId={myUserId} toUserId={id} />
+							))} */}
+							{/* <MessengerItem
 								avatar="https://genshin.global/wp-content/uploads/2022/07/hu-tao-birthday-art-genshinimpact.jpg"
 								name="Lê Thành Lâm"
 								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
@@ -417,7 +466,7 @@ const Header = () => {
 								lastMessage="Alo 1 2 3 9 một hai ba bốn năm sáu bảy tám"
 								status
 								time="16 phút"
-							/>
+							/> */}
 						</div>
 					</div>
 
@@ -452,15 +501,15 @@ const Header = () => {
 								<Link to={"/me"} className={cx("account")}>
 									<div className={cx("avatar")}>
 										<img
-											src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
+											src={currentUser.profilePicture}
 											alt=""
 										/>
 									</div>
-									<span className={cx("name")}>Phạm Lộc Ân</span>
+									<span className={cx("name")}>{currentUser.name}</span>
 								</Link>
 								<Link to="/page" className={cx("logo-page")}>
 									<img
-										src="https://www.phutungtt.com/wp-content/uploads/2022/09/logo-shopee-trong-tin-part.png"
+										src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
 										alt=""
 									/>
 								</Link>
