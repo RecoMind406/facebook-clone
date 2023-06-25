@@ -191,26 +191,33 @@ function Login() {
         validatePass(password)
         if(userError==false && passwordError==false) {
             try {
-                await handleLogin(emailOrPhone, password)
-            } catch (error:any) {
-            console.log(error.message)
-            if(error.message=='Firebase: Error (auth/invalid-email).')
-            {
-                setUserMsg('Người dùng không tồn tại')
-                setUsernameError(true)
-                return
-            } else
-            if(error.message=='Firebase: Error (auth/user-disabled).')
-            {
-                setUserMsg('Tài khoản đang bị khóa')
-                setUsernameError(true)
-                return;
-            }
-            }
+               const userData= await handleLogin(emailOrPhone, password)
+                if(userData) {
+                    navigate('/')
+                }
+            } catch (error: any) {
+                console.log(error.message);
+                if (error.message === 'Firebase: Error (auth/invalid-email).') {
+                  setUserMsg('Vui lòng kiểm tra lại địa chỉ email');
+                  setUsernameError(true);
+                  return;
+                } else if (error.message === 'Firebase: Error (auth/user-disabled).') {
+                  setUserMsg('Tài khoản đang bị khóa');
+                  setUsernameError(true);
+                  return;
+                } else if (error.message==='Firebase: Error (auth/wrong-password).') {
+                    setUserMsg('Tài khoản hoặc mật khẩu không đúng');
+                    setUsernameError(true);
+                    return;
+                } else {
+                    setUserMsg('Tài khoản hoặc mật khẩu không đúng');
+                    setUsernameError(true);
+                    return
+                }
+              }
             
         }
-        console.log(currentUser)
-        navigate('/')
+       
     }
     
     const handleClose=()=>{
