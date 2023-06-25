@@ -17,7 +17,7 @@ const MessengerItem = ({
 	toUserId: string;
 	dialogueId: string;
 }) => {
-	const [toUserData, setToUserData] = useState<User>(new User());
+	const [toUserData, setToUserData] = useState<any>(new User());
 	const [lastMessageText, setLastMessageText] = useState("");
 	const [lastMessageTime, setLastMessageTime] = useState("");
 	useEffect(() => {

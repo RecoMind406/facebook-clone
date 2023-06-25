@@ -42,10 +42,6 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useAuth } from "~/contexts/AuthContext";
 const cx = classNames.bind(styles);
 
-//const Header = () => {
-// Get logged in user
-//const {currentUser}=useAuth()
-
 const Header = () => {
 	// button right
 	const [showAddRequest, setShowAddRequest] = useState(false);
@@ -136,50 +132,43 @@ const Header = () => {
 		}
 	};
 
-	const [userId, setUserId] = useState("");
+	const { currentUser } = useAuth();
 
 	const [userData, setUserData] = useState<any>(new User());
+	const [userIdDoc, setUserIdDoc] = useState<string>("");
+
 	const [messengerList, setMessengerList] = useState<any[]>([]);
 
 	useEffect(() => {
 		handleActiveTabPageItem();
 		const fetchUserData = async () => {
-			// localStorage.setItem(
-			// 	"currentUser",
-			// 	JSON.stringify("iaaHqVx5CpkiJUvuCCh8")
-			// );
-			const item = localStorage.getItem("currentUser");
-			if (item == null) return;
-			const userIdStorage = JSON.parse(item);
-			if (userIdStorage == null) return;
-			// Gắn userIdStorage vào userRef
-			const userRef = doc(db, "users", userIdStorage);
-			const userDoc = await getDoc(userRef);
-			const user = {
-				...userDoc.data(),
-				id: userDoc.id,
-			};
+			// Lấy data từ current user --> chuyển về dạng Object
+			const currentUserData = JSON.parse(currentUser);
+			setUserData(currentUserData);
 
-			setUserData(user);
-			setUserId(userIdStorage);
+			// Lấy id document của user
+			const allUserDoc = await getDocs(collection(db, "users"));
+			const allUserData = allUserDoc.docs.map((doc: any) => ({
+				...doc.data(),
+				idDoc: doc.id,
+			}));
+
+			const user = allUserData.find((user) => user.id === currentUserData.id);
+			setUserIdDoc(user.idDoc);
 		};
+		fetchUserData();
 
 		const fetchMessageListData = async () => {
-			console.log("vào hàm");
 			// Lấy tất cả data dialogues
 			const dialoguesDoc = await getDocs(
-				collection(db, "users", userId, "dialogues")
+				collection(db, "users", userIdDoc, "dialogues")
 			);
-			console.log(dialoguesDoc);
+
 			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 				...doc.data(),
 				id: doc.id,
 			}));
-			console.log(dialoguesData);
 
-			const listToUserId = dialoguesData.map((dialogue) => dialogue.toUser);
-
-			// setMessengerList(listToUserId);
 			setMessengerList(dialoguesData);
 		};
 
@@ -334,11 +323,12 @@ const Header = () => {
 								onClick={handleToggleAddRequest}>
 								<FontAwesomeIcon icon={faPlus} />
 							</button>
-							<div className={cx("number-notification")}>
-								{userData.friendRequestReceived.length !== 0 && (
+
+							{userData.friendRequestReceived.length !== 0 && (
+								<div className={cx("number-notification")}>
 									<span>{userData.friendRequestReceived.length}</span>
-								)}
-							</div>
+								</div>
+							)}
 						</div>
 					</Tippy>
 					<Tippy content="Messenger" placement="bottom" arrow="false">
@@ -451,7 +441,7 @@ const Header = () => {
 							{messengerList.map((dialogue: any, index: number) => (
 								<MessengerItem
 									key={index}
-									userId={userId}
+									userId={userIdDoc}
 									toUserId={dialogue.toUser}
 									dialogueId={dialogue.id}
 								/>

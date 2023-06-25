@@ -1,7 +1,14 @@
 import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
+// Component
 import Header from "~/components/Header";
 import SidebarItem from "~/components/SidebarItem";
+import PostItem from "~/components/PostItem";
+import BoxChatItem from "~/components/BoxChatItem";
+import ContactItem from "~/components/ContactItem/indes";
+
+// Libarary
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faBookOpen,
@@ -15,7 +22,7 @@ import {
 	faUserGear,
 	faVideo,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+
 // Import tippy
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -33,15 +40,12 @@ import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import ButtonNextSlide from "../../components/ButtonSlideSwiper/ButtonNext";
 import ButtonPrevSlide from "../../components/ButtonSlideSwiper/ButtonPrev";
-import { Link } from "react-router-dom";
-import PostItem from "~/components/PostItem";
-import BoxChatItem from "~/components/BoxChatItem";
 
 import { useAuth } from "~/contexts/AuthContext";
 
 // firestore database
 import { db, storage } from "~/../config/firebase";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import {
 	doc,
@@ -52,9 +56,9 @@ import {
 	where,
 } from "firebase/firestore";
 import { addDoc, collection } from "firebase/firestore";
+
+// Model
 import User from "~/models/user";
-import ContactItem from "~/components/ContactItem/indes";
-import Dialogue from "~/models/dialogue";
 import Post from "~/models/post";
 
 const cx = classNames.bind(styles);
@@ -122,7 +126,7 @@ const Home = () => {
 		const post = new Post();
 
 		const newPostRef = await addDoc(collection(db, "posts"), {
-			userID: "123",
+			userID: userIdDoc,
 			content: postContent,
 			image: uploadImage,
 			timestamp: post.timestamp,
@@ -133,7 +137,7 @@ const Home = () => {
 		});
 
 		// Lấy id của post đưa vào post trong user
-		const userRef = doc(db, "users", myUserId);
+		const userRef = doc(db, "users", userIdDoc);
 		await updateDoc(userRef, {
 			posts: [...userData.posts, newPostRef.id],
 		});
@@ -145,26 +149,31 @@ const Home = () => {
 	const { currentUser } = useAuth();
 
 	// firestore database
-	const myUserId = "iaaHqVx5CpkiJUvuCCh8";
 	const [userData, setUserData] = useState<any>(new User());
+	const [userIdDoc, setUserIdDoc] = useState<string>("");
 
 	useEffect(() => {
 		const fetchUserData = async () => {
-			const userRef = doc(db, "users", myUserId);
-			const userDoc = await getDoc(userRef);
-			const user = {
-				...userDoc.data(),
-				id: userDoc.id,
-			};
-			setUserData(user);
-		};
+			// Lấy data từ current user --> chuyển về dạng Object
+			const currentUserData = JSON.parse(currentUser);
+			setUserData(currentUserData);
 
+			// Lấy id document của user
+			const allUserDoc = await getDocs(collection(db, "users"));
+			const allUserData = allUserDoc.docs.map((doc: any) => ({
+				...doc.data(),
+				idDoc: doc.id,
+			}));
+
+			const user = allUserData.find((user) => user.id === currentUserData.id);
+			setUserIdDoc(user.idDoc);
+		};
 		fetchUserData();
 	}, []);
 
 	return (
 		<>
-			<Header userId="iaaHqVx5CpkiJUvuCCh8" />
+			<Header />
 			<div className={cx("wrapper")}>
 				<div
 					className={cx(
@@ -674,7 +683,7 @@ const Home = () => {
 					</div>
 
 					<div className={cx("contact-list")}>
-						{userData.friends.map((friendId, index) => (
+						{userData.friends.map((friendId: any, index: number) => (
 							<ContactItem
 								key={index}
 								id={friendId}
@@ -710,13 +719,10 @@ const Home = () => {
 						<div className={cx("body")}>
 							<div className={cx("user")}>
 								<div className={cx("avatar")}>
-									<img
-										src="https://pbs.twimg.com/profile_images/1595357378857390080/hLO03uqj_400x400.jpg"
-										alt=""
-									/>
+									<img src={currentUser.profilePicture} alt="" />
 								</div>
 								<div className={cx("name")}>
-									<p>Lộc Ân</p>
+									<p>{currentUser.name}</p>
 									<div className={cx("publish")}>
 										<img
 											src="https://static.xx.fbcdn.net/rsrc.php/v3/ys/r/L39Daxsxmmw.png"
@@ -895,7 +901,7 @@ const Home = () => {
 				{boxChats.map((boxChatId, index: number) => (
 					<BoxChatItem
 						key={index}
-						userId={myUserId}
+						userId={userIdDoc}
 						toUserId={boxChatId}
 						handleClose={() => hanleCloseBoxChat(boxChatId)}
 					/>
