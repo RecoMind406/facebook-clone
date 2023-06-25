@@ -74,15 +74,32 @@ function AuthProvider({ children }: any) {
     });
   }
 
-  async function handleLogin(email:any, password:any) {
+  // async function handleLogin(email:any, password:any) {
+  //   try {
+  //     const userData = await login(email, password);
+  //     localStorage.setItem('currentUser', JSON.stringify(userData));
+  //     return userData
+  //   } catch (error) {
+  //     console.log("Lỗi đăng nhập:", error);
+  //   }
+  // }
+  async function handleLogin(email: any, password: any) {
     try {
-      const userData = await login(email, password);
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      return userData
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      if (userCredential.user) {
+        const userId = userCredential.user.uid;
+        const userData = await getUserData(userId);
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        return userData;
+      }
     } catch (error) {
-      console.log("Lỗi đăng nhập:", error);
+      // Xử lý lỗi đăng nhập
+      console.log(error)
+      throw error
     }
   }
+  
 
   function logout() {
     localStorage.removeItem('currentUser')
