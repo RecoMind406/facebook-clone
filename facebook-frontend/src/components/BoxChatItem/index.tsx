@@ -78,7 +78,7 @@ const BoxChatItem = ({
 
 		const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 			...doc.data(),
-			id: doc.id,
+			idDoc: doc.id,
 		}));
 		// Tìm ra dialogue ứng với userId
 		let dialogueWithUser = dialoguesData.find(
@@ -94,7 +94,7 @@ const BoxChatItem = ({
 				(dialogue) => dialogue.toUser === userId
 			);
 		}
-		const dialougeWithUserId = dialogueWithUser?.id;
+		const dialougeWithUserId = dialogueWithUser?.idDoc;
 
 		if (dialougeWithUserId) {
 			const pathMessages = doc(
@@ -151,7 +151,7 @@ const BoxChatItem = ({
 			const toUserDoc = await getDoc(toUserRef);
 			const toUser = {
 				...toUserDoc.data(),
-				id: toUserDoc.id,
+				idDoc: toUserDoc.id,
 			};
 			setToUserData(toUser);
 		};
@@ -165,7 +165,7 @@ const BoxChatItem = ({
 
 			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 				...doc.data(),
-				id: doc.id,
+				idDoc: doc.id,
 			}));
 
 			// Tìm ra dialogue ứng với toUserId
@@ -182,7 +182,7 @@ const BoxChatItem = ({
 				);
 			}
 
-			const dialogueWithToUserId = dialogueWithToUser?.id;
+			const dialogueWithToUserId = dialogueWithToUser?.idDoc;
 
 			if (dialogueWithToUserId) {
 				SetDialogueId(dialogueWithToUserId);
