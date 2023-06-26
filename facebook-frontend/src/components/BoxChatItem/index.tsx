@@ -63,14 +63,7 @@ const BoxChatItem = ({
 				isSent: true,
 			}
 		);
-		// await addDoc(
-		// 	collection(db, "users", userId, "dialogues", dialogueId, "messages"),
-		// 	{
-		// 		text: newMessageText,
-		// 		timestamp: Timestamp.fromDate(newMessage.timestamp),
-		// 		isSent: true,
-		// 	}
-		// );
+
 		// Lưu vào new message bên người nhận
 		const dialoguesDoc = await getDocs(
 			collection(db, "users", toUserId, "dialogues")
@@ -78,7 +71,7 @@ const BoxChatItem = ({
 
 		const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 			...doc.data(),
-			id: doc.id,
+			idDoc: doc.id,
 		}));
 		// Tìm ra dialogue ứng với userId
 		let dialogueWithUser = dialoguesData.find(
@@ -94,7 +87,7 @@ const BoxChatItem = ({
 				(dialogue) => dialogue.toUser === userId
 			);
 		}
-		const dialougeWithUserId = dialogueWithUser?.id;
+		const dialougeWithUserId = dialogueWithUser?.idDoc;
 
 		if (dialougeWithUserId) {
 			const pathMessages = doc(
@@ -112,21 +105,6 @@ const BoxChatItem = ({
 				timestamp: Timestamp.fromDate(newMessage.timestamp),
 				isSent: false,
 			});
-			// await addDoc(
-			// 	collection(
-			// 		db,
-			// 		"users",
-			// 		toUserId,
-			// 		"dialogues",
-			// 		dialougeWithUserId,
-			// 		"messages"
-			// 	),
-			// 	{
-			// 		text: newMessageText,
-			// 		timestamp: Timestamp.fromDate(newMessage.timestamp),
-			// 		isSent: false,
-			// 	}
-			// );
 		}
 		setMessagesList([
 			...messagesList,
@@ -151,7 +129,7 @@ const BoxChatItem = ({
 			const toUserDoc = await getDoc(toUserRef);
 			const toUser = {
 				...toUserDoc.data(),
-				id: toUserDoc.id,
+				idDoc: toUserDoc.id,
 			};
 			setToUserData(toUser);
 		};
@@ -165,7 +143,7 @@ const BoxChatItem = ({
 
 			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
 				...doc.data(),
-				id: doc.id,
+				idDoc: doc.id,
 			}));
 
 			// Tìm ra dialogue ứng với toUserId
@@ -182,7 +160,7 @@ const BoxChatItem = ({
 				);
 			}
 
-			const dialogueWithToUserId = dialogueWithToUser?.id;
+			const dialogueWithToUserId = dialogueWithToUser?.idDoc;
 
 			if (dialogueWithToUserId) {
 				SetDialogueId(dialogueWithToUserId);
