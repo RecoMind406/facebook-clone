@@ -10,7 +10,7 @@ import {
     Modal,
     Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
@@ -57,6 +57,17 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
 
     const isSameUser = aProfileUser == aLoginUser;
     const isFriend = aProfileUser.friends.includes(aLoginUser.id);
+    const isFriendRequestSent = aLoginUser.friendRequestSent.includes(
+        aProfileUser.id
+    );
+    const isFriendRequestReceived = aLoginUser.friendRequestReceived.includes(
+        aProfileUser.id
+    );
+
+    useEffect(() => {
+        // render the page every time the friend request status changes
+        console.log("Friend request status changed");
+    }, [isFriendRequestReceived, isFriendRequestSent]);
 
     const usersCollectionRef = collection(db, "users");
 
@@ -120,6 +131,54 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
         handleCloseChangeCover();
     };
 
+    const handleSendFriendRequest = async () => {
+        // add aProfileUser.id to aLoginUser.friendRequestSent
+        const querySnapshot = await getDocs(
+            query(usersCollectionRef, where("id", "==", aLoginUser.id))
+        );
+        const docId = querySnapshot.docs[0].id;
+        if (isFriendRequestSent) {
+            // remove aProfileUser.id from aLoginUser.friendRequestSent
+            await updateDoc(doc(usersCollectionRef, docId), {
+                friendRequestSent: aLoginUser.friendRequestSent.filter(
+                    (id) => id !== aProfileUser.id
+                ),
+            });
+        } else
+            await updateDoc(doc(usersCollectionRef, docId), {
+                friendRequestSent: Array.from(
+                    new Set([...aLoginUser.friendRequestSent, aProfileUser.id])
+                ),
+            });
+        // add aLoginuser.id to aProfileUser.friendRequestReceived
+        const querySnapshot2 = await getDocs(
+            query(usersCollectionRef, where("id", "==", aProfileUser.id))
+        );
+        const docId2 = querySnapshot2.docs[0].id;
+
+        if (isFriendRequestReceived) {
+            // remove aProfileUser.id from aLoginUser.friendRequestReceived
+            await updateDoc(
+                doc(usersCollectionRef, docId2),
+
+                {
+                    isFriendRequestReceived: [
+                        ...aLoginUser.friendRequestReceived,
+                        aProfileUser.id,
+                    ],
+                }
+            );
+        } else
+            await updateDoc(doc(usersCollectionRef, docId2), {
+                friendRequestReceived: Array.from(
+                    new Set([
+                        ...aProfileUser.friendRequestReceived,
+                        aLoginUser.id,
+                    ])
+                ),
+            });
+    };
+
     return (
         <Container fixed>
             <CssBaseline />
@@ -129,7 +188,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                     maxHeight: "462px",
                     width: "100%",
                     height: "100%",
-                    borderRadius: "1%",
+                    borderRadius: "0% 0% 2% 2%",
                     overflow: "hidden",
                 }}
             >
@@ -504,8 +563,13 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                                             marginRight: "8px",
                                         }}
                                         startIcon={<AddIcon />}
+                                        onClick={handleSendFriendRequest}
                                     >
-                                        Thêm bạn bè
+                                        {isFriendRequestSent
+                                            ? "Đã gửi lời mời kết bạn"
+                                            : isFriendRequestReceived
+                                            ? "Chấp nhận"
+                                            : "Thêm bạn bè"}
                                     </Button>
                                     <Button
                                         variant="contained"
