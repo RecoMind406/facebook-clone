@@ -4,10 +4,18 @@ import styles from "./SearchItem.module.scss";
 
 const cx = classNames.bind(styles);
 
-const SearchItem = ({ image, title }: { image: string; title: string }) => {
+const SearchItem = ({
+	id,
+	image,
+	title,
+}: {
+	id: string;
+	image: string;
+	title: string;
+}) => {
 	return (
 		<div className={cx("box")}>
-			<Link to={"/"} className={cx("search-item")}>
+			<Link to={"/profile/" + id} className={cx("search-item")}>
 				<div className={cx("avatar")}>
 					<img src={image} alt="" />
 				</div>
