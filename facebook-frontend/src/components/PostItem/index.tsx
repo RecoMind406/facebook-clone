@@ -101,8 +101,7 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 
 			const jsTime = new Date(post.timestamp.toDate());
 			const currentTime = new Date();
-			console.log(jsTime);
-			console.log(currentTime);
+
 			if (currentTime.getDate() - jsTime.getDate() > 0) {
 				if (currentTime.getHours() - jsTime.getHours() > 0) {
 					setTimePost(currentTime.getDate() - jsTime.getDate() + " ngày");
