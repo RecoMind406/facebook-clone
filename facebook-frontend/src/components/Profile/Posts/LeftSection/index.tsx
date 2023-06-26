@@ -68,26 +68,34 @@ export const PostsLeft: React.FC<User> = (aUser) => {
                         <Box
                             component="img"
                             sx={{
-                                width: "100%",
-                                height: "100%",
+                                maxWidth: "100%",
+                                maxHeight: "150px",
                                 objectFit: "cover",
                                 borderRadius: "10px",
                             }}
-                            alt={"Cover photo of" + aUser.name}
-                            src={aUser.profilePicture}
+                            alt={"Profile picture  of " + aUser.name}
+                            src={
+                                aUser.profilePicture
+                                    ? aUser.profilePicture
+                                    : "http://getwallpapers.com/wallpaper/full/1/f/a/475590.jpg"
+                            }
                         />
                     </Grid>
                     <Grid item xs={4}>
                         <Box
                             component="img"
                             sx={{
-                                width: "100%",
-                                height: "100%",
+                                maxWidth: "100%",
+                                maxHeight: "150px",
                                 objectFit: "cover",
                                 borderRadius: "10px",
                             }}
-                            alt={"Cover photo of" + aUser.name}
-                            src={aUser.cover}
+                            alt={"Cover photo of " + aUser.name}
+                            src={
+                                aUser.cover
+                                    ? aUser.cover
+                                    : "http://getwallpapers.com/wallpaper/full/1/f/a/475590.jpg"
+                            }
                         />
                     </Grid>
                 </Grid>
