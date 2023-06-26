@@ -115,7 +115,6 @@ const Home = () => {
 		const imageRef = ref(storage, `images/${file.name + v4()}`);
 		uploadBytes(imageRef, file).then((snapshot) => {
 			getDownloadURL(snapshot.ref).then((url) => {
-				console.log(url);
 				setUploadImage(url);
 			});
 		});
@@ -140,6 +139,19 @@ const Home = () => {
 		await updateDoc(userRef, {
 			posts: [...userData.posts, newPostRef.id],
 		});
+
+		// gọi fetch lại data lần nữa để set lại posts
+		const fetchUserData = async () => {
+			const userRef = doc(db, "users", userIdDoc);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				idDoc: userDoc.id,
+			};
+
+			setUserData(user);
+		};
+		fetchUserData();
 
 		// Post xong thì hide modal
 		hideModal();
