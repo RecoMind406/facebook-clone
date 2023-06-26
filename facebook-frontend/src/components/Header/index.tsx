@@ -291,6 +291,7 @@ const Header = () => {
 							<SearchItem
 								image={searchItem.profilePicture}
 								title={searchItem.name}
+								id={searchItem.id}
 							/>
 						))}
 					</div>
