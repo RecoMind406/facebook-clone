@@ -10,17 +10,15 @@ import {
     Modal,
     Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import PeopleIcon from "@mui/icons-material/People";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import User from "~/models/user";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { db, auth, storage } from "~/../config/firebase";
+import { db, storage } from "~/../config/firebase";
 import {
     collection,
     doc,
@@ -29,7 +27,6 @@ import {
     updateDoc,
     where,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
 
 interface TopSectionProps {
     aLoginUser: User;
@@ -57,6 +54,9 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
     const handleCloseChangeProfilePicture = () => {
         setOpenChangeProfilePicture(false);
     };
+
+    const isSameUser = aProfileUser == aLoginUser;
+    const isFriend = aProfileUser.friends.includes(aLoginUser.id);
 
     const usersCollectionRef = collection(db, "users");
 
@@ -153,6 +153,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                             ":hover": {
                                 backgroundColor: "#cfd2d6",
                             },
+                            display: isSameUser ? "block" : "none",
                         }}
                         onClick={handleOpenChangeCover}
                     >
@@ -233,10 +234,10 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                     </Modal>
                 </Box>
                 <img
-                    alt={"Cover photo of" + aLoginUser.name}
+                    alt={"Cover photo of" + aProfileUser.name}
                     src={
-                        aLoginUser.cover
-                            ? aLoginUser.cover
+                        aProfileUser.cover
+                            ? aProfileUser.cover
                             : "http://getwallpapers.com/wallpaper/full/1/f/a/475590.jpg"
                     }
                 />
@@ -255,7 +256,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                 }}
             >
                 <Avatar
-                    src={aLoginUser.profilePicture}
+                    src={aProfileUser.profilePicture}
                     sx={{
                         width: "168px",
                         height: "168px",
@@ -294,6 +295,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                         ":hover": {
                             backgroundColor: "#cfd2d6",
                         },
+                        display: isSameUser ? "block" : "none",
                     }}
                     onClick={handleOpenChangeProfilePicture}
                 >
@@ -384,7 +386,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                                 },
                             }}
                         >
-                            {aLoginUser.name}
+                            {aProfileUser.name}
                         </Typography>
                         <Typography
                             sx={{
@@ -398,7 +400,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                                 },
                             }}
                         >
-                            {aLoginUser.friends.length} bạn bè
+                            {aProfileUser.friends.length} bạn bè
                         </Typography>
                         <Box
                             sx={{
@@ -422,7 +424,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                                     },
                                 }}
                             >
-                                {aLoginUser.friends
+                                {aProfileUser.friends
                                     .slice(0, 8)
                                     .map((friend) => (
                                         <Avatar
@@ -444,7 +446,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
                             >
                                 <Box
                                     sx={{
-                                        display: "flex",
+                                        display: isSameUser ? "flex" : "none",
                                     }}
                                 >
                                     <Button
@@ -483,7 +485,10 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
 
                                 <Box
                                     sx={{
-                                        display: "none",
+                                        display:
+                                            isFriend || isSameUser
+                                                ? "none"
+                                                : "flex",
                                     }}
                                 >
                                     <Button
@@ -528,7 +533,11 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
 
                                 <Box
                                     sx={{
-                                        display: "none",
+                                        display: isSameUser
+                                            ? "none"
+                                            : isFriend
+                                            ? "flex"
+                                            : "none",
                                     }}
                                 >
                                     <Button

@@ -34,6 +34,7 @@ import {
     query,
 } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
+import { useParams } from "react-router-dom";
 
 const NavButton = styled(Button)({
     boxShadow: "none",
@@ -82,6 +83,9 @@ export const Profile = (profileId: string) => {
 
     // Get the user with user.id = loginUserId from firestore
     const loginUser = users.find((user) => user.id === loginUserId);
+    // Get the user with user.id = profileId from firestore
+    const { id } = useParams<{ id: string }>();
+    const profileUser = users.find((user) => user.id === id);
 
     // Navigation
     const [selectedNav, setSelectedNav] = useState("Bài viết");
@@ -93,7 +97,10 @@ export const Profile = (profileId: string) => {
         <Box>
             <Header />
             {loginUser && (
-                <TopSection aLoginUser={loginUser} aProfileUser={loginUser} />
+                <TopSection
+                    aLoginUser={loginUser}
+                    aProfileUser={profileUser ? profileUser : loginUser}
+                />
             )}
 
             <Container>
