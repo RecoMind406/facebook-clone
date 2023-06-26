@@ -7,17 +7,119 @@ import {
     CssBaseline,
     Divider,
     IconButton,
+    Modal,
     Typography,
 } from "@mui/material";
-import React from "react";
-import User from "../../../models/user";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
-export const TopSection: React.FC<User> = (aUser) => {
+import User from "~/models/user";
+
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, auth, storage } from "~/../config/firebase";
+import {
+    collection,
+    doc,
+    getDocs,
+    query,
+    updateDoc,
+    where,
+} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+
+interface TopSectionProps {
+    aLoginUser: User;
+    aProfileUser: User;
+}
+
+export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
+    const [openChangeCover, setOpenChangeCover] = React.useState(false);
+    const [openChangeProfilePicture, setOpenChangeProfilePicture] =
+        React.useState(false);
+    const [profilePicture, setProfilePicture] = useState<File | null>(null);
+    const [profilePictureUrl, setProfilePictureUrl] = useState("");
+    const [cover, setCover] = useState<File | null>(null);
+    const [coverUrl, setCoverUrl] = useState("");
+
+    const handleOpenChangeCover = () => {
+        setOpenChangeCover(true);
+    };
+    const handleCloseChangeCover = () => {
+        setOpenChangeCover(false);
+    };
+    const handleOpenChangeProfilePicture = () => {
+        setOpenChangeProfilePicture(true);
+    };
+    const handleCloseChangeProfilePicture = () => {
+        setOpenChangeProfilePicture(false);
+    };
+
+    const usersCollectionRef = collection(db, "users");
+
+    const handleUploadProfilePicture = async () => {
+        if (!profilePicture) {
+            handleCloseChangeProfilePicture();
+        }
+        if (profilePicture && aLoginUser) {
+            const imageRef = ref(
+                storage,
+                `users/${aLoginUser.id}/profilePicture`
+            );
+            try {
+                uploadBytes(imageRef, profilePicture).then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((url) => {
+                        setProfilePictureUrl(url);
+                        console.log("Profile Picture Url:", profilePictureUrl);
+                    });
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        // Update profile picture url in firestore
+        const querySnapshot = await getDocs(
+            query(usersCollectionRef, where("id", "==", aLoginUser.id))
+        );
+        const docId = querySnapshot.docs[0].id;
+        await updateDoc(doc(usersCollectionRef, docId), {
+            profilePicture: profilePictureUrl,
+        });
+        console.log(aLoginUser.profilePicture);
+        handleCloseChangeProfilePicture();
+    };
+
+    const handleUploadCover = async () => {
+        if (!cover) {
+            handleCloseChangeCover();
+        }
+        if (cover && aLoginUser) {
+            const imageRef = ref(storage, `users/${aLoginUser.id}/cover`);
+            try {
+                uploadBytes(imageRef, cover).then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((url) => {
+                        setCoverUrl(url);
+                        console.log(url);
+                    });
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        // Update cover url in firestore
+        const querySnapshot = await getDocs(
+            query(usersCollectionRef, where("id", "==", aLoginUser.id))
+        );
+        const docId = querySnapshot.docs[0].id;
+        await updateDoc(doc(usersCollectionRef, docId), {
+            cover: coverUrl,
+        });
+        handleCloseChangeCover();
+    };
+
     return (
         <Container fixed>
             <CssBaseline />
@@ -52,6 +154,7 @@ export const TopSection: React.FC<User> = (aUser) => {
                                 backgroundColor: "#cfd2d6",
                             },
                         }}
+                        onClick={handleOpenChangeCover}
                     >
                         <CameraAltIcon
                             sx={{
@@ -59,16 +162,83 @@ export const TopSection: React.FC<User> = (aUser) => {
                             }}
                         />
                     </IconButton>
+                    <Modal
+                        open={openChangeCover}
+                        onClose={handleCloseChangeCover}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: "400px",
+                                p: 4,
+                                bgcolor: "background.paper",
+                                boxShadow: 24,
+                                borderRadius: "16px",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                component="h2"
+                                mb={2}
+                                sx={{
+                                    fontWeight: "bold",
+                                    fontSize: "32px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                Thay đổi ảnh bìa
+                            </Typography>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <input
+                                    type="file"
+                                    onChange={(e) => {
+                                        if (e.target.files) {
+                                            setCover(e.target.files[0]);
+                                        }
+                                    }}
+                                    style={{ marginBottom: 2 }}
+                                />
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        textTransform: "none",
+                                        backgroundColor: "#1b74e4",
+                                        fontWeight: "bold",
+                                        maxHeight: "36px",
+                                        ":hover": {
+                                            backgroundColor: "#1352a3",
+                                        },
+                                        marginRight: "8px",
+                                    }}
+                                    startIcon={<AddIcon />}
+                                    onClick={handleUploadCover}
+                                >
+                                    Tải Ảnh Lên
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Modal>
                 </Box>
-                <Box
-                    component="img"
-                    sx={{
-                        width: "100%",
-                        height: "auto",
-                        objectFit: "cover",
-                    }}
-                    alt={"Cover photo of" + aUser.name}
-                    src={aUser.cover}
+                <img
+                    alt={"Cover photo of" + aLoginUser.name}
+                    src={
+                        aLoginUser.cover
+                            ? aLoginUser.cover
+                            : "http://getwallpapers.com/wallpaper/full/1/f/a/475590.jpg"
+                    }
                 />
             </Box>
             <Box
@@ -85,7 +255,7 @@ export const TopSection: React.FC<User> = (aUser) => {
                 }}
             >
                 <Avatar
-                    src={aUser.profilePicture}
+                    src={aLoginUser.profilePicture}
                     sx={{
                         width: "168px",
                         height: "168px",
@@ -125,6 +295,7 @@ export const TopSection: React.FC<User> = (aUser) => {
                             backgroundColor: "#cfd2d6",
                         },
                     }}
+                    onClick={handleOpenChangeProfilePicture}
                 >
                     <CameraAltIcon
                         sx={{
@@ -132,6 +303,70 @@ export const TopSection: React.FC<User> = (aUser) => {
                         }}
                     />
                 </IconButton>
+                <Modal
+                    open={openChangeProfilePicture}
+                    onClose={handleCloseChangeProfilePicture}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            width: "400px",
+                            p: 4,
+                            bgcolor: "background.paper",
+                            boxShadow: 24,
+                            borderRadius: "16px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography
+                            variant="h6"
+                            component="h2"
+                            mb={2}
+                            sx={{
+                                fontWeight: "bold",
+                                fontSize: "32px",
+                                textAlign: "center",
+                            }}
+                        >
+                            Thay đổi ảnh đại diện
+                        </Typography>
+                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                            <input
+                                type="file"
+                                onChange={(e) => {
+                                    if (e.target.files) {
+                                        setProfilePicture(e.target.files[0]);
+                                    }
+                                }}
+                                style={{ marginBottom: 2 }}
+                            />
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    textTransform: "none",
+                                    backgroundColor: "#1b74e4",
+                                    fontWeight: "bold",
+                                    maxHeight: "36px",
+                                    ":hover": {
+                                        backgroundColor: "#1352a3",
+                                    },
+                                    marginRight: "8px",
+                                }}
+                                startIcon={<AddIcon />}
+                                onClick={handleUploadProfilePicture}
+                            >
+                                Tải Ảnh Lên
+                            </Button>
+                        </Box>
+                    </Box>
+                </Modal>
                 <Box
                     sx={{
                         width: "100%",
@@ -149,7 +384,7 @@ export const TopSection: React.FC<User> = (aUser) => {
                                 },
                             }}
                         >
-                            {aUser.name}
+                            {aLoginUser.name}
                         </Typography>
                         <Typography
                             sx={{
@@ -163,7 +398,7 @@ export const TopSection: React.FC<User> = (aUser) => {
                                 },
                             }}
                         >
-                            {aUser.friends.length} bạn bè
+                            {aLoginUser.friends.length} bạn bè
                         </Typography>
                         <Box
                             sx={{
@@ -187,17 +422,19 @@ export const TopSection: React.FC<User> = (aUser) => {
                                     },
                                 }}
                             >
-                                {aUser.friends.slice(0, 8).map((friend) => (
-                                    <Avatar
-                                        // key={friend.id}
-                                        // alt={"Photo of" + friend.name}
-                                        // src={friend.profilePicture}
-                                        sx={{
-                                            width: "32px",
-                                            height: "32px",
-                                        }}
-                                    />
-                                ))}
+                                {aLoginUser.friends
+                                    .slice(0, 8)
+                                    .map((friend) => (
+                                        <Avatar
+                                            // key={friend.id}
+                                            // alt={"Photo of" + friend.name}
+                                            // src={friend.profilePicture}
+                                            sx={{
+                                                width: "32px",
+                                                height: "32px",
+                                            }}
+                                        />
+                                    ))}
                             </AvatarGroup>
                             <Box
                                 sx={{
