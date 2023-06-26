@@ -11,62 +11,54 @@ import Comment from "~/models/comment";
 const cx = classNames.bind(styles);
 
 const CommentItem = ({
-	commentId,
-	postId,
+	text,
+	timestamp,
+	userId,
 }: {
-	commentId: string;
-	postId: string;
+	text: string;
+	timestamp: any;
+	userId: string;
 }) => {
-	const [commentData, setCommentData] = useState<Comment>(new Comment());
 	const [ownerCommentData, setOwnerCommentData] = useState<User>(new User());
 
 	const [timeComment, setTimeComment] = useState("");
 
 	useEffect(() => {
 		const fetchCommentData = async () => {
-			const commentRef = doc(db, "posts", postId, "comments", commentId);
-			const commentDoc = await getDoc(commentRef);
-			const comment = {
-				...commentDoc.data(),
-				idDoc: commentDoc.id,
-			};
-			setCommentData(comment);
-
-			const ownerCommentRef = doc(db, "users", comment.userID);
+			const ownerCommentRef = doc(db, "users", userId);
 			const ownerCommentDoc = await getDoc(ownerCommentRef);
 			const ownerComment = {
 				...ownerCommentDoc.data(),
 				idDoc: ownerCommentDoc.id,
 			};
 			setOwnerCommentData(ownerComment);
-
-			const jsTime = new Date(comment.timestamp.toDate());
-			const currentTime = new Date();
-			if (currentTime.getDate() - jsTime.getDate() > 0) {
-				if (currentTime.getHours() - jsTime.getHours() > 0) {
-					setTimeComment(currentTime.getDate() - jsTime.getDate() + " ngày");
+		};
+		fetchCommentData();
+		const jsTime = new Date(timestamp.toDate());
+		const currentTime = new Date();
+		if (currentTime.getDate() - jsTime.getDate() > 0) {
+			if (currentTime.getHours() - jsTime.getHours() > 0) {
+				setTimeComment(currentTime.getDate() - jsTime.getDate() + " ngày");
+			} else {
+				setTimeComment(
+					currentTime.getHours() - jsTime.getHours() + 24 + " giờ"
+				);
+			}
+		} else {
+			if (currentTime.getHours() - jsTime.getHours() > 0) {
+				if (currentTime.getMinutes() - jsTime.getMinutes() > 0) {
+					setTimeComment(currentTime.getHours() - jsTime.getHours() + " giờ");
 				} else {
 					setTimeComment(
-						currentTime.getHours() - jsTime.getHours() + 24 + " giờ"
+						currentTime.getMinutes() - jsTime.getMinutes() + 60 + " phút"
 					);
 				}
 			} else {
-				if (currentTime.getHours() - jsTime.getHours() > 0) {
-					if (currentTime.getMinutes() - jsTime.getMinutes() > 0) {
-						setTimeComment(currentTime.getHours() - jsTime.getHours() + " giờ");
-					} else {
-						setTimeComment(
-							currentTime.getMinutes() - jsTime.getMinutes() + 60 + " phút"
-						);
-					}
-				} else {
-					setTimeComment(
-						currentTime.getMinutes() - jsTime.getMinutes() + " phút"
-					);
-				}
+				setTimeComment(
+					currentTime.getMinutes() - jsTime.getMinutes() + " phút"
+				);
 			}
-		};
-		fetchCommentData();
+		}
 	}, []);
 
 	return (
@@ -80,7 +72,7 @@ const CommentItem = ({
 						<Link to={"/"} className={cx("name-account")}>
 							<span>{ownerCommentData.name}</span>
 						</Link>
-						<p className={cx("text-comment")}>{commentData.text}</p>
+						<p className={cx("text-comment")}>{text}</p>
 					</div>
 				</div>
 				<div className={cx("button-comment-box")}>

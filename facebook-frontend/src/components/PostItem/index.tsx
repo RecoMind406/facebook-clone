@@ -32,7 +32,6 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 	const [ownerPostData, setOwnerPostData] = useState<User>(new User());
 	const [userData, setUserData] = useState<User>(new User());
 	const [timePost, setTimePost] = useState<string>("");
-	const [listComment, setListComment] = useState<string[]>([]);
 
 	const [isLikePost, setIsLikePost] = useState(false);
 	const handleLikePostBtn = async () => {
@@ -51,16 +50,33 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 	};
 
 	const [commentText, setCommentText] = useState("");
+	const [listComment, setListComment] = useState([]);
 
 	const handleSubmitComment = async (e: any) => {
 		e.preventDefault();
 		if (commentText === "") return;
-
-		await setDoc(doc(collection(db, "posts", postId, "comments")), {
+		const newComment = {
 			text: commentText,
 			timestamp: Timestamp.fromDate(new Date()),
 			userID: userId,
-		});
+		};
+
+		await setDoc(doc(collection(db, "posts", postId, "comments")), newComment);
+
+		const fetchListCommentData = async () => {
+			const allCommentDoc = await getDocs(
+				collection(db, "posts", postId, "comments")
+			);
+			const allCommentData = allCommentDoc.docs.map((doc: any) => ({
+				...doc.data(),
+				idDoc: doc.id,
+			}));
+			console.log(allCommentData);
+
+			setListComment(allCommentData);
+		};
+
+		fetchListCommentData();
 
 		setCommentText("");
 	};
@@ -85,6 +101,8 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 
 			const jsTime = new Date(post.timestamp.toDate());
 			const currentTime = new Date();
+			console.log(jsTime);
+			console.log(currentTime);
 			if (currentTime.getDate() - jsTime.getDate() > 0) {
 				if (currentTime.getHours() - jsTime.getHours() > 0) {
 					setTimePost(currentTime.getDate() - jsTime.getDate() + " ngày");
@@ -106,17 +124,6 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 			}
 		};
 
-		const fetchUserData = async () => {
-			const userRef = doc(db, "users", userId);
-			const userDoc = await getDoc(userRef);
-			const user = {
-				...userDoc.data(),
-				idDoc: userDoc.id,
-			};
-
-			setUserData(user);
-		};
-
 		const fetchListCommentData = async () => {
 			const allCommentDoc = await getDocs(
 				collection(db, "posts", postId, "comments")
@@ -127,6 +134,17 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 			}));
 
 			setListComment(allCommentData);
+		};
+
+		const fetchUserData = async () => {
+			const userRef = doc(db, "users", userId);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				idDoc: userDoc.id,
+			};
+
+			setUserData(user);
 		};
 
 		fetchDataPost();
@@ -244,7 +262,12 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 					</div>
 				</div>
 				{listComment.map((comment, index) => (
-					<CommentItem key={index} postId={postId} commentId={comment.idDoc} />
+					<CommentItem
+						key={index}
+						userId={comment.userID}
+						timestamp={comment.timestamp}
+						text={comment.text}
+					/>
 				))}
 			</div>
 		</div>
