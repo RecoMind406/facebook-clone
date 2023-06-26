@@ -35,6 +35,8 @@ function Register({Close}:any) {
         if(!nameError&&!emailError&&!passwordError&&!genderError) {
             try {
                 await signup(emailOrPhone, password, name, gender, birthday);
+              navigate('/');
+
               } catch (error:any) {
                 if(error.message=='Firebase: Error (auth/invalid-email).') {
                     setRegMsg('Địa chỉ email không tồn tại!')
@@ -47,7 +49,6 @@ function Register({Close}:any) {
                     return;
                 }
               }
-              navigate('/');
         }
     }
 
