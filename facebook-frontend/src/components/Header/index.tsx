@@ -160,8 +160,9 @@ const Header = () => {
 
 		const resultSearch = allUserData.filter((user) => {
 			const lowerName = user.name.toLowerCase();
+			const lowerText = text.toLowerCase();
 
-			if (lowerName.includes(text)) return user;
+			if (lowerName.includes(lowerText)) return user;
 		});
 		setSearchResultList(resultSearch);
 	};
