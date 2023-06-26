@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -21,6 +21,19 @@ import { ProfileReelsTab } from "~/components/Profile/Reels";
 import { ProfileFriendsTab } from "~/components/Profile/Friends";
 import Header from "~/components/Header";
 import Post from "~/models/post";
+import { onAuthStateChanged } from "firebase/auth";
+import { db, auth, storage } from "~/../config/firebase";
+import {
+    getDocs,
+    getDoc,
+    collection,
+    addDoc,
+    deleteDoc,
+    updateDoc,
+    doc,
+    query,
+} from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
 
 const NavButton = styled(Button)({
     boxShadow: "none",
@@ -41,34 +54,37 @@ const NavTypography = styled(Typography)({
     color: "#65676b",
 });
 
-export const Profile: React.FC = () => {
-    // dummy data
-    const user: User = new User();
-    user.cover =
-        "https://images.unsplash.com/photo-1685495975736-d2a34edbe638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80";
-    user.profilePicture =
-        "https://images.unsplash.com/photo-1686557003767-86c1403ca607?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80";
-    user.name = "Nguyễn Văn Aaaaaaaaaaaa";
-    user.phone = "0123456789";
-    user.email = "johndoe@pm.com";
-    const friend1: User = new User();
-    friend1.profilePicture =
-        "https://images.unsplash.com/photo-1685949079965-b0897dde2b31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80";
-    const post0 = new Post();
-    post0.id = "0";
-    post0.userID = user.id;
-    post0.content =
-        "lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum";
-    post0.image =
-        "https://images.unsplash.com/photo-1685495975736-d2a34edbe638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80";
+export const Profile = (profileId: string) => {
+    const usersCollectionRef = collection(db, "users");
 
-    const post1 = post0;
-    const post2 = post0;
+    // Get login user
+    const [loginUserId, setLoginUserId] = useState("");
 
-    user.posts = [post0, post1, post2];
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            setLoginUserId(user.uid);
+        }
+    });
 
+    // Get all users from firestore
+    const [users, setUsers] = useState<User[]>([]);
+    useEffect(() => {
+        const getUsers = async () => {
+            const usersQuery = query(usersCollectionRef);
+            const usersSnapshot = await getDocs(usersQuery);
+            const usersData = usersSnapshot.docs.map(
+                (doc) => doc.data() as User
+            );
+            setUsers(usersData);
+        };
+        getUsers();
+    }, []);
+
+    // Get the user with user.id = loginUserId from firestore
+    const loginUser = users.find((user) => user.id === loginUserId);
+
+    // Navigation
     const [selectedNav, setSelectedNav] = useState("Bài viết");
-
     const handleNavClick = (nav: string) => {
         setSelectedNav(nav);
     };
@@ -76,7 +92,9 @@ export const Profile: React.FC = () => {
     return (
         <Box>
             <Header />
-            <TopSection {...user} />
+            {loginUser && (
+                <TopSection aLoginUser={loginUser} aProfileUser={loginUser} />
+            )}
 
             <Container>
                 <Box display="flex" justifyContent="space-between">
@@ -262,11 +280,11 @@ export const Profile: React.FC = () => {
                             }}
                         >
                             <Box position="sticky" top="10px">
-                                <PostsLeft {...user} />
+                                {loginUser && <PostsLeft {...loginUser} />}
                             </Box>
                         </Box>
                         <Box flex={{ xs: "1", sm: "1", md: "3" }}>
-                            <PostsMain {...user} />
+                            {loginUser && <PostsMain {...loginUser} />}
                         </Box>
                     </Box>
                 </Container>
@@ -275,42 +293,40 @@ export const Profile: React.FC = () => {
             <Container>
                 {selectedNav === "Giới thiệu" && (
                     <>
-                        <ProfileAboutTab {...user} />
-                        <ProfileFriendsTab {...user} />
-                        <ProfilePhotosTab {...user} />
-                        <ProfileVideosTab {...user} />
-                        <ProfileReelsTab {...user} />
+                        {loginUser && <ProfileAboutTab {...loginUser} />}
+                        {loginUser && <ProfileFriendsTab {...loginUser} />}
+                        {loginUser && <ProfilePhotosTab {...loginUser} />}
+                        {loginUser && <ProfileVideosTab {...loginUser} />}
+                        {loginUser && <ProfileReelsTab {...loginUser} />}
                     </>
                 )}
 
                 {selectedNav === "Bạn bè" && (
                     <>
-                        <ProfileFriendsTab {...user} />
-                        <ProfilePhotosTab {...user} />
-                        <ProfileVideosTab {...user} />
-                        <ProfileReelsTab {...user} />
+                        {loginUser && <ProfileFriendsTab {...loginUser} />}
+                        {loginUser && <ProfilePhotosTab {...loginUser} />}
+                        {loginUser && <ProfileVideosTab {...loginUser} />}
+                        {loginUser && <ProfileReelsTab {...loginUser} />}
                     </>
                 )}
 
                 {selectedNav === "Ảnh" && (
                     <>
-                        <ProfilePhotosTab {...user} />
-                        <ProfileVideosTab {...user} />
-                        <ProfileReelsTab {...user} />
+                        {loginUser && <ProfilePhotosTab {...loginUser} />}
+                        {loginUser && <ProfileVideosTab {...loginUser} />}
+                        {loginUser && <ProfileReelsTab {...loginUser} />}
                     </>
                 )}
 
                 {selectedNav === "Video" && (
                     <>
-                        <ProfileVideosTab {...user} />
-                        <ProfileReelsTab {...user} />
+                        {loginUser && <ProfileVideosTab {...loginUser} />}
+                        {loginUser && <ProfileReelsTab {...loginUser} />}
                     </>
                 )}
 
                 {selectedNav === "Reels" && (
-                    <>
-                        <ProfileReelsTab {...user} />
-                    </>
+                    <>{loginUser && <ProfileReelsTab {...loginUser} />}</>
                 )}
             </Container>
         </Box>

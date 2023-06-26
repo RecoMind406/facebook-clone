@@ -11,49 +11,49 @@ import { Marketplace } from "~/pages/Marketplace";
 import { Profile } from "~/pages/Profile";
 
 // routes
-const publicRoutes=[
-	{
-		path: "/login",
-		component: Login,
-	},
-	{
-		path: "/forgot-password",
-		component: ForgotPassword,
-	},
-]
+const publicRoutes = [
+    {
+        path: "/login",
+        component: Login,
+    },
+    {
+        path: "/forgot-password",
+        component: ForgotPassword,
+    },
+];
 const routes = [
-	{
-		path: "/",
-		component: Home,
-	},
-	{
-		path: "/watch",
-		component: Watch,
-	},
-	{
-		path: "/marketplace",
-		component: Marketplace,
-	},
-	{
-		path: "/groups",
-		component: Groups,
-	},
-	{
-		path: "/gaming",
-		component: Games,
-	},
-	{
-		path: "/bookmarks",
-		component: Bookmarks,
-	},
-	{
-		path: "/fanpage",
-		component: Fanpage,
-	},
-	{
-		path: "/profile",
-		component: Profile,
-	},
+    {
+        path: "/",
+        component: Home,
+    },
+    {
+        path: "/watch",
+        component: Watch,
+    },
+    {
+        path: "/marketplace",
+        component: Marketplace,
+    },
+    {
+        path: "/groups",
+        component: Groups,
+    },
+    {
+        path: "/gaming",
+        component: Games,
+    },
+    {
+        path: "/bookmarks",
+        component: Bookmarks,
+    },
+    {
+        path: "/fanpage",
+        component: Fanpage,
+    },
+    {
+        path: "/profile/:id",
+        component: Profile,
+    },
 ];
 
-export default {routes, publicRoutes};
+export default { routes, publicRoutes };
