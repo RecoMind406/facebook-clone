@@ -38,9 +38,7 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
     const [openChangeProfilePicture, setOpenChangeProfilePicture] =
         React.useState(false);
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
-    const [profilePictureUrl, setProfilePictureUrl] = useState("");
     const [cover, setCover] = useState<File | null>(null);
-    const [coverUrl, setCoverUrl] = useState("");
 
     const handleOpenChangeCover = () => {
         setOpenChangeCover(true);
@@ -82,24 +80,24 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
             );
             try {
                 uploadBytes(imageRef, profilePicture).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((url) => {
-                        setProfilePictureUrl(url);
-                        console.log("Profile Picture Url:", profilePictureUrl);
+                    getDownloadURL(snapshot.ref).then(async (url) => {
+                        // Update profile picture url in firestore
+                        const querySnapshot = await getDocs(
+                            query(
+                                usersCollectionRef,
+                                where("id", "==", aLoginUser.id)
+                            )
+                        );
+                        const docId = querySnapshot.docs[0].id;
+                        await updateDoc(doc(usersCollectionRef, docId), {
+                            profilePicture: url,
+                        });
                     });
                 });
             } catch (err) {
                 console.error(err);
             }
         }
-        // Update profile picture url in firestore
-        const querySnapshot = await getDocs(
-            query(usersCollectionRef, where("id", "==", aLoginUser.id))
-        );
-        const docId = querySnapshot.docs[0].id;
-        await updateDoc(doc(usersCollectionRef, docId), {
-            profilePicture: profilePictureUrl,
-        });
-        console.log(aLoginUser.profilePicture);
         handleCloseChangeProfilePicture();
     };
 
@@ -111,23 +109,24 @@ export const TopSection = ({ aLoginUser, aProfileUser }: TopSectionProps) => {
             const imageRef = ref(storage, `users/${aLoginUser.id}/cover`);
             try {
                 uploadBytes(imageRef, cover).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((url) => {
-                        setCoverUrl(url);
-                        console.log(url);
+                    getDownloadURL(snapshot.ref).then(async (url) => {
+                        // Update cover photo url in firestore
+                        const querySnapshot = await getDocs(
+                            query(
+                                usersCollectionRef,
+                                where("id", "==", aLoginUser.id)
+                            )
+                        );
+                        const docId = querySnapshot.docs[0].id;
+                        await updateDoc(doc(usersCollectionRef, docId), {
+                            cover: url,
+                        });
                     });
                 });
             } catch (err) {
                 console.error(err);
             }
         }
-        // Update cover url in firestore
-        const querySnapshot = await getDocs(
-            query(usersCollectionRef, where("id", "==", aLoginUser.id))
-        );
-        const docId = querySnapshot.docs[0].id;
-        await updateDoc(doc(usersCollectionRef, docId), {
-            cover: coverUrl,
-        });
         handleCloseChangeCover();
     };
 
