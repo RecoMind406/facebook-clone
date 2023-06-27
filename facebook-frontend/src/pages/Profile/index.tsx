@@ -34,6 +34,7 @@ import {
     query,
 } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
+import { useParams } from "react-router-dom";
 
 const NavButton = styled(Button)({
     boxShadow: "none",
@@ -82,6 +83,9 @@ export const Profile = (profileId: string) => {
 
     // Get the user with user.id = loginUserId from firestore
     const loginUser = users.find((user) => user.id === loginUserId);
+    // Get the user with user.id = profileId from firestore
+    const { id } = useParams<{ id: string }>();
+    const profileUser = users.find((user) => user.id === id);
 
     // Navigation
     const [selectedNav, setSelectedNav] = useState("Bài viết");
@@ -93,7 +97,10 @@ export const Profile = (profileId: string) => {
         <Box>
             <Header />
             {loginUser && (
-                <TopSection aLoginUser={loginUser} aProfileUser={loginUser} />
+                <TopSection
+                    aLoginUser={loginUser}
+                    aProfileUser={profileUser ? profileUser : loginUser}
+                />
             )}
 
             <Container>
@@ -280,11 +287,11 @@ export const Profile = (profileId: string) => {
                             }}
                         >
                             <Box position="sticky" top="10px">
-                                {loginUser && <PostsLeft {...loginUser} />}
+                                {profileUser && <PostsLeft {...profileUser} />}
                             </Box>
                         </Box>
                         <Box flex={{ xs: "1", sm: "1", md: "3" }}>
-                            {loginUser && <PostsMain {...loginUser} />}
+                            {profileUser && <PostsMain {...profileUser} />}
                         </Box>
                     </Box>
                 </Container>
@@ -293,40 +300,40 @@ export const Profile = (profileId: string) => {
             <Container>
                 {selectedNav === "Giới thiệu" && (
                     <>
-                        {loginUser && <ProfileAboutTab {...loginUser} />}
-                        {loginUser && <ProfileFriendsTab {...loginUser} />}
-                        {loginUser && <ProfilePhotosTab {...loginUser} />}
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfileAboutTab {...profileUser} />}
+                        {profileUser && <ProfileFriendsTab {...profileUser} />}
+                        {profileUser && <ProfilePhotosTab {...profileUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Bạn bè" && (
                     <>
-                        {loginUser && <ProfileFriendsTab {...loginUser} />}
-                        {loginUser && <ProfilePhotosTab {...loginUser} />}
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfileFriendsTab {...profileUser} />}
+                        {profileUser && <ProfilePhotosTab {...profileUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Ảnh" && (
                     <>
-                        {loginUser && <ProfilePhotosTab {...loginUser} />}
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfilePhotosTab {...profileUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Video" && (
                     <>
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Reels" && (
-                    <>{loginUser && <ProfileReelsTab {...loginUser} />}</>
+                    <>{profileUser && <ProfileReelsTab {...profileUser} />}</>
                 )}
             </Container>
         </Box>
