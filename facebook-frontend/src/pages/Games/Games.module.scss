@@ -1,0 +1,357 @@
+.row {
+    display: flex;
+}
+hr {
+    margin: 12px 16px;
+    background: #dadde1;
+    border-width: 0;
+    color: #dadde1;
+    height: 1px;
+}
+.game-container {
+    margin-top: -10px;
+    background-color: var(--main-bg-color);
+    display: flex;
+}
+.game-container .side-bar {
+    background-color: #fff;
+    max-width: 360px;
+    min-width: 360px;
+    height: calc(100vh - 56px);
+    overflow: overlay;
+    position: fixed;
+}   
+  
+.hide-scrollbar {
+    overflow: hidden !important; /* Ẩn thanh cuộn khi không hover vào sidebar */
+}
+.side-bar .game {
+    line-height: 28px;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:20px 16px 16px 16px;
+    z-index: 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    height: 46px;
+
+}
+.gear {
+   background-color: #e4e6eb; 
+   cursor: pointer;
+   border-radius: 50%;
+   width: 36px;
+   height: 36px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.gear:hover {
+    background-color:#d6d6df
+}
+.side-bar .searchbar {
+    background-color: var(--main-bg-color);
+    margin:0 16px;
+    border-radius: 50px;
+}
+.side-bar .searchbar .search-icon{
+    border-top-left-radius: 50px;
+    line-height: 36px;
+    padding-left: 6px;
+    color: var(--secondary-text);
+}
+.side-bar .searchbar input {
+    outline: none;
+    border: none;
+    background-color: var(--main-bg-color);
+    flex: 1;
+    padding: 7px 6px 9px;
+    font-size: 15px;
+    height: 36px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+.side-bar .activity {
+    margin: 12px 8px 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.side-bar .activity:hover {
+    background-color: var(--main-bg-color);
+}
+.side-bar .activity .activity-info {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+}
+.side-bar .activity img{
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    margin: 12px 8px 12px;
+}
+.side-bar .activity-title {
+    font-weight: 600;
+    color: var(--secondary-text);
+    font-size: 13px;
+    line-height: 16px;
+}
+.side-bar .activity .name {
+    font-size: 17px;
+    font-weight: 500px;
+}
+
+.side-bar .play-game {
+    background-color: var(--main-bg-color);
+    margin: 12px 8px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    
+}
+.side-bar .play-game .play-game-icon-bg {
+    background-color: #1877f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin: 10px 8px;
+
+}
+.side-bar .play-game .play-game-icon {
+    background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/rwtd3u57sv_.png"); 
+    background-position: 0px -104px; 
+    background-size: 26px 780px; 
+    width: 20px; 
+    height: 20px; 
+    background-repeat: no-repeat; 
+    display: inline-block;
+    filter: invert(1); /* Áp dụng hiệu ứng lật màu */
+    font-size: 12px;
+}
+.side-bar .play-game div p {
+    padding: 12px 0;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+// ==================
+.side-bar .game-row {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 8px;
+}
+.side-bar .game-row:hover {
+    background-color: var(--main-bg-color);
+}
+.side-bar .game-row .icon-container {
+    background-color: #e4e6eb; 
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 8px;
+}
+.side-bar .game-row .icon {
+
+}
+.side-bar .game-row .title {
+    font-size: 17px;
+    font-weight: 500;
+    padding: 12px 0;
+}
+.my-game {
+    padding: 0 8px;
+    font-size: 17px;
+}
+.my-game >div {
+    display: flex;
+    justify-content: space-between;
+}
+.my-game a {
+    color: #216fdb;
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+.my-game a:hover {
+    background-color: #e4e6eb; 
+}
+.my-game p {
+    color: var(--secondary-text);
+    font-size: 13px;
+}
+.game-container .title {
+    font-size: 24px;
+    font-weight: 700;
+}
+.game-container .content {
+    padding: 16px;
+    margin-left: 360px;
+}
+
+.top-game {
+    width: 262px;
+    height: 224px;
+    position: relative;
+    z-index: 0;
+    margin: 8px;
+    flex-basis: max(max(max(max(max(max(max(max((100% - 64px) / 9, min((100% - 56px) / 8, (1522px - 100%) * 9999)), min((100% - 48px) / 7, (1352px - 100%) * 9999)), min((100% - 40px) / 6, (1182px - 100%) * 9999)), min((100% - 32px) / 5, (1012px - 100%) * 9999)), min((100% - 24px) / 4, (842px - 100%) * 9999)), min((100% - 16px) / 3, (672px - 100%) * 9999)), min((100% - 8px) / 2, (502px - 100%) * 9999)), min(100%, (332px - 100%) * 9999));;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.top-game:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0%;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.top-game img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  
+}
+.top-game >div {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(149, 149, 149, 0.5); /* Màu nền với độ mờ xuyên thấu */
+    backdrop-filter: blur(8px); /* Độ mờ xuyên thấu */
+    color: white; /* Màu chữ */
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 8px 0;
+}
+.top-game span {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 16px 8px;
+    opacity: 1;
+}
+.top-game p {
+    font-size: 13px;
+    background-color: rgba(0, 0, 0, 0.4);
+    margin-left: 8px;
+    padding: 4px 8px;
+    width: fit-content;
+    border-radius: 50px;
+}
+
+iframe {
+    border-radius: 8px;
+    width: 100%;
+}
+.all-games {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.all-games .game {
+    flex: 0 0 calc((100%)/5);
+    position: relative;
+    z-index: 0;
+    flex-basis: max(max(max(max(max(max(max(max((100% - 144px) / 9, min((100% - 128px) / 8, (1522px - 100%) * 9999)), min((100% - 112px) / 7, (1352px - 100%) * 9999)), min((100% - 96px) / 6, (1182px - 100%) * 9999)), min((100% - 80px) / 5, (1012px - 100%) * 9999)), min((100% - 64px) / 4, (842px - 100%) * 9999)), min((100% - 48px) / 3, (672px - 100%) * 9999)), min((100% - 32px) / 2, (502px - 100%) * 9999)), min(100%, (332px - 100%) * 9999));;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 8px;
+}
+.all-games .game:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0%;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.all-games .game img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.all-games .game span {
+    font-size: 17px;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+}
+.all-games .game p {
+
+    font-size: 13px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-left: 8px;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    width: fit-content;
+    border-radius: 50px;
+    color: var(--secondary-text);
+}
+
+.tablet-sidebar {
+    display: none;
+    width: 100vw;
+    background-color: #fff;
+    padding: 10px 16px;
+    font-size: 15px;
+    height: 56px;
+    align-items: center;
+}
+.tablet-sidebar span {
+    padding: 10px 12px;
+    background-color: #e4e6eb;
+    border-radius: 18px;
+    cursor: pointer;
+    margin: 0 4px;
+}
+.tablet-sidebar span:first-child {
+    color: #1877f2;
+    background-color: #e7f3ff;
+}
+.tablet-sidebar span:hover {
+    background-color: #d6d6df;
+}
+@media screen and (max-width:900px) {
+    .game-container {
+        display: block;
+    }
+    .game-container .content {
+        margin-left: 8px;
+    }
+    .tablet-sidebar {
+        display: flex;
+        position: fixed;
+        z-index: 99;
+    }
+    .side-bar {
+        display: none;
+    }
+}
