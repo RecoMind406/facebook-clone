@@ -287,11 +287,11 @@ export const Profile = (profileId: string) => {
                             }}
                         >
                             <Box position="sticky" top="10px">
-                                {loginUser && <PostsLeft {...loginUser} />}
+                                {profileUser && <PostsLeft {...profileUser} />}
                             </Box>
                         </Box>
                         <Box flex={{ xs: "1", sm: "1", md: "3" }}>
-                            {loginUser && <PostsMain {...loginUser} />}
+                            {profileUser && <PostsMain {...profileUser} />}
                         </Box>
                     </Box>
                 </Container>
@@ -300,40 +300,40 @@ export const Profile = (profileId: string) => {
             <Container>
                 {selectedNav === "Giới thiệu" && (
                     <>
-                        {loginUser && <ProfileAboutTab {...loginUser} />}
-                        {loginUser && <ProfileFriendsTab {...loginUser} />}
-                        {loginUser && <ProfilePhotosTab {...loginUser} />}
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfileAboutTab {...profileUser} />}
+                        {profileUser && <ProfileFriendsTab {...profileUser} />}
+                        {profileUser && <ProfilePhotosTab {...profileUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Bạn bè" && (
                     <>
-                        {loginUser && <ProfileFriendsTab {...loginUser} />}
-                        {loginUser && <ProfilePhotosTab {...loginUser} />}
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfileFriendsTab {...profileUser} />}
+                        {profileUser && <ProfilePhotosTab {...profileUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Ảnh" && (
                     <>
-                        {loginUser && <ProfilePhotosTab {...loginUser} />}
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfilePhotosTab {...profileUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Video" && (
                     <>
-                        {loginUser && <ProfileVideosTab {...loginUser} />}
-                        {loginUser && <ProfileReelsTab {...loginUser} />}
+                        {profileUser && <ProfileVideosTab {...profileUser} />}
+                        {profileUser && <ProfileReelsTab {...profileUser} />}
                     </>
                 )}
 
                 {selectedNav === "Reels" && (
-                    <>{loginUser && <ProfileReelsTab {...loginUser} />}</>
+                    <>{profileUser && <ProfileReelsTab {...profileUser} />}</>
                 )}
             </Container>
         </Box>
