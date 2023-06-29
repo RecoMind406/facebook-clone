@@ -63,7 +63,7 @@ const BoxChatItem = ({
 				isSent: true,
 			}
 		);
-
+		console.log(userId);
 		// Lưu vào new message bên người nhận
 		const dialoguesDoc = await getDocs(
 			collection(db, "users", toUserId, "dialogues")

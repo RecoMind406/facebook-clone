@@ -60,6 +60,7 @@ import { addDoc, collection } from "firebase/firestore";
 // Model
 import User from "~/models/user";
 import Post from "~/models/post";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -162,6 +163,7 @@ const Home = () => {
 	// firestore database
 	const [userData, setUserData] = useState<User>(new User());
 	const [userIdDoc, setUserIdDoc] = useState<string>("");
+	const [friendsData, setFriendsData] = useState([]);
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -182,8 +184,23 @@ const Home = () => {
 
 			const user = allUserData.find((user) => user.id === currentUserData.id);
 			setUserIdDoc(user.idDoc);
-
 			setUserData(user);
+
+			// Lấy data của friends
+			console.log();
+			user.friends.forEach((friendId: string) => {
+				const getDataFriend = async (id: string) => {
+					const friendRef = doc(db, "users", id);
+					const friendDoc = await getDoc(friendRef);
+					const friend = {
+						...friendDoc.data(),
+						idDoc: friendDoc.id,
+					};
+
+					setFriendsData([...friendsData, friend]);
+				};
+				getDataFriend(friendId);
+			});
 		};
 		fetchUserData();
 	}, []);
@@ -207,7 +224,7 @@ const Home = () => {
 					<div className={cx("item")}>
 						<SidebarItem
 							image={currentUser.profilePicture}
-							to="/"
+							to={"/profile/" + currentUser.id}
 							position=""
 							title={currentUser.name}
 						/>
@@ -624,6 +641,11 @@ const Home = () => {
 						{userData.posts.map((postId, index) => (
 							<PostItem key={index} postId={postId} userId={userIdDoc} />
 						))}
+						{friendsData.map((friend: any) =>
+							friend.posts.map((postId: string, index: number) => (
+								<PostItem key={index} postId={postId} userId={friend.idDoc} />
+							))
+						)}
 					</div>
 				</div>
 				<div
@@ -646,13 +668,15 @@ const Home = () => {
 							</button>
 						</div>
 						<div className={cx("page")}>
-							<div className={cx("avatar")}>
-								<img
-									src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
-									alt=""
-								/>
-							</div>
-							<span className={cx("title")}>EC Food- Eat Clean Food</span>
+							<Link className={cx("link-fanpage")} to={"/fanpage"}>
+								<div className={cx("avatar")}>
+									<img
+										src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
+										alt=""
+									/>
+								</div>
+								<span className={cx("title")}>EC Food- Eat Clean Food</span>
+							</Link>
 						</div>
 						<div className={cx("feature")}>
 							<div className={cx("icon")}>
@@ -834,7 +858,7 @@ const Home = () => {
 							<div className={cx("add-to-posting")}>
 								<div>Thêm vào bài viết của bạn</div>
 								<div className={cx("icon")}>
-									<Tippy content="Ảnh/video" placement="top" arrow="false">
+									<Tippy content="Ảnh/video" placement="top" arrow={false}>
 										<div
 											className={cx("img-icon", showUpImagePost && "active")}
 											onClick={() => setUpImagePost(true)}>
@@ -847,7 +871,7 @@ const Home = () => {
 									<Tippy
 										content="Gắn thẻ người khác"
 										placement="top"
-										arrow="false">
+										arrow={false}>
 										<div className={cx("img-icon")}>
 											<img
 												src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/MqTJr_DM3Jg.png"
@@ -858,7 +882,7 @@ const Home = () => {
 									<Tippy
 										content="Cảm xúc/hoạt động"
 										placement="top"
-										arrow="false">
+										arrow={false}>
 										<div className={cx("img-icon")}>
 											<img
 												src="https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/yMDS19UDsWe.png"
@@ -866,7 +890,7 @@ const Home = () => {
 											/>
 										</div>
 									</Tippy>
-									<Tippy content="Check-in" placement="top" arrow="false">
+									<Tippy content="Check-in" placement="top" arrow={false}>
 										<div className={cx("img-icon")}>
 											<img
 												src="https://static.xx.fbcdn.net/rsrc.php/v3/yy/r/uywzfiZad5N.png"
@@ -877,7 +901,7 @@ const Home = () => {
 									<Tippy
 										content="Sự kiện trong đời"
 										placement="top"
-										arrow="false">
+										arrow={false}>
 										<div className={cx("img-icon")}>
 											<img
 												src="https://static.xx.fbcdn.net/rsrc.php/v3/yY/r/CenxFlWjtJO.png"
@@ -885,7 +909,7 @@ const Home = () => {
 											/>
 										</div>
 									</Tippy>
-									<Tippy content="Xem thêm" placement="top" arrow="false">
+									<Tippy content="Xem thêm" placement="top" arrow={false}>
 										<div className={cx("img-icon")}>
 											<i
 												className="x1b0d499 xl1xv1r"
