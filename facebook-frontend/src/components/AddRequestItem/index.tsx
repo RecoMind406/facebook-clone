@@ -4,43 +4,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import User from "~/models/user";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../config/firebase";
 
 const cx = classNames.bind(styles);
 
 const AddRequestItem = ({
 	id,
-	userId,
 	handleAccept,
 	handleRefuse,
 }: {
 	id: string;
-	userId: string;
 	handleAccept: any;
 	handleRefuse: any;
 }) => {
 	const [addRequestData, setAddRequestData] = useState<User>(new User());
-	const [userData, setUserData] = useState<User>(new User());
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const addRequestRef = doc(db, "users", id);
-			const addRequestDoc = await getDoc(addRequestRef);
-			const addRequest = {
-				...addRequestDoc.data(),
-				id: addRequestDoc.id,
-			};
-			setAddRequestData(addRequest);
+			// Lấy id document của user
+			const allUserDoc = await getDocs(collection(db, "users"));
+			const allUsers = allUserDoc.docs.map((doc: any) => ({
+				...doc.data(),
+				idDoc: doc.id,
+			}));
 
-			const userRef = doc(db, "users", userId);
-			const userDoc = await getDoc(userRef);
-			const user = {
-				...userDoc.data(),
-				idDoc: userDoc.id,
-			};
-
-			setUserData(user);
+			const addFriend = allUsers.find((user) => user.id === id);
+			setAddRequestData(addFriend);
 		};
 
 		fetchData();
