@@ -221,8 +221,17 @@ const Header = () => {
 
 		const userRef = doc(db, "users", userIdDoc);
 		await updateDoc(userRef, { friendRequestReceived: newFriendRequestList });
+
+		// Lấy id document của user
+		const allUserDoc = await getDocs(collection(db, "users"));
+		const allUsers = allUserDoc.docs.map((doc: any) => ({
+			...doc.data(),
+			idDoc: doc.id,
+		}));
+
+		const addFriend = allUsers.find((user) => user.id === id);
 		const newFriendList = [...userData.friends];
-		newFriendList.push(id);
+		newFriendList.push(addFriend.idDoc);
 		await updateDoc(userRef, { friends: newFriendList });
 	};
 
@@ -442,7 +451,6 @@ const Header = () => {
 								<AddRequestItem
 									key={index}
 									id={friendId}
-									userId={userIdDoc}
 									handleAccept={() => handleAcceptFriend(friendId)}
 									handleRefuse={() => handleRefuseFriend(friendId)}
 								/>
