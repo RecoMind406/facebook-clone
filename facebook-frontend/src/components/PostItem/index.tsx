@@ -155,10 +155,10 @@ const PostItem = ({ postId, userId }: { postId: string; userId: string }) => {
 		<div className={cx("post-item")}>
 			<div className={cx("heading")}>
 				<div className={cx("information")}>
-					<Tippy placement="left" content={ownerPostData.name} arrow="false">
-						<Link to={"/"} className={cx("avatar")}>
+					<Tippy placement="left" content={ownerPostData.name} arrow={false}>
+						<div className={cx("avatar")}>
 							<img src={ownerPostData.profilePicture} alt="" />
-						</Link>
+						</div>
 					</Tippy>
 
 					<div className={cx("sub-info")}>

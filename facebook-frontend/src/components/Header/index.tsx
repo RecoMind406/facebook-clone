@@ -37,7 +37,13 @@ import TabPageItem from "../TabPageItem";
 import SearchItem from "../SearchItem";
 import User from "~/models/user";
 import { db } from "../../../config/firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	updateDoc,
+} from "firebase/firestore";
 
 import { useAuth } from "~/contexts/AuthContext";
 const cx = classNames.bind(styles);
@@ -204,6 +210,32 @@ const Header = () => {
 		navigate("/login");
 	};
 
+	const [friendRequestList, setFriendRequestList] = useState<string[]>([]);
+
+	const handleAcceptFriend = async (id: string) => {
+		let newFriendRequestList = [...friendRequestList];
+		newFriendRequestList = newFriendRequestList.filter(
+			(friendId: string) => friendId != id
+		);
+		setFriendRequestList(newFriendRequestList);
+
+		const userRef = doc(db, "users", userIdDoc);
+		await updateDoc(userRef, { friendRequestReceived: newFriendRequestList });
+		const newFriendList = [...userData.friends];
+		newFriendList.push(id);
+		await updateDoc(userRef, { friends: newFriendList });
+	};
+
+	const handleRefuseFriend = async (id: string) => {
+		let newFriendRequestList = [...friendRequestList];
+		newFriendRequestList = newFriendRequestList.filter(
+			(friendId: string) => friendId != id
+		);
+		const userRef = doc(db, "users", userIdDoc);
+		await updateDoc(userRef, { friendRequestReceived: newFriendRequestList });
+		setFriendRequestList(newFriendRequestList);
+	};
+
 	useEffect(() => {
 		handleActiveTabPageItem();
 		const fetchUserData = async () => {
@@ -214,7 +246,6 @@ const Header = () => {
 			} else {
 				currentUserData = currentUser;
 			}
-			setUserData(currentUserData);
 
 			// Lấy id document của user
 			const allUserDoc = await getDocs(collection(db, "users"));
@@ -226,12 +257,12 @@ const Header = () => {
 
 			const user = allUser.find((user) => user.id === currentUserData.id);
 			setUserIdDoc(user.idDoc);
-		};
+			setUserData(currentUserData);
+			setFriendRequestList(user.friendRequestReceived);
 
-		const fetchMessageListData = async () => {
 			// Lấy tất cả data dialogues
 			const dialoguesDoc = await getDocs(
-				collection(db, "users", userIdDoc, "dialogues")
+				collection(db, "users", user.idDoc, "dialogues")
 			);
 
 			const dialoguesData = dialoguesDoc.docs.map((doc) => ({
@@ -242,8 +273,12 @@ const Header = () => {
 			setMessengerList(dialoguesData);
 		};
 
+		// const fetchMessageListData = async () => {
+
+		// };
+
 		fetchUserData();
-		fetchMessageListData();
+		// fetchMessageListData();
 	}, []);
 
 	return (
@@ -341,7 +376,7 @@ const Header = () => {
 					/>
 				</div>
 				<div className={cx("right")}>
-					<Tippy content="Lời mời kết bạn" placement="bottom" arrow="false">
+					<Tippy content="Lời mời kết bạn" placement="bottom" arrow={false}>
 						<div className={cx("btn-on-header-box")}>
 							<button
 								className={cx("btn-on-header", showAddRequest && "active")}
@@ -350,14 +385,14 @@ const Header = () => {
 								<FontAwesomeIcon icon={faPlus} />
 							</button>
 
-							{userData.friendRequestReceived.length !== 0 && (
+							{friendRequestList.length !== 0 && (
 								<div className={cx("number-notification")}>
-									<span>{userData.friendRequestReceived.length}</span>
+									<span>{friendRequestList.length}</span>
 								</div>
 							)}
 						</div>
 					</Tippy>
-					<Tippy content="Messenger" placement="bottom" arrow="false">
+					<Tippy content="Messenger" placement="bottom" arrow={false}>
 						<div className={cx("btn-on-header-box")}>
 							<button
 								className={cx("btn-on-header", showMessenger && "active")}
@@ -366,11 +401,11 @@ const Header = () => {
 								<FontAwesomeIcon icon={faFacebookMessenger} />
 							</button>
 							<div className={cx("number-notification")}>
-								<span>3</span>
+								<span>{messengerList.length}</span>
 							</div>
 						</div>
 					</Tippy>
-					<Tippy content="Thông báo" placement="bottom" arrow="false">
+					<Tippy content="Thông báo" placement="bottom" arrow={false}>
 						<div className={cx("btn-on-header-box")}>
 							<button
 								className={cx("btn-on-header", showNotification && "active")}
@@ -383,7 +418,7 @@ const Header = () => {
 							</div>
 						</div>
 					</Tippy>
-					<Tippy content="Tài khoản" placement="bottom" arrow="false">
+					<Tippy content="Tài khoản" placement="bottom" arrow={false}>
 						<div className={cx("btn-on-header-box")}>
 							<button
 								className={cx("btn-account")}
@@ -403,11 +438,15 @@ const Header = () => {
 					<div className={cx("modal-box", showAddRequest && "show")}>
 						<h2 className={cx("heading")}>Lời mời kết bạn</h2>
 						<div className={cx("friend-request-list")}>
-							{userData.friendRequestReceived.map(
-								(friendId: any, index: number) => (
-									<AddRequestItem key={index} id={friendId} />
-								)
-							)}
+							{friendRequestList.map((friendId: any, index: number) => (
+								<AddRequestItem
+									key={index}
+									id={friendId}
+									userId={userIdDoc}
+									handleAccept={() => handleAcceptFriend(friendId)}
+									handleRefuse={() => handleRefuseFriend(friendId)}
+								/>
+							))}
 						</div>
 					</div>
 
@@ -416,7 +455,7 @@ const Header = () => {
 						<div className={cx("heading__buttons")}>
 							<h2 className={cx("heading")}>Chat</h2>
 							<div className={cx("buttons-messenger")}>
-								<Tippy content="Tùy chọn" placement="bottom-end" arrow="false">
+								<Tippy content="Tùy chọn" placement="bottom-end" arrow={false}>
 									<button className={cx("button-messenger")}>
 										<FontAwesomeIcon icon={faEllipsis} />
 									</button>
@@ -424,7 +463,7 @@ const Header = () => {
 								<Tippy
 									content="Xem tất cả trong Messenger"
 									placement="bottom-end"
-									arrow="false">
+									arrow={false}>
 									<button className={cx("button-messenger")}>
 										<FontAwesomeIcon
 											className={cx("icon-view-all")}
@@ -435,7 +474,7 @@ const Header = () => {
 								<Tippy
 									content="Tạo phòng họp mặt mới"
 									placement="bottom-end"
-									arrow="false">
+									arrow={false}>
 									<button className={cx("button-messenger")}>
 										<FontAwesomeIcon icon={faVideo} />
 									</button>
@@ -443,7 +482,7 @@ const Header = () => {
 								<Tippy
 									content="Tin nhắn mới"
 									placement="bottom-end"
-									arrow="false">
+									arrow={false}>
 									<button className={cx("button-messenger")}>
 										<FontAwesomeIcon icon={faPenToSquare} />
 									</button>
@@ -485,16 +524,24 @@ const Header = () => {
 								type="comment"
 								title=""
 								name="Lê Thành Lâm"
-								inPost="Group bla bla bla"
-								time="15 giờ trước"
+								inPost="Hỗ trợ học tập UEL"
+								time="3 giờ trước"
 							/>
 							<NotificationItem
-								avatar="https://thicc.mywaifulist.moe/waifus/kurumi-tokisaki-date-a-live/NYn6Lqxz26rRddNE7I7ESp6XHpK9tDIjkdesoO7y_thumbnail.jpg"
+								avatar="https://avatarfiles.alphacoders.com/339/339965.jpg"
 								type="video"
-								name="Tanjiro"
+								name="Do Van Duong"
 								inPost=""
-								time="15 giờ trước"
-								title="Dạy hơi thở của nước"
+								time="4 giờ trước"
+								title="Hướng dẫn leo cao thủ TFT"
+							/>
+							<NotificationItem
+								avatar="https://prod.api.assets.riotgames.com/public/v1/asset/lol/13.12.1/CHAMPION/40/ICON"
+								type="comment"
+								name="Hàn Lâm"
+								inPost="KTX khu B - ĐHQG"
+								time="5 giờ trước"
+								title=""
 							/>
 						</div>
 					</div>
@@ -509,7 +556,7 @@ const Header = () => {
 									</div>
 									<span className={cx("name")}>{userData.name}</span>
 								</Link>
-								<Link to="/page" className={cx("logo-page")}>
+								<Link to="/fanpage" className={cx("logo-page")}>
 									<img
 										src="https://i.pinimg.com/280x280_RS/2e/c4/c5/2ec4c51f7930501e0721f8e5aecca45f.jpg"
 										alt=""

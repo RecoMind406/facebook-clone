@@ -4,16 +4,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import User from "~/models/user";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 
 const cx = classNames.bind(styles);
 
-const AddRequestItem = ({ id }: { id: string }) => {
+const AddRequestItem = ({
+	id,
+	userId,
+	handleAccept,
+	handleRefuse,
+}: {
+	id: string;
+	userId: string;
+	handleAccept: any;
+	handleRefuse: any;
+}) => {
 	const [addRequestData, setAddRequestData] = useState<User>(new User());
+	const [userData, setUserData] = useState<User>(new User());
 
 	useEffect(() => {
-		const fetchAddRequest = async () => {
+		const fetchData = async () => {
 			const addRequestRef = doc(db, "users", id);
 			const addRequestDoc = await getDoc(addRequestRef);
 			const addRequest = {
@@ -21,9 +32,18 @@ const AddRequestItem = ({ id }: { id: string }) => {
 				id: addRequestDoc.id,
 			};
 			setAddRequestData(addRequest);
+
+			const userRef = doc(db, "users", userId);
+			const userDoc = await getDoc(userRef);
+			const user = {
+				...userDoc.data(),
+				idDoc: userDoc.id,
+			};
+
+			setUserData(user);
 		};
 
-		fetchAddRequest();
+		fetchData();
 	}, []);
 
 	return (
@@ -44,8 +64,12 @@ const AddRequestItem = ({ id }: { id: string }) => {
 					{numberMutualFriends} bạn chung
 				</div> */}
 				<div className={cx("friend-request-buttons")}>
-					<button className={cx("accept")}>Xác nhận</button>
-					<button className={cx("delete")}>Xóa</button>
+					<button className={cx("accept")} onClick={handleAccept}>
+						Xác nhận
+					</button>
+					<button className={cx("delete")} onClick={handleRefuse}>
+						Xóa
+					</button>
 				</div>
 			</div>
 		</div>
